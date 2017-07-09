@@ -1,4 +1,10 @@
-class Grid {
+'use strict';
+
+import Syllable from './Syllable.js';
+
+export default class Grid {
+
+//rotationXY?Easter Egg
 
     constructor(xDim, yDim, zDim, xPosition=-1, yPosition=-1, zPosition=-1) {
         this.xDim = xDim;
@@ -33,16 +39,34 @@ class Grid {
             this.zPosition = getRandomInt(0, zDim);
         }
 
-        for(x=0; x<xDim; x++) {
+        this.syllables = [];
+        for(let x=0; x<xDim; x++) {
             this.syllables[x] = [];
 
-            for(y=0; y<yDim; y++) {
+            for(let y=0; y<yDim; y++) {
                 this.syllables[x][y] = [];
 
-                for(z=0; z<zDim; z++) {
+                for(let z=0; z<zDim; z++) {
                     this.syllables[x][y][z] = new Syllable(x,y,z);
                 }
             }
         }
+    }
+
+//Movement is in percentages, translated to screen pixels if necessary.
+    move(deltaX, deltaY, deltaZ) {
+        this.xPosition += deltaX;
+        this.yPosition += deltaY;
+        this.zPosition += deltaZ;
+    }
+
+    render() {
+            //cycle through all Syllables
+              //  locate
+                //hide/show
+                //----------------
+                //resize
+                //position,
+                //atmospherics, as needed
     }
 }

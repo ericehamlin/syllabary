@@ -1,3 +1,7 @@
+'use strict';
+
+import Grid from './Grid.js';
+
 class Syllabary {
 
 	constructor(xDim=20, yDim=10, zDim=18) {
@@ -9,5 +13,9 @@ class Syllabary {
 		this.characters.x = [];
 		this.characters.y = [];
 		this.characters.z = [];
+
+		this.grid = new Grid(xDim, yDim, zDim);
 	}
 }
+
+new Syllabary();
