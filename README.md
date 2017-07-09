@@ -129,15 +129,3 @@ class Syllabary
 
                                     class SvgRenderer
 
-
-
-class Grid {
-
-    private syllables = [];
-
-    private positionX
-    private positionY
-    private positionZ
-
-    //rotationXY?Easter Egg
-
