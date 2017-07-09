@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "babel-preset-env": "^1.6.0",
     "gulp": "^3.9.1"
   },
   "devDependencies": {

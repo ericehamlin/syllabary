@@ -8,7 +8,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var del = require('del');
-// var wrench = require('wrench');
 
 var options = {
 	src: 'src',
