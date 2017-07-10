@@ -6,11 +6,13 @@ export default class FileLoader {
 
 			let xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function () {
-				if (this.readyState == 4 && this.status == 200) {
-					resolve(this.response);
-				}
-				else {
-					reject();
+				if (this.readyState == 4) {
+					if (this.status == 200) {
+						resolve(this.response);
+					}
+					else {
+						reject();
+					}
 				}
 			}
 			xhttp.open("GET", filename, true);

@@ -16,8 +16,7 @@ class Syllabary {
 		this.characters.z = [];
 
 		this.grid = new Grid(xDim, yDim, zDim);
-
-		GlyphLoader.load(xDim, yDim, zDim);
+		this.glyphLoader = new GlyphLoader(this.xDim, this.yDim, this.zDim, this.grid);
 	}
 }
 
