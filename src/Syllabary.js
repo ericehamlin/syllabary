@@ -1,6 +1,7 @@
 'use strict';
 
 import Grid from './Grid.js';
+import GlyphLoader from './GlyphLoader.js';
 
 class Syllabary {
 
@@ -15,6 +16,8 @@ class Syllabary {
 		this.characters.z = [];
 
 		this.grid = new Grid(xDim, yDim, zDim);
+
+		GlyphLoader.load(xDim, yDim, zDim);
 	}
 }
 
