@@ -3,7 +3,15 @@
 import Grid from './Grid.js';
 import GlyphLoader from './GlyphLoader.js';
 
-// Shouldn't this be named theSyllabary
+// Shouldn't this be named theSyllabary ho ho
+// Let he who is without sin cast the first stone at this poor endeavor
+// |----------------------------|-----------------------------|
+// |      Digital Watermark Here! Please Remove!              |
+// |                      Or Change!                          |
+// |----------------------------|-----------------------------|
+//
+//
+
 class Syllabary {
 
 	constructor(xDim=20, yDim=10, zDim=18) {
@@ -21,7 +29,6 @@ class Syllabary {
 	}
 
 	initialize() {
-
 
 		this.load();
 	}
