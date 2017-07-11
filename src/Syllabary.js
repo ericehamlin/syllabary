@@ -27,6 +27,7 @@ class Syllabary {
 	}
 
 	load() {
+		let that = this;
 		let glyphLoader = new GlyphLoader(this.xDim, this.yDim, this.zDim, this.grid);
 
 		// LoadingScreen
@@ -37,8 +38,8 @@ class Syllabary {
 			console.log(loadingPercentComplete + " percent loaded");
 			if (loadingPercentComplete >= 100) {
 
-				this.run();
-				this.complete();
+				that.run();
+				that.complete();
 				return;
 			}
 			setTimeout(function() { checkLoading(); }, 10);

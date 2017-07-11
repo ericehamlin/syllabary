@@ -5,6 +5,7 @@ import FileLoader from './FileLoader.js';
 
 export default class GlyphLoader {
 
+	// WTF? These parameters should be "Global Variables," no?
 	constructor(xDim, yDim, zDim, grid) {
 		this.xDim = xDim;
 		this.yDim = yDim;
@@ -39,6 +40,8 @@ export default class GlyphLoader {
 
 	getPercentLoaded() {
 		let numGlyphsLoaded = 0;
+
+		// should not be calculating this each time around
 		let totalGlyphs = 0;
 
 		// THIS CALCULATION IS OBVIOUSLY NOT CORRECT
@@ -56,6 +59,11 @@ export default class GlyphLoader {
 				}
 			}
 		}
+		console.log(numGlyphsLoaded + "  of " + totalGlyphs + " glyphs loaded.");
+		console.log(numGlyphsLoaded % totalGlyphs + "%");
+
+		// numGlyphsLoaded as a percentage of totalGlyphs
 		return numGlyphsLoaded % totalGlyphs;
+
 	}
 }
