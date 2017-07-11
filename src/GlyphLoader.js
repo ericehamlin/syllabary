@@ -12,6 +12,7 @@ export default class GlyphLoader {
 		this.grid = grid;
 		this.numGlyphsLoaded = 0;
 		this.numGlyphsTotal = xDim * yDim * zDim;
+
 		this.load();
 	}
 
@@ -32,7 +33,29 @@ export default class GlyphLoader {
 		}
 	}
 
-	getPercentLoaded() {
+	getTotalGlyphs() {
 
+	}
+
+	getPercentLoaded() {
+		let numGlyphsLoaded = 0;
+		let totalGlyphs = 0;
+
+		// THIS CALCULATION IS OBVIOUSLY NOT CORRECT
+		// BECAUSE I'M GETTING VALUES ABOVE 100
+
+		// forEachSyllable( function() {} );
+		for (let x=1; x <= this.xDim; x++) {
+			for (let y=1; y <= this.yDim; y++) {
+				for (let z=1; z <= this.zDim; z++) {
+					// performActionOnSyllable
+					totalGlyphs++;
+					if (this.grid.syllables[x][y][z].glyph.isLoaded) {
+						numGlyphsLoaded++;
+					}
+				}
+			}
+		}
+		return numGlyphsLoaded % totalGlyphs;
 	}
 }
