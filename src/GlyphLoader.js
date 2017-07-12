@@ -34,36 +34,23 @@ export default class GlyphLoader {
 		}
 	}
 
-	getTotalGlyphs() {
-
+	getNumLoaded() {
+		let numGlyphsLoaded = 0;
+		this.grid.forEachSyllable(function(syllable) {
+			if (syllable.glyph.isLoaded) {
+				numGlyphsLoaded++;
+			}
+		});
+		return numGlyphsLoaded;
 	}
 
 	getPercentLoaded() {
-		let numGlyphsLoaded = 0;
+		let totalGlyphs = this.grid.getTotalSyllables();
+		let numGlyphsLoaded = this.getNumLoaded();
+		let percentGlyphsLoaded = 100 * numGlyphsLoaded / totalGlyphs;
 
-		// should not be calculating this each time around
-		let totalGlyphs = 0;
+		console.log(numGlyphsLoaded + " (" + percentGlyphsLoaded + ")%  of " + totalGlyphs + " glyphs loaded.");
 
-		// THIS CALCULATION IS OBVIOUSLY NOT CORRECT
-		// BECAUSE I'M GETTING VALUES ABOVE 100
-
-		// forEachSyllable( function() {} );
-		for (let x=1; x <= this.xDim; x++) {
-			for (let y=1; y <= this.yDim; y++) {
-				for (let z=1; z <= this.zDim; z++) {
-					// performActionOnSyllable
-					totalGlyphs++;
-					if (this.grid.syllables[x][y][z].glyph.isLoaded) {
-						numGlyphsLoaded++;
-					}
-				}
-			}
-		}
-		console.log(numGlyphsLoaded + "  of " + totalGlyphs + " glyphs loaded.");
-		console.log(numGlyphsLoaded % totalGlyphs + "%");
-
-		// numGlyphsLoaded as a percentage of totalGlyphs
-		return numGlyphsLoaded % totalGlyphs;
-
+		return percentGlyphsLoaded;
 	}
 }

@@ -67,4 +67,19 @@ export default class Grid {
                 //position,
                 //atmospherics, as needed
     }
+
+    getTotalSyllables() {
+        return this.xDim * this.yDim * this.zDim;
+    }
+
+    forEachSyllable(action) {
+        for (let x=1; x <= this.xDim; x++) {
+            for (let y=1; y <= this.yDim; y++) {
+                for (let z=1; z <= this.zDim; z++) {
+                    let syllable = this.syllables[x][y][z];
+                    action(syllable);
+                }
+            }
+        }
+    }
 }
