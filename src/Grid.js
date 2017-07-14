@@ -49,6 +49,8 @@ export default class Grid {
                 }
             }
         }
+
+        // create display layers and put glyphs in them
     }
 
 //Movement is in percentages, translated to screen pixels if necessary.
@@ -60,12 +62,16 @@ export default class Grid {
 
     render() {
             //cycle through all Syllables
-              //  locate
-                //hide/show
-                //----------------
-                //resize
-                //position,
-                //atmospherics, as needed
+            // syllable would be in view?
+                // no
+                    // hide
+                //  yes
+                    //position if necessary
+                    //resize if necessary
+                    // show
+            //atmospherics, as needed -- in layers
+
+            // actually we should be embedding glyphs in layers for display purposes. Then we can just position the layer
     }
 
     getTotalSyllables() {

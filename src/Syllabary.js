@@ -2,22 +2,17 @@
 
 import Grid from './Grid.js';
 import GlyphLoader from './GlyphLoader.js';
+import LoadingDisplay from './display/LoadingDisplay.js';
+import SyllabaryDisplay from './display/SyllabaryDisplay.js';
 
-// Shouldn't this be named theSyllabary ho ho
-// Let he who is without sin cast the first stone at this poor endeavor
-// |----------------------------|-----------------------------|
-// |      Digital Watermark Here! Please Remove!              |
-// |                      Or Change!                          |
-// |----------------------------|-----------------------------|
-//
-//
+export default class Syllabary {
 
-class Syllabary {
+	constructor(containerId, xDim=20, yDim=10, zDim=18) {
+		Syllabary.containerId = containerId;
 
-	constructor(xDim=20, yDim=10, zDim=18) {
-		this.xDim = xDim;
-		this.yDim = yDim;
-		this.zDim = zDim;
+		Syllabary.xDim = xDim;
+		Syllabary.yDim = yDim;
+		Syllabary.zDim = zDim;
 
 		this.characters = {};
 		this.characters.x = [];
@@ -30,21 +25,29 @@ class Syllabary {
 
 	initialize() {
 
+		this.loadingDisplay = new LoadingDisplay();
+		this.syllabaryDisplay = new SyllabaryDisplay(this.grid);
 		this.load();
 	}
 
 	load() {
 		let that = this;
-		let glyphLoader = new GlyphLoader(this.xDim, this.yDim, this.zDim, this.grid);
+
+		this.loadingDisplay.add();
+
+		let glyphLoader = new GlyphLoader(this.grid);
 
 		// LoadingScreen
 		// check loading until complete
 		let loadingPercentComplete = 0;
 		function checkLoading() {
 			loadingPercentComplete = glyphLoader.getPercentLoaded();
-			console.log(loadingPercentComplete + " percent loaded");
-			if (loadingPercentComplete >= 100) {
+			that.loadingDisplay.render(loadingPercentComplete);
 
+			if (loadingPercentComplete >= 100) {
+				that.loadingDisplay.remove();
+				that.syllabaryDisplay.render();
+				that.syllabaryDisplay.add();
 				that.run();
 				that.complete();
 				return;
@@ -69,4 +72,4 @@ class Syllabary {
 	}
 }
 
-new Syllabary();
+new Syllabary('syllabary-container');
