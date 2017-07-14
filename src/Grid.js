@@ -1,13 +1,11 @@
 'use strict';
 
+import Syllabary from './Syllabary';
 import Syllable from './Syllable.js';
 
 export default class Grid {
 
-    constructor(xDim, yDim, zDim, xPosition=-1, yPosition=-1, zPosition=-1) {
-        this.xDim = xDim;
-        this.yDim = yDim;
-        this.zDim = zDim;
+    constructor(xPosition=-1, yPosition=-1, zPosition=-1) {
 
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -20,31 +18,31 @@ export default class Grid {
             this.xPosition = xPosition;
         }
         else {
-            this.xPosition = getRandomInt(0, xDim);
+            this.xPosition = getRandomInt(0, Syllabary.xDim);
         }
 
         if (yPosition > -1) {
             this.yPosition = yPosition;
         }
         else {
-            this.yPosition = getRandomInt(0, yDim);
+            this.yPosition = getRandomInt(0, Syllabary.yDim);
         }
 
         if (yPosition > -1) {
             this.zPosition = zPosition;
         }
         else {
-            this.zPosition = getRandomInt(0, zDim);
+            this.zPosition = getRandomInt(0, Syllabary.zDim);
         }
 
         this.syllables = [];
-        for(let x=1; x <= xDim; x++) {
+        for(let x=1; x <= Syllabary.xDim; x++) {
             this.syllables[x] = [];
 
-            for(let y=1; y <= yDim; y++) {
+            for(let y=1; y <= Syllabary.yDim; y++) {
                 this.syllables[x][y] = [];
 
-                for(let z=1; z <= zDim; z++) {
+                for(let z=1; z <= Syllabary.zDim; z++) {
                     this.syllables[x][y][z] = new Syllable(x,y,z);
                 }
             }
@@ -75,13 +73,13 @@ export default class Grid {
     }
 
     getTotalSyllables() {
-        return this.xDim * this.yDim * this.zDim;
+        return Syllabary.xDim * Syllabary.yDim * Syllabary.zDim;
     }
 
     forEachSyllable(action) {
-        for (let x=1; x <= this.xDim; x++) {
-            for (let y=1; y <= this.yDim; y++) {
-                for (let z=1; z <= this.zDim; z++) {
+        for (let x=1; x <= Syllabary.xDim; x++) {
+            for (let y=1; y <= Syllabary.yDim; y++) {
+                for (let z=1; z <= Syllabary.zDim; z++) {
                     let syllable = this.syllables[x][y][z];
                     action(syllable);
                 }

@@ -14,12 +14,12 @@ export default class Syllabary {
 		Syllabary.yDim = yDim;
 		Syllabary.zDim = zDim;
 
-		this.characters = {};
-		this.characters.x = [];
-		this.characters.y = [];
-		this.characters.z = [];
+		Syllabary.characters = {};
+		Syllabary.characters.x = [];
+		Syllabary.characters.y = [];
+		Syllabary.characters.z = [];
 
-		this.grid = new Grid(xDim, yDim, zDim);
+		this.grid = new Grid();
 		this.initialize();
 	}
 
