@@ -3,7 +3,7 @@
 export default class LayerDisplay {
 
 	constructor(z, grid) {
-		this.display = document.createElement("div");
+		this.display = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.display.setAttribute("class", "layer-display");
 		this.display.setAttribute("id", "layer-display-"+z);
 		this.grid = grid;
@@ -15,7 +15,7 @@ export default class LayerDisplay {
 		for (let x in this.grid.syllables) {
 			for (let y in this.grid.syllables[x]) {
 				let syllable = this.grid.syllables[x][y][this.z];
-				this.display.innerHTML += syllable.glyph.data;
+				this.display.appendChild(syllable.glyph.glyph);
 			}
 		}
 	}

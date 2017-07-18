@@ -18,8 +18,8 @@ export default class GridDisplay {
 			}
 			let layer = new LayerDisplay(z, grid);
 
-
 			this.display.appendChild(layer.display);
+
 			this.layers[z] = layer;
 		}
 	}

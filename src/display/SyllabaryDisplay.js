@@ -20,7 +20,7 @@ export default class SyllabaryDisplay {
 	}
 
 	insert(display) {
-		this.display.append(display.display);
+		this.display.appendChild(display.display);
 	}
 
 	add() {
