@@ -19,7 +19,7 @@ export default class Glyph {
 		let id = this.x + "-" + this.y + "-" + this.z;
 
 		let glyph = document.createElementNS("http://www.w3.org/2000/svg", "g");
-		glyph.setAttribute("transform", transform[1]);
+		//glyph.setAttribute("transform", transform[1]);
 		glyph.setAttribute("id", id);
 		glyph.innerHTML = innerHTML;
 
@@ -41,4 +41,21 @@ export default class Glyph {
 			.replace(replaceWeirdCharacters, "");
 	}
 
+	place(offsetX, offsetY) {
+		let interval = 600;
+		let centeredX = (offsetX-1) + this.x;
+		if (centeredX > Syllabary.xDim / 2) {
+			centeredX -= Syllabary.xDim;
+		}
+		console.log(offsetX, this.x, centeredX);
+
+		let placeX = centeredX * interval;
+
+		let centeredY = (offsetY-1) + this.y;
+		if (centeredY > Syllabary.yDim / 2) {
+			centeredY -= Syllabary.yDim;
+		}
+		let placeY = centeredY * interval;
+		this.glyph.setAttribute("transform", `translate(${placeX}, ${placeY})`);
+	}
 }

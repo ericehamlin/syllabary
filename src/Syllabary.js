@@ -46,6 +46,7 @@ export default class Syllabary {
 
 			if (loadingPercentComplete >= 100) {
 				that.loadingDisplay.remove();
+				that.syllabaryDisplay.initialize();
 				that.syllabaryDisplay.render();
 				that.syllabaryDisplay.add();
 				that.run();

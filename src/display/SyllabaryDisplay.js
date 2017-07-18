@@ -15,6 +15,10 @@ export default class SyllabaryDisplay {
 
 	}
 
+	initialize() {
+		this.gridDisplay.initialize();
+	}
+
 	render() {
 		this.gridDisplay.render();
 	}

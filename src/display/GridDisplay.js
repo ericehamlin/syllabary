@@ -8,6 +8,8 @@ export default class GridDisplay {
 		this.display = document.createElement("div");
 		this.display.setAttribute("class", "grid-display");
 
+		this.grid = grid;
+
 		this.layers = [];
 		for (let z=1; z <= Syllabary.zDim; z++) {
 			if (z>1) {
@@ -22,10 +24,13 @@ export default class GridDisplay {
 
 			this.layers[z] = layer;
 		}
+
 	}
 
-	setGrid(grid) {
-
+	initialize() {
+		for(let z in this.layers) {
+			this.layers[z].initialize();
+		}
 	}
 
 	render() {

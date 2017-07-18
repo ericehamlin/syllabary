@@ -6,16 +6,28 @@ export default class LayerDisplay {
 		this.display = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.display.setAttribute("class", "layer-display");
 		this.display.setAttribute("id", "layer-display-"+z);
+		this.display.setAttribute("viewBox", "0,0,1000,1000");
+		// if (z>1) {
+		// 	this.display.setAttribute("style", "visibility:hidden;");
+		// }
 		this.grid = grid;
 		this.z = z;
 	}
 
-	render() {
-		// TODO Too slow, want to add Glyphs as they become available
+	initialize() {
 		for (let x in this.grid.syllables) {
 			for (let y in this.grid.syllables[x]) {
 				let syllable = this.grid.syllables[x][y][this.z];
 				this.display.appendChild(syllable.glyph.glyph);
+			}
+		}
+	}
+
+	render() {
+		for (let x in this.grid.syllables) {
+			for (let y in this.grid.syllables[x]) {
+				let syllable = this.grid.syllables[x][y][this.z];
+				syllable.glyph.place(this.grid.xPosition, this.grid.yPosition);
 			}
 		}
 	}
