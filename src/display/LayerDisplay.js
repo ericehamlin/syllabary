@@ -25,7 +25,7 @@ export default class LayerDisplay {
 
 	render() {
 		let zDisplay = (Syllabary.zDim - this.z) * 2;
-		this.display.setAttribute("style", "z-index:" + zDisplay + ";"); // set z-index independently, don't set whole style;
+		this.display.style.zIndex = zDisplay;
 
 		for (let x in this.grid.syllables) {
 			for (let y in this.grid.syllables[x]) {
