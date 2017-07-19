@@ -6,10 +6,10 @@ export default class LayerDisplay {
 		this.display = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.display.setAttribute("class", "layer-display");
 		this.display.setAttribute("id", "layer-display-"+z);
-		this.display.setAttribute("viewBox", "0,0,1000,1000");
-		// if (z>1) {
-		// 	this.display.setAttribute("style", "visibility:hidden;");
-		// }
+		this.display.setAttribute("viewBox", "-100, -100, 700, 700");
+		if (z>1) {
+			this.display.setAttribute("style", "visibility:hidden;");
+		}
 		this.grid = grid;
 		this.z = z;
 	}

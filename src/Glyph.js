@@ -42,16 +42,29 @@ export default class Glyph {
 	}
 
 	place(offsetX, offsetY) {
+		function roundTowardZero(n) {
+			if (n > 0)
+				return Math.floor(n);
+			else
+				return Math.ceil(n);
+		}
+
 		let interval = 600;
-		let centeredX = (offsetX-1) + this.x;
+		// TODO what about negative numbers? Not working
+
+		// these names suck -- not at all clear what's going on here
+		let centeredX = offsetX - 1 + this.x;
+		let syllabaryOffsetX = roundTowardZero(centeredX/Syllabary.xDim);
+		centeredX -= syllabaryOffsetX * Syllabary.xDim;
 		if (centeredX > Syllabary.xDim / 2) {
 			centeredX -= Syllabary.xDim;
 		}
-		console.log(offsetX, this.x, centeredX);
 
 		let placeX = centeredX * interval;
 
-		let centeredY = (offsetY-1) + this.y;
+		let centeredY = offsetY - 1 + this.y;
+		let syllabaryOffsetY = roundTowardZero(centeredY/Syllabary.yDim);
+		centeredY -= syllabaryOffsetY * Syllabary.yDim;
 		if (centeredY > Syllabary.yDim / 2) {
 			centeredY -= Syllabary.yDim;
 		}

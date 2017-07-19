@@ -5,7 +5,7 @@ import Syllable from './Syllable.js';
 
 export default class Grid {
 
-    constructor(xPosition=-1, yPosition=-1, zPosition=-1) {
+    constructor(xPosition=null, yPosition=null, zPosition=null) {
 
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -14,21 +14,21 @@ export default class Grid {
         }
 
         // is this actually 0- or 1- indexed?
-        if (xPosition > -1) {
+        if (xPosition != null) {
             this.xPosition = xPosition;
         }
         else {
             this.xPosition = getRandomInt(0, Syllabary.xDim);
         }
 
-        if (yPosition > -1) {
+        if (yPosition != null) {
             this.yPosition = yPosition;
         }
         else {
             this.yPosition = getRandomInt(0, Syllabary.yDim);
         }
 
-        if (yPosition > -1) {
+        if (yPosition != null) {
             this.zPosition = zPosition;
         }
         else {
