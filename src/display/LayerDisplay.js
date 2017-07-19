@@ -24,7 +24,17 @@ export default class LayerDisplay {
 	}
 
 	render() {
-		let zDisplay = (Syllabary.zDim - this.z) * 2;
+		let zDisplay;
+		let zDims
+		if (this.grid.zPosition >= 0) {
+			zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
+			zDisplay = (Syllabary.zDim - Math.floor(this.z + this.grid.zPosition) + zDims) * 2;
+		}
+		else {
+			zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
+			zDisplay = (Syllabary.zDim - Math.ceil(this.z + this.grid.zPosition) + zDims) * 2;
+		}
+
 		this.display.style.zIndex = zDisplay;
 
 		for (let x in this.grid.syllables) {

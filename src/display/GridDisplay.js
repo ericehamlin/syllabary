@@ -43,6 +43,7 @@ export default class GridDisplay {
 			zOpacity = 0.5 - (0.25 * (this.grid.zPosition % 1));
 		}
 		else {
+			// TODO negative opacity still not working
 			zOpacity = 0.25 - (0.25 * (this.grid.zPosition % 1));
 		}
 
