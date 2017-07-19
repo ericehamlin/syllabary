@@ -50,7 +50,7 @@ export default class Glyph {
 		}
 
 		let interval = 600;
-		// TODO what about negative numbers? Not working
+		// TODO what about negative numbers? Not working Still not working
 
 		// these names suck -- not at all clear what's going on here
 		let centeredX = offsetX - 1 + this.x;

@@ -16,6 +16,7 @@ export default class GridDisplay {
 				let fadeLayer = document.createElement("div");
 				fadeLayer.setAttribute("class", "fade-layer");
 				fadeLayer.setAttribute("id", "fade-layer-" + (z-1));
+				fadeLayer.setAttribute("style", "z-index:" + (((Syllabary.zDim - z) * 2) + 1 )+ ";"); // set z-index independently, don't set whole style;
 				this.display.appendChild(fadeLayer);
 			}
 			let layer = new LayerDisplay(z, grid);
