@@ -28,13 +28,13 @@ export default class LayerDisplay {
 		this.display.style.zIndex = this.getZIndex();
 
 		let exactZPosition = this.getExactZPosition();
-
-		// NOT WORKING YET
-		let calculated = exactZPosition * -20;
-		this.display.style.top = calculated;
-		//this.display.style.bottom = calculated;
-		//this.display.style.left = calculated;
-		//this.display.style.right = calculated;
+		let calculated = Math.pow(exactZPosition/2, 2);
+		let offset = calculated/-2 +"%";
+		let dim = (100 + calculated) +"%";
+		this.display.style.top = offset;
+		this.display.style.left = offset;
+		this.display.style.width = dim;
+		this.display.style.height = dim;
 
 
 		for (let x in this.grid.syllables) {
@@ -69,15 +69,14 @@ export default class LayerDisplay {
 	getExactZPosition() {
 		let zPosition;
 		let zDims;
-		if (this.grid.zPosition >= 0) {
+		//if (this.grid.zPosition >= 0) {
 			zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
-			zPosition = Syllabary.zDim - this.z + this.grid.zPosition + zDims;
-		}
-		else {
-			zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
-			zPosition = Syllabary.zDim - this.z + this.grid.zPosition + zDims;
-		}
-		console.log("ZPOSITION", zPosition, "Z", this.z);
+			zPosition = Syllabary.zDim - (this.z + this.grid.zPosition) + zDims;
+		// }
+		// else {
+		// 	zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
+		// 	zPosition = Syllabary.zDim - (this.z + this.grid.zPosition) + zDims;
+		// }
 		return zPosition;
 	}
 }
