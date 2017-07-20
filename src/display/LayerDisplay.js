@@ -51,32 +51,30 @@ export default class LayerDisplay {
 	 */
 	getZIndex() {
 		let zIndex;
-		let zDims;
+		let zDims = this.getZDims();
 		if (this.grid.zPosition >= 0) {
-			zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
 			zIndex = (Syllabary.zDim - Math.floor(this.z + this.grid.zPosition) + zDims) * 2;
 		}
 		else {
-			zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
 			zIndex = (Syllabary.zDim - Math.ceil(this.z + this.grid.zPosition) + zDims) * 2;
 		}
 		return zIndex;
 	}
 
 	/**
+	 * TODO NEED BETTER NAME
 	 * for sizing
 	 */
 	getExactZPosition() {
-		let zPosition;
-		let zDims;
-		//if (this.grid.zPosition >= 0) {
-			zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
-			zPosition = Syllabary.zDim - (this.z + this.grid.zPosition) + zDims;
-		// }
-		// else {
-		// 	zDims = Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
-		// 	zPosition = Syllabary.zDim - (this.z + this.grid.zPosition) + zDims;
-		// }
+		let zDims = this.getZDims();
+		let zPosition = Syllabary.zDim - (this.z + this.grid.zPosition) + zDims;
 		return zPosition;
+	}
+
+	/**
+	 * TODO NEED BETTER NAME
+	 */
+	getZDims() {
+		return Math.floor((this.z + this.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
 	}
 }
