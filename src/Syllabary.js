@@ -27,14 +27,14 @@ export default class Syllabary {
 		Syllabary.characters.y = [];
 		Syllabary.characters.z = [];
 
-		this.grid = new Grid(xPosition, yPosition, zPosition);
+		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
 		this.initialize();
 	}
 
 	initialize() {
 
 		this.loadingDisplay = new LoadingDisplay();
-		this.syllabaryDisplay = new SyllabaryDisplay(this.grid);
+		this.syllabaryDisplay = new SyllabaryDisplay();
 		this.load();
 	}
 
@@ -43,7 +43,7 @@ export default class Syllabary {
 
 		this.loadingDisplay.add();
 
-		let glyphLoader = new GlyphLoader(this.grid);
+		let glyphLoader = new GlyphLoader();
 
 		// LoadingScreen
 		// check loading until complete

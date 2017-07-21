@@ -6,11 +6,10 @@ import ControllerDisplay from './ControllerDisplay.js';
 
 export default class SyllabaryDisplay {
 
-	constructor(grid) {
+	constructor() {
 		this.display = document.createElement("div");
 		this.display.setAttribute("class", "syllabary-display");
-
-		this.gridDisplay = new GridDisplay(grid);
+		this.gridDisplay = new GridDisplay();
 		this.insert(this.gridDisplay);
 
 	}

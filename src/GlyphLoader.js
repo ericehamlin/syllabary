@@ -6,9 +6,7 @@ import FileLoader from './FileLoader.js';
 
 export default class GlyphLoader {
 
-	// WTF? These parameters should be "Global Variables," no?
-	constructor(grid) {
-		this.grid = grid;
+	constructor() {
 		this.numGlyphsLoaded = 0;
 		this.numGlyphsTotal = Syllabary.xDim * Syllabary.yDim * Syllabary.zDim;
 
@@ -23,7 +21,7 @@ export default class GlyphLoader {
 					let url = Config.baseUrl + "glyphs/" + x + "-" + y + "-" + z + ".svg";
 					let promise = FileLoader.load(url);
 					promise.then((data) => {
-						that.grid.syllables[x][y][z].setGlyphData(data);
+						Syllabary.grid.syllables[x][y][z].setGlyphData(data);
 					})/*.catch((e) => {
 						console.log(e);
 					});*/
@@ -34,7 +32,7 @@ export default class GlyphLoader {
 
 	getNumLoaded() {
 		let numGlyphsLoaded = 0;
-		this.grid.forEachSyllable(function(syllable) {
+		Syllabary.grid.forEachSyllable(function(syllable) {
 			if (syllable.glyph.isLoaded) {
 				numGlyphsLoaded++;
 			}
@@ -43,7 +41,7 @@ export default class GlyphLoader {
 	}
 
 	getPercentLoaded() {
-		let totalGlyphs = this.grid.getTotalSyllables();
+		let totalGlyphs = Syllabary.grid.getTotalSyllables();
 		let numGlyphsLoaded = this.getNumLoaded();
 		let percentGlyphsLoaded = 100 * numGlyphsLoaded / totalGlyphs;
 
