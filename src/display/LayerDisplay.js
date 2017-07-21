@@ -23,18 +23,20 @@ export default class LayerDisplay {
 	}
 
 	render() {
-		
+
+		// Position layer in stack
 		this.display.style.zIndex = this.getZIndex();
 
-		let exactZPosition = this.getExactZPosition();
-		let calculated = Math.pow(exactZPosition/2, 2);
+		// Scale layer according to depth
+		let calculated = this.getExactZPosition();
 		let offset = calculated/-2 +"%";
-		let dim = (100 + calculated) +"%";
+		let scale = (100 + calculated) +"%";
 		this.display.style.top = offset;
 		this.display.style.left = offset;
-		this.display.style.width = dim;
-		this.display.style.height = dim;
-		
+		this.display.style.width = scale;
+		this.display.style.height = scale;
+
+		// Reposition glyphs on layer according to x, y position
 		for (let x in Syllabary.grid.syllables) {
 			for (let y in Syllabary.grid.syllables[x]) {
 				let syllable = Syllabary.grid.syllables[x][y][this.z];
@@ -66,7 +68,7 @@ export default class LayerDisplay {
 	getExactZPosition() {
 		let zDims = this.getZDims();
 		let zPosition = Syllabary.zDim - (this.z + Syllabary.grid.zPosition) + zDims;
-		return zPosition;
+		return Math.pow(zPosition/2, 2);
 	}
 
 	/**

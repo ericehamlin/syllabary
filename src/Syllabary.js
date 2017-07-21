@@ -7,15 +7,9 @@ import SyllabaryDisplay from './display/SyllabaryDisplay.js';
 
 export default class Syllabary {
 
-	constructor({
-		containerId,
-		xDim = 20,
-		yDim = 10,
-		zDim = 18,
-		xPosition = null,
-		yPosition = null,
-		zPosition = null
-		}) {
+	constructor({ containerId,
+		xDim = 20, yDim = 10, zDim = 18,
+		xPosition = null, yPosition = null, zPosition = null }) {
 		Syllabary.containerId = containerId;
 
 		Syllabary.xDim = xDim;
