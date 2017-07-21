@@ -29,10 +29,10 @@ export default class LayerDisplay {
 
 		// Scale layer according to depth
 		let calculated = this.getExactZPosition();
-		let offset = calculated/-2 +"%";
+		let displacement = calculated/-2 +"%";
 		let scale = (100 + calculated) +"%";
-		this.display.style.top = offset;
-		this.display.style.left = offset;
+		this.display.style.top = displacement;
+		this.display.style.left = displacement;
 		this.display.style.width = scale;
 		this.display.style.height = scale;
 
@@ -51,12 +51,12 @@ export default class LayerDisplay {
 	 */
 	getZIndex() {
 		let zIndex;
-		let zDims = this.getZDims();
+		let zOffset = this.getZOffset();
 		if (Syllabary.grid.zPosition >= 0) {
-			zIndex = (Syllabary.zDim - Math.floor(this.z + Syllabary.grid.zPosition) + zDims) * 2;
+			zIndex = (Syllabary.zDim - Math.floor(this.z + Syllabary.grid.zPosition) + zOffset) * 2;
 		}
 		else {
-			zIndex = (Syllabary.zDim - Math.ceil(this.z + Syllabary.grid.zPosition) + zDims) * 2;
+			zIndex = (Syllabary.zDim - Math.ceil(this.z + Syllabary.grid.zPosition) + zOffset) * 2;
 		}
 		return zIndex;
 	}
@@ -66,15 +66,19 @@ export default class LayerDisplay {
 	 * for sizing
 	 */
 	getExactZPosition() {
-		let zDims = this.getZDims();
-		let zPosition = Syllabary.zDim - (this.z + Syllabary.grid.zPosition) + zDims;
+		let zOffset = this.getZOffset();
+		let zPosition = Syllabary.zDim - (this.z + Syllabary.grid.zPosition) + zOffset;
 		return Math.pow(zPosition/2, 2);
 	}
 
 	/**
 	 * TODO NEED BETTER NAME
+	 * this is the number of zDims away the zPosition is
+	 * the number of lengths(depths)
+	 * the distance outside the box
+	 * the offset from the real
 	 */
-	getZDims() {
+	getZOffset() {
 		return Math.floor((this.z + Syllabary.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
 	}
 }
