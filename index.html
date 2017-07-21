@@ -12,19 +12,19 @@
         position: absolute;
         left:0;
         top:0;
-        /*right:0;*/
-        /*bottom:0;*/
         width: 100%;
         height: 100%;
     }
 
     .fade-layer {
         background-color:#ffffff;
-        opacity: 0.5;
     }
 </style>
 </head>
 <body>
 <div id="syllabary-container"></div>
 <script src="dist/syllabary.js"></script>
+<script>
+    new Syllabary({containerId: 'syllabary-container', xPosition: 0, yPosition: 0, zPosition: 0});
+</script>
 </body>

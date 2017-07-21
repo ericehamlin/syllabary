@@ -1,7 +1,7 @@
 'use strict';
 
 let Config = {
-	"baseUrl": "http://localhost/odiousenterprises/thesyllabary/"
+	"baseUrl": "/odiousenterprises/thesyllabary/"
 };
 
 export default Config;
