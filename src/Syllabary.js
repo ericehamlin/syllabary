@@ -26,14 +26,15 @@ export default class Syllabary {
 		/** final consonants */
 		Syllabary.phonemes.z = [null, '', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
 
+		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
 
 		Syllabary.runStates = {
-			"READ" : "read",
-			"DRAG" : "drag",
-			"WHEEL" : "wheel",
-			"DRIFT" : "drift",
-			"ANIMATE" : "animate"
+			"READ" : "read", 		// audio is currently playing
+			"DRAG" : "drag",		// user is controlling using touch gesture
+			"CONTROL" : "control",	// user is controlling using provided control
+			"DRIFT" : "drift",		// user has released drag
+			"ANIMATE" : "animate"	// standard animation is advancing or drift has come to an end
 		};
 
 		this.initialize();
@@ -69,7 +70,7 @@ export default class Syllabary {
 				that.runState = Syllabary.runStates.DRIFT;
 
 				that.animateDirection = {x:0.5, y:0, z:0};
-				
+
 				let el = document.getElementById(Syllabary.containerId);
 				let hammer = new window.Hammer(el);
 				hammer.get('pinch').set({ enable: true });
@@ -93,28 +94,28 @@ export default class Syllabary {
 
 	run() {
 
-		// continue regularly until some unforseen event takes place, in which case,
-		// this.complete()
-
-		// current state
-		// if (isReading) // precludes other changes
-		// if (isDragging)
-		// if (isWheeling)
-		// if (isDrifting)
-		// if (isAnimating) ?? not called this
 
 		switch(this.runState) {
+			case Syllabary.runStates.READ :
+				break;
+
+			case Syllabary.runStates.DRAG :
+				break;
+
+			case Syllabary.runStates.CONTROL :
+				break;
+
 			case Syllabary.runStates.DRIFT :
 				this.drift();
 				break;
+
 			case Syllabary.runStates.ANIMATE :
 				this.animate();
 				break;
 		}
 
-
-
-
+		// continue regularly until some unforseen event takes place, in which case,
+		// this.complete()
 		setTimeout(() => {this.run(); }, 10);
 
 	}
