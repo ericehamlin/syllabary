@@ -51,8 +51,11 @@ export default class Syllabary {
 				that.syllabaryDisplay.initialize();
 				that.syllabaryDisplay.render();
 				that.syllabaryDisplay.add();
+
+				that.animateDirection = {x:0.5, y:0, z:0};
+				console.log("running Syllabary");
 				that.run();
-				that.complete();
+
 				return;
 			}
 			setTimeout(function() { checkLoading(); }, 10);
@@ -65,9 +68,55 @@ export default class Syllabary {
 	}
 
 	run() {
-		console.log("running Syllabary");
+
 		// continue regularly until some unforseen event takes place, in which case,
 		// this.complete()
+
+		// current state
+		// if (isReading) // precludes other changes
+		// if (isDragging)
+		// if (isWheeling)
+		// if (isDrifting)
+		// if (isAnimating) ?? not called this
+
+
+		this.drift();
+
+		setTimeout(() => {this.run(); }, 10);
+
+	}
+
+	animate() {
+		Syllabary.grid.xPosition += this.animateDirection.x;
+		Syllabary.grid.yPosition += this.animateDirection.y;
+		Syllabary.grid.zPosition += this.animateDirection.z;
+		this.syllabaryDisplay.render();
+	}
+
+	/**
+	 * TODO combine drift and animate so that drift goes to a glyph
+	 */
+	drift() {
+		let that = this;
+		function getVelocity() {
+			let xSqr = Math.pow(that.animateDirection.x, 2);
+			let ySqr = Math.pow(that.animateDirection.y, 2);
+			let zSqr = Math.pow(that.animateDirection.z, 2);
+			return Math.sqrt(xSqr + ySqr + zSqr);
+		}
+
+		Syllabary.grid.xPosition += this.animateDirection.x;
+		Syllabary.grid.yPosition += this.animateDirection.y;
+		Syllabary.grid.zPosition += this.animateDirection.z;
+		this.syllabaryDisplay.render();
+
+		this.animateDirection.x = this.animateDirection.x * 0.95;
+		this.animateDirection.y = this.animateDirection.y * 0.95;
+		this.animateDirection.z = this.animateDirection.z * 0.95;
+
+		if (getVelocity() < 0.01) {
+			console.log("ending drift");
+		}
 	}
 
 	complete() {
