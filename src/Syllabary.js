@@ -4,6 +4,7 @@ import Grid from './Grid.js';
 import GlyphLoader from './GlyphLoader.js';
 import LoadingDisplay from './display/LoadingDisplay.js';
 import SyllabaryDisplay from './display/SyllabaryDisplay.js';
+import * as Hammer from "hammerjs";
 
 export default class Syllabary {
 
@@ -16,10 +17,14 @@ export default class Syllabary {
 		Syllabary.yDim = yDim;
 		Syllabary.zDim = zDim;
 
-		Syllabary.characters = {};
-		Syllabary.characters.x = [];
-		Syllabary.characters.y = [];
-		Syllabary.characters.z = [];
+		/** A phoneme (from the Greek:  phonema, "a sound uttered") is the smallest linguistically distinctive unit of sound. */
+		Syllabary.phonemes = {};
+		/** initial consonants */
+		Syllabary.phonemes.x = [null, '', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'S', 'Tj', 'Sh', 'R', 'Y', 'G', 'K', 'H', 'W', 'L'];
+		/** vowels */
+		Syllabary.phonemes.y = [null, "U", "O", "o", "u", "a", "i", "e", "A", "E", "I"];
+		/** final consonants */
+		Syllabary.phonemes.z = [null, '', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
 
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
 		this.initialize();
@@ -52,7 +57,14 @@ export default class Syllabary {
 				that.syllabaryDisplay.render();
 				that.syllabaryDisplay.add();
 
+				that.runState = "drift";
 				that.animateDirection = {x:0.5, y:0, z:0};
+				let el = document.getElementById(Syllabary.containerId);
+				let hammer = new window.Hammer(el);
+				hammer.get('pinch').set({ enable: true });
+				hammer.on('pinch', function(ev) {
+					alert(ev);
+				});
 				console.log("running Syllabary");
 				that.run();
 
@@ -79,18 +91,36 @@ export default class Syllabary {
 		// if (isDrifting)
 		// if (isAnimating) ?? not called this
 
+		switch(this.runState) {
+			case "drift" :
+				this.drift();
+				break;
+			case "animate" :
+				this.animate();
+				break;
+		}
 
-		this.drift();
+
+
 
 		setTimeout(() => {this.run(); }, 10);
 
 	}
 
 	animate() {
+		let oldXPosition = Syllabary.grid.xPosition,
+			oldYPosition = Syllabary.grid.yPosition,
+			oldZPosition = Syllabary.grid.zPosition;
+
 		Syllabary.grid.xPosition += this.animateDirection.x;
 		Syllabary.grid.yPosition += this.animateDirection.y;
 		Syllabary.grid.zPosition += this.animateDirection.z;
 		this.syllabaryDisplay.render();
+
+		if (Math.floor(oldXPosition) != Math.floor(Syllabary.grid.xPosition)) {
+			console.log("ending animate");
+			this.runState = "read";
+		}
 	}
 
 	/**
@@ -110,12 +140,14 @@ export default class Syllabary {
 		Syllabary.grid.zPosition += this.animateDirection.z;
 		this.syllabaryDisplay.render();
 
-		this.animateDirection.x = this.animateDirection.x * 0.95;
-		this.animateDirection.y = this.animateDirection.y * 0.95;
-		this.animateDirection.z = this.animateDirection.z * 0.95;
+		let drag = 0.95;
+		this.animateDirection.x = this.animateDirection.x * drag;
+		this.animateDirection.y = this.animateDirection.y * drag;
+		this.animateDirection.z = this.animateDirection.z * drag;
 
 		if (getVelocity() < 0.01) {
 			console.log("ending drift");
+			this.runState = "animate";
 		}
 	}
 
