@@ -27,6 +27,15 @@ export default class Syllabary {
 		Syllabary.phonemes.z = [null, '', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
 
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
+
+		Syllabary.runStates = {
+			"READ" : "read",
+			"DRAG" : "drag",
+			"WHEEL" : "wheel",
+			"DRIFT" : "drift",
+			"ANIMATE" : "animate"
+		};
+
 		this.initialize();
 	}
 
@@ -57,14 +66,17 @@ export default class Syllabary {
 				that.syllabaryDisplay.render();
 				that.syllabaryDisplay.add();
 
-				that.runState = "drift";
+				that.runState = Syllabary.runStates.DRIFT;
+
 				that.animateDirection = {x:0.5, y:0, z:0};
+				
 				let el = document.getElementById(Syllabary.containerId);
 				let hammer = new window.Hammer(el);
 				hammer.get('pinch').set({ enable: true });
 				hammer.on('pinch', function(ev) {
 					alert(ev);
 				});
+
 				console.log("running Syllabary");
 				that.run();
 
@@ -92,10 +104,10 @@ export default class Syllabary {
 		// if (isAnimating) ?? not called this
 
 		switch(this.runState) {
-			case "drift" :
+			case Syllabary.runStates.DRIFT :
 				this.drift();
 				break;
-			case "animate" :
+			case Syllabary.runStates.ANIMATE :
 				this.animate();
 				break;
 		}
@@ -119,7 +131,7 @@ export default class Syllabary {
 
 		if (Math.floor(oldXPosition) != Math.floor(Syllabary.grid.xPosition)) {
 			console.log("ending animate");
-			this.runState = "read";
+			this.runState = Syllabary.runStates.READ;
 		}
 	}
 
@@ -147,7 +159,7 @@ export default class Syllabary {
 
 		if (getVelocity() < 0.01) {
 			console.log("ending drift");
-			this.runState = "animate";
+			this.runState = Syllabary.runStates.ANIMATE;
 		}
 	}
 
