@@ -9,7 +9,7 @@ export default class LayerDisplay {
 		this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.svg.setAttribute("class", "layer-display");
 		this.svg.setAttribute("id", "layer-display-"+z);
-		this.svg.setAttribute("viewBox", "-1250, -1250, 3000, 3000");
+		this.svg.setAttribute("viewBox", "-2750, -2750, 6000, 6000");
 		this.display.appendChild(this.svg);
 
 		this.fadeLayer = document.createElement("div");
@@ -40,7 +40,7 @@ export default class LayerDisplay {
 		let exactZPosition = this.getExactZPosition();
 
 
-		if (exactZPosition < Syllabary.zDim - numVisibleLayers) {
+		if (exactZPosition < Syllabary.zDim - numVisibleLayers - 1) {
 			this.display.style.display = "none";
 		}
 		else {
@@ -50,7 +50,7 @@ export default class LayerDisplay {
 			this.display.style.zIndex = this.getZIndex();
 
 			// Scale layer according to depth
-			let calculated = (exactZPosition + numVisibleLayers + 1 - Syllabary.zDim) * 150;
+			let calculated = (exactZPosition + numVisibleLayers + 1 - Syllabary.zDim) * 300;
 
 			let displacement = calculated / -2 + "%";
 			let scale = (100 + calculated) + "%";
@@ -63,7 +63,9 @@ export default class LayerDisplay {
 			this.fadeLayer.style.opacity = Math.abs(exactZPosition + 1 - Syllabary.zDim) / numVisibleLayers;
 
 			if (exactZPosition > (Syllabary.zDim - 1)) {
-				this.display.style.opacity = -exactZPosition + Syllabary.zDim;
+				let opacity =  Math.pow(Syllabary.zDim - exactZPosition, 2);
+				console.log("OPACITY", opacity);
+				this.display.style.opacity = opacity;
 			}
 
 			// Reposition glyphs on layer according to x, y position
