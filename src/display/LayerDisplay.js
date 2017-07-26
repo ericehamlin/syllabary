@@ -9,7 +9,7 @@ export default class LayerDisplay {
 		this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.svg.setAttribute("class", "layer-display");
 		this.svg.setAttribute("id", "layer-display-"+z);
-		this.svg.setAttribute("viewBox", "-100, -100, 700, 700");
+		this.svg.setAttribute("viewBox", "-1250, -1250, 3000, 3000");
 		this.display.appendChild(this.svg);
 
 		this.fadeLayer = document.createElement("div");
@@ -35,30 +35,43 @@ export default class LayerDisplay {
 
 	render() {
 
-		// Position layer in stack
-		this.display.style.zIndex = this.getZIndex();
+		let numVisibleLayers = 4;
 
-		// Scale layer according to depth
 		let exactZPosition = this.getExactZPosition();
-		let calculated = Math.pow(exactZPosition/2, 2);
-		let displacement = calculated/-2 +"%";
-		let scale = (100 + calculated) +"%";
-		this.display.style.top = displacement;
-		this.display.style.left = displacement;
-		this.display.style.width = scale;
-		this.display.style.height = scale;
 
-		console.log("EXACTZ", exactZPosition);
 
-		let visibles = 5;
+		if (exactZPosition < Syllabary.zDim - numVisibleLayers) {
+			this.display.style.display = "none";
+		}
+		else {
+			this.display.style.display = "block";
 
-		this.fadeLayer.style.opacity = Math.abs(exactZPosition + 1 - Syllabary.zDim) / visibles;
+			// Position layer in stack
+			this.display.style.zIndex = this.getZIndex();
 
-		// Reposition glyphs on layer according to x, y position
-		for (let x in Syllabary.grid.syllables) {
-			for (let y in Syllabary.grid.syllables[x]) {
-				let syllable = Syllabary.grid.syllables[x][y][this.z];
-				syllable.glyph.place(Syllabary.grid.xPosition, Syllabary.grid.yPosition);
+			// Scale layer according to depth
+			let calculated = (exactZPosition + numVisibleLayers + 1 - Syllabary.zDim) * 150;
+
+			let displacement = calculated / -2 + "%";
+			let scale = (100 + calculated) + "%";
+			this.display.style.top = displacement;
+			this.display.style.left = displacement;
+			this.display.style.width = scale;
+			this.display.style.height = scale;
+
+
+			this.fadeLayer.style.opacity = Math.abs(exactZPosition + 1 - Syllabary.zDim) / numVisibleLayers;
+
+			if (exactZPosition > (Syllabary.zDim - 1)) {
+				this.display.style.opacity = -exactZPosition + Syllabary.zDim;
+			}
+
+			// Reposition glyphs on layer according to x, y position
+			for (let x in Syllabary.grid.syllables) {
+				for (let y in Syllabary.grid.syllables[x]) {
+					let syllable = Syllabary.grid.syllables[x][y][this.z];
+					syllable.glyph.place(Syllabary.grid.xPosition, Syllabary.grid.yPosition);
+				}
 			}
 		}
 	}
@@ -76,7 +89,7 @@ export default class LayerDisplay {
 		else {
 			zIndex = (Syllabary.zDim - Math.ceil(this.z + Syllabary.grid.zPosition) + zOffset);
 		}
-		return zIndex;
+		return zIndex * 2;
 	}
 
 	/**
@@ -95,8 +108,10 @@ export default class LayerDisplay {
 	 * the number of lengths(depths)
 	 * the distance outside the box
 	 * the offset from the real
+	 *
+	 * TODO negative numbers now not working since I got rid of -1
 	 */
 	getZOffset() {
-		return Math.floor((this.z + Syllabary.grid.zPosition - 1) / Syllabary.zDim) * Syllabary.zDim;
+		return Math.floor((this.z + Syllabary.grid.zPosition /*- 1*/) / Syllabary.zDim) * Syllabary.zDim;
 	}
 }
