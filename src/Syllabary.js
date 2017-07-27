@@ -181,9 +181,7 @@ export default class Syllabary {
 		let z = this.getCurrentLocation(Syllabary.grid.zPosition, Syllabary.zDim);
 
 		let syllable = Syllabary.grid.syllables[x][y][z];
-
-		// check to see if audio is loaded
-		// check to see if poem is loaded
+		syllable.play();
 
 	}
 
