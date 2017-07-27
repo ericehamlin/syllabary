@@ -67,9 +67,9 @@ export default class Syllabary {
 				that.syllabaryDisplay.render();
 				that.syllabaryDisplay.add();
 
-				that.runState = Syllabary.runStates.DRIFT;
+				that.runState = Syllabary.runStates.ANIMATE;
 
-				that.animateDirection = {x:0.5, y:0, z:0};
+				that.animateDirection = {x:0, y:0, z:0.005};
 
 				let el = document.getElementById(Syllabary.containerId);
 				let hammer = new window.Hammer(el);
@@ -92,8 +92,8 @@ export default class Syllabary {
 
 	}
 
-	run() {
 
+	run() {
 
 		switch(this.runState) {
 			case Syllabary.runStates.READ :
@@ -130,9 +130,19 @@ export default class Syllabary {
 		Syllabary.grid.zPosition += this.animateDirection.z;
 		this.syllabaryDisplay.render();
 
-		if (Math.floor(oldXPosition) != Math.floor(Syllabary.grid.xPosition)) {
+		if (Math.floor(oldXPosition) != Math.floor(Syllabary.grid.xPosition) ||
+			Math.floor(oldYPosition) != Math.floor(Syllabary.grid.yPosition) ||
+			Math.floor(oldZPosition) != Math.floor(Syllabary.grid.zPosition)) {
+
+			Syllabary.grid.xPosition = Math.round(Syllabary.grid.xPosition);
+			Syllabary.grid.yPosition = Math.round(Syllabary.grid.yPosition);
+			Syllabary.grid.zPosition = Math.round(Syllabary.grid.zPosition);
+
+			this.syllabaryDisplay.render();
+
 			console.log("ending animate");
 			this.runState = Syllabary.runStates.READ;
+			this.read();
 		}
 	}
 
@@ -162,6 +172,29 @@ export default class Syllabary {
 			console.log("ending drift");
 			this.runState = Syllabary.runStates.ANIMATE;
 		}
+	}
+
+	read() {
+		// get current syllable
+		let x = this.getCurrentLocation(Syllabary.grid.xPosition, Syllabary.xDim);
+		let y = this.getCurrentLocation(Syllabary.grid.yPosition, Syllabary.yDim);
+		let z = this.getCurrentLocation(Syllabary.grid.zPosition, Syllabary.zDim);
+
+		let syllable = Syllabary.grid.syllables[x][y][z];
+
+		// check to see if audio is loaded
+		// check to see if poem is loaded
+
+	}
+
+	getCurrentLocation(position, dim) {
+		if (position >= 0) {
+			return position - (Math.floor(position/dim) * dim) + 1;
+		}
+		else {
+			return position - (Math.ceil(position/dim) * dim) + 1;
+		}
+
 	}
 
 	complete() {
