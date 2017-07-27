@@ -7,26 +7,18 @@ export default class Poem {
 
 	constructor(x, y, z) {
 		this.url = Config.baseUrl + "/poems/" + x + "-" + y + "-" + z + ".xml";
+		this.isLoaded = false;
 	}
 
-// <poem>
-// <title></title>
-// <author>Peter McCarey</author>
-// <text>Between the concealed
-// 	And the karaoke mike
-// 	Feedback screamed
-// 	At John le Carré.
-// </text>
-// </poem>
-
 	display() {
-		if (!this.isLoaded()) {
+		if (!this.isLoaded) {
 			this.load();
 		}
 	}
 
 	load() {
-		if (this.isLoaded()) {
+		let that = this;
+		if (this.isLoaded) {
 			return;
 		}
 		let promise = FileLoader.load(this.url);
@@ -49,11 +41,14 @@ export default class Poem {
 
 			this.title = getElementText("title");
 			this.text = getElementText("text");
-			console.log(this.title, this.text);
+			this.isLoaded = true;
+		})
+		.catch((e) => {
+			if (e === 404) {
+				console.log("Poem file " + that.url + " not found. Assuming poem does not exist.");
+				this.isLoaded = true;
+			}
+			// else retry?
 		});
-	}
-
-	isLoaded() {
-		return false;
 	}
 }

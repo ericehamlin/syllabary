@@ -11,7 +11,7 @@ export default class FileLoader {
 						resolve(this.response);
 					}
 					else {
-						reject();
+						reject(this.status);
 					}
 				}
 			}

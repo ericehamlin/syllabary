@@ -64,7 +64,6 @@ export default class LayerDisplay {
 
 			if (exactZPosition > (Syllabary.zDim - 1)) {
 				let opacity =  Math.pow(Syllabary.zDim - exactZPosition, 2);
-				console.log("OPACITY", opacity);
 				this.display.style.opacity = opacity;
 			}
 
