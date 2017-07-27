@@ -9,12 +9,18 @@
     .grid-display,
     .fade-layer,
     .layer-display,
-    .layer {
+    .layer,
+    .center-fade
+    {
         position: absolute;
         left:0;
         top:0;
         width: 100%;
         height: 100%;
+    }
+
+    .center-fade {
+        background: radial-gradient(rgba(255,255,255,0.75) 20%, rgba(255,255,255,0));
     }
 
     .fade-layer {
@@ -27,6 +33,6 @@
 <div id="syllabary-container"></div>
 <script src="dist/syllabary.js"></script>
 <script>
-    new Syllabary({containerId: 'syllabary-container', xPosition: 0, yPosition: 0, zPosition: 0});
+    new Syllabary({containerId: 'syllabary-container', xPosition: 1, yPosition: 0, zPosition: 0});
 </script>
 </body>
