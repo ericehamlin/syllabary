@@ -6,7 +6,7 @@ import FileLoader from './FileLoader.js';
 export default class Poem {
 
 	constructor(x, y, z) {
-		this.url = Config.baseUrl + "/poems/" + x + "-" + y + "-" + z + ".xml";
+		this.url = Config.baseUrl + "poems/" + x + "-" + y + "-" + z + ".xml";
 		this.isLoaded = false;
 	}
 
@@ -45,7 +45,7 @@ export default class Poem {
 		})
 		.catch((e) => {
 			if (e === 404) {
-				console.log("Poem file " + that.url + " not found. Assuming poem does not exist.");
+				console.warn("Poem file " + that.url + " not found. Assuming poem does not exist.");
 				this.isLoaded = true;
 			}
 			// else retry?

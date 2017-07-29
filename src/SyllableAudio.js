@@ -8,13 +8,18 @@ export default class SyllableAudio {
 		this.isLoaded = false;
 	}
 
+	/**
+	 * TODO clearer understanding of when this is loaded
+	 */
 	play() {
 		if (!this.data) {
 			this.load();
 		}
-		this.data.play();
-		this.data.addEventListener("ended", function() {
-			alert("ended");
+		return new Promise((resolve, reject) => {
+				this.data.addEventListener("ended", function () {
+				resolve();
+			});
+			this.data.play();
 		});
 	}
 

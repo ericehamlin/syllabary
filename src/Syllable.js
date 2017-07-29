@@ -17,8 +17,11 @@ export default class Syllable {
 	}
 
 	play() {
-		this.poem.display();
-		this.audio.play();
+		return new Promise((resolve, reject) => {
+			this.poem.display();
+			let audioPromise = this.audio.play();
+			audioPromise.then(() => {resolve();});
+		});
 	}
 }
 
