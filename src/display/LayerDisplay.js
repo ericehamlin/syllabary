@@ -85,10 +85,10 @@ export default class LayerDisplay {
 		let zIndex;
 		let zOffset = this.getZOffset();
 		if (Syllabary.grid.zPosition >= 0) {
-			zIndex = (Syllabary.zDim - Math.floor(this.z + Syllabary.grid.zPosition) + zOffset);
+			zIndex = (Syllabary.zDim - Math.floor(this.z - Syllabary.grid.zPosition) - zOffset);
 		}
 		else {
-			zIndex = (Syllabary.zDim - Math.ceil(this.z + Syllabary.grid.zPosition) + zOffset);
+			zIndex = (Syllabary.zDim - Math.ceil(this.z - Syllabary.grid.zPosition) - zOffset);
 		}
 		return zIndex * 2;
 	}
@@ -99,7 +99,7 @@ export default class LayerDisplay {
 	 */
 	getExactZPosition() {
 		let zOffset = this.getZOffset();
-		let zPosition = Syllabary.zDim - (this.z + Syllabary.grid.zPosition) + zOffset;
+		let zPosition = Syllabary.zDim - (this.z - Syllabary.grid.zPosition) - zOffset;
 		return zPosition;
 	}
 
@@ -113,6 +113,6 @@ export default class LayerDisplay {
 	 * TODO negative numbers now not working since I got rid of -1
 	 */
 	getZOffset() {
-		return Math.floor((this.z + Syllabary.grid.zPosition /*- 1*/) / Syllabary.zDim) * Syllabary.zDim;
+		return Math.floor((Syllabary.zDim - this.z + Syllabary.grid.zPosition /*- 1*/) / Syllabary.zDim) * Syllabary.zDim;
 	}
 }

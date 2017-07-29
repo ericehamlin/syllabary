@@ -164,6 +164,9 @@ export default class RunController {
 	 * TODO make sure we're not going backward
 	 */
 	setNewAnimateDirection() {
+		// this.animateDirection = {x:0, y:0, z:this.animateInterval};
+		// return;
+
 		let direction = Math.floor(Math.random() * 6); // this calculation is incorrect. it will not be evenly distributed
 		let xInterval = 0,
 			yInterval = 0,
