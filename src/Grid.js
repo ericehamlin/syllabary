@@ -28,7 +28,7 @@ export default class Grid {
             this.yPosition = getRandomInt(0, Syllabary.yDim);
         }
 
-        if (yPosition != null) {
+        if (zPosition != null) {
             this.zPosition = zPosition;
         }
         else {

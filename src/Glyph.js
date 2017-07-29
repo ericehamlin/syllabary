@@ -46,7 +46,7 @@ export default class Glyph {
 		let interval = 700;
 
 		// TODO these names suck -- not at all clear what's going on here
-		let centeredX = offsetX - 1 + this.x;
+		let centeredX = this.x - offsetX - 1;
 		let syllabaryOffsetX = Math.floor(centeredX/Syllabary.xDim);
 		centeredX -= syllabaryOffsetX * Syllabary.xDim;
 		if (centeredX > Syllabary.xDim / 2) {
@@ -55,7 +55,7 @@ export default class Glyph {
 
 		let placeX = centeredX * interval;
 
-		let centeredY = offsetY - 1 + this.y;
+		let centeredY = this.y - offsetY - 1;
 		let syllabaryOffsetY = Math.floor(centeredY/Syllabary.yDim);
 		centeredY -= syllabaryOffsetY * Syllabary.yDim;
 		if (centeredY > Syllabary.yDim / 2) {
