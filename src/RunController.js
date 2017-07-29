@@ -18,9 +18,12 @@ export default class RunController {
 		this.runState = this.runStates.ANIMATE;
 
 		this.animateInterval = 0.05;
-		this.animateDirection = {x:0, y:0, z:this.animateInterval};
+		this.setNewAnimateDirection();
 	}
 
+	/**
+	 *
+	 */
 	run() {
 		switch(this.runState) {
 			case this.runStates.READ :
@@ -44,6 +47,9 @@ export default class RunController {
 		setTimeout(() => {this.run(); }, 10);
 	}
 
+	/**
+	 *
+	 */
 	animate() {
 		let oldXPosition = Syllabary.grid.xPosition,
 			oldYPosition = Syllabary.grid.yPosition,
@@ -71,6 +77,13 @@ export default class RunController {
 		}
 	}
 
+	/**
+	 *
+	 * @param xPosition
+	 * @param yPosition
+	 * @param zPosition
+	 * @returns {boolean}
+	 */
 	isMovingFromSyllablePosition(xPosition, yPosition, zPosition) {
 		return (
 			Math.floor(xPosition) == xPosition &&
@@ -79,6 +92,13 @@ export default class RunController {
 		);
 	}
 
+	/**
+	 *
+	 * @param oldXPosition
+	 * @param oldYPosition
+	 * @param oldZPosition
+	 * @returns {boolean}
+	 */
 	animationHasCrossedSyllablePosition(oldXPosition, oldYPosition, oldZPosition) {
 		return (
 			Math.floor(oldXPosition) != Math.floor(Syllabary.grid.xPosition) ||
@@ -109,6 +129,10 @@ export default class RunController {
 		}
 	}
 
+	/**
+	 *
+	 * @returns {number}
+	 */
 	getAnimateVelocity() {
 		let xSqr = Math.pow(this.animateDirection.x, 2);
 		let ySqr = Math.pow(this.animateDirection.y, 2);
@@ -116,6 +140,9 @@ export default class RunController {
 		return Math.sqrt(xSqr + ySqr + zSqr);
 	}
 
+	/**
+	 *
+	 */
 	read() {
 		// get current syllable
 		let x = this.getCurrentLocation(Syllabary.grid.xPosition, Syllabary.xDim);
@@ -165,6 +192,9 @@ export default class RunController {
 		this.animateDirection = {x:xInterval, y:yInterval, z:zInterval};
 	}
 
+	/**
+	 *
+	 */
 	renderGrid() {
 		this.syllabary.syllabaryDisplay.render();
 	}
@@ -177,12 +207,6 @@ export default class RunController {
 	 * @returns {number}
 	 */
 	getCurrentLocation(position, dim) {
-		if (position >= 0) {
-			return position - (Math.floor(position/dim) * dim) + 1;
-		}
-		else {
-			return position - (Math.ceil(position/dim) * dim) + 1;
-		}
-
+		return position - (Math.floor(position/dim) * dim) + 1;
 	}
 }
