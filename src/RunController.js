@@ -18,7 +18,46 @@ export default class RunController {
 		this.runState = this.runStates.ANIMATE;
 
 		this.animateInterval = 0.005;
-		this.setNewAnimateDirection();
+		this.setRandomAnimateDirection();
+
+		let container = document.getElementById(Syllabary.containerId);
+		let touchListener = new window.Hammer(container);
+		touchListener.get('pinch').set({ enable: true });
+		touchListener.get('swipe').set({ enable: true });
+
+		touchListener.on('pinchin', (ev) => {
+			this.setDrag();
+			let zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
+			Syllabary.grid.zPosition += zAnimate;
+			this.setAnimateDirection(0,0,zAnimate);
+			this.renderGrid();
+		});
+
+		touchListener.on('pinchout', (ev) => {
+			this.setDrag();
+			let zAnimate = -Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
+			Syllabary.grid.zPosition += zAnimate;
+			this.setAnimateDirection(0,0,zAnimate);
+			this.renderGrid();
+		});
+
+		touchListener.on('pinchend', (ev) => {
+			this.setDrift();
+		});
+
+		touchListener.on('pan', (ev) => {
+			this.setDrag();
+			let xAnimate = -ev.deltaX * this.animateInterval * 0.1;
+			let yAnimate = -ev.deltaY * this.animateInterval * 0.1;
+			Syllabary.grid.xPosition += xAnimate;
+			Syllabary.grid.yPosition += yAnimate;
+			this.setAnimateDirection(xAnimate, yAnimate, 0);
+			this.renderGrid();
+		});
+
+		touchListener.on('panend', (ev) => {
+			this.setDrift();
+		});
 	}
 
 	/**
@@ -153,17 +192,21 @@ export default class RunController {
 		let syllable = Syllabary.grid.syllables[x][y][z];
 		let promise = syllable.play();
 		promise.then(() => {
-			this.setNewAnimateDirection();
+			this.setRandomAnimateDirection();
 		this.runState = this.runStates.ANIMATE;
 	});
 
+	}
+
+	setAnimateDirection(x,y,z) {
+		this.animateDirection = {x:x, y:y, z:z};
 	}
 
 	/**
 	 * randomly assign new direction
 	 * TODO make sure we're not going backward
 	 */
-	setNewAnimateDirection() {
+	setRandomAnimateDirection() {
 		// this.animateDirection = {x:0, y:0, z:this.animateInterval};
 		// return;
 
@@ -192,7 +235,7 @@ export default class RunController {
 				zInterval = -this.animateInterval;
 				break;
 		}
-		this.animateDirection = {x:xInterval, y:yInterval, z:zInterval};
+		this.setAnimateDirection(xInterval, yInterval, zInterval);
 	}
 
 	/**
@@ -213,7 +256,11 @@ export default class RunController {
 		return position - (Math.floor(position/dim) * dim) + 1;
 	}
 
-	setDragging() {
+	setDrag() {
 		this.runState = this.runStates.DRAG;
+	}
+
+	setDrift() {
+		this.runState = this.runStates.DRIFT;
 	}
 }

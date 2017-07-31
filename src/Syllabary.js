@@ -62,16 +62,6 @@ export default class Syllabary {
 				that.syllabaryDisplay.render();
 				that.syllabaryDisplay.add();
 
-				let el = document.getElementById(Syllabary.containerId);
-				let hammer = new window.Hammer(el);
-				hammer.get('pinch').set({ enable: true });
-				hammer.on('pinch', function(ev) {
-					that.runController.setDragging();
-					console.log(ev);
-					Syllabary.grid.zPosition += Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * 0.005;
-					that.syllabaryDisplay.render();
-				});
-
 				console.info("Running Syllabary");
 				that.run();
 
