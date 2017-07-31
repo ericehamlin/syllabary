@@ -15,10 +15,11 @@ export default class RunController {
 
 		this.syllabary = syllabary;
 
-		this.runState = this.runStates.ANIMATE;
-
 		this.animateInterval = 0.005;
+
 		this.setRandomAnimateDirection();
+		this.setAnimating();
+
 
 		let container = document.getElementById(Syllabary.containerId);
 		let touchListener = new window.Hammer(container);
@@ -26,7 +27,7 @@ export default class RunController {
 		touchListener.get('swipe').set({ enable: true });
 
 		touchListener.on('pinchin', (ev) => {
-			this.setDrag();
+			this.setDragging();
 			let zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
 			Syllabary.grid.zPosition += zAnimate;
 			this.setAnimateDirection(0,0,zAnimate);
@@ -34,7 +35,7 @@ export default class RunController {
 		});
 
 		touchListener.on('pinchout', (ev) => {
-			this.setDrag();
+			this.setDragging();
 			let zAnimate = -Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
 			Syllabary.grid.zPosition += zAnimate;
 			this.setAnimateDirection(0,0,zAnimate);
@@ -42,11 +43,11 @@ export default class RunController {
 		});
 
 		touchListener.on('pinchend', (ev) => {
-			this.setDrift();
+			this.setDrifting();
 		});
 
 		touchListener.on('pan', (ev) => {
-			this.setDrag();
+			this.setDragging();
 			let xAnimate = -ev.deltaX * this.animateInterval * 0.1;
 			let yAnimate = -ev.deltaY * this.animateInterval * 0.1;
 			Syllabary.grid.xPosition += xAnimate;
@@ -56,7 +57,7 @@ export default class RunController {
 		});
 
 		touchListener.on('panend', (ev) => {
-			this.setDrift();
+			this.setDrifting();
 		});
 	}
 
@@ -164,7 +165,7 @@ export default class RunController {
 
 		if (this.getAnimateVelocity() < 0.01) {
 			console.info("ending drift");
-			this.runState = this.runStates.ANIMATE;
+			this.setAnimating();
 		}
 	}
 
@@ -183,21 +184,34 @@ export default class RunController {
 	 *
 	 */
 	read() {
-		// get current syllable
+		let syllable = this.getCurrentSyllable();
+		let promise = syllable.play();
+		promise.then(() => {
+			this.setRandomAnimateDirection();
+			this.setAnimating();
+		});
+
+	}
+
+	/**
+	 *
+	 * @returns {*}
+	 */
+	getCurrentSyllable() {
 		let x = this.getCurrentLocation(Syllabary.grid.xPosition, Syllabary.xDim);
 		let y = this.getCurrentLocation(Syllabary.grid.yPosition, Syllabary.yDim);
 		let z = this.getCurrentLocation(Syllabary.grid.zPosition, Syllabary.zDim);
 
-		console.info("READING %s-%s-%s", x, y, z);
 		let syllable = Syllabary.grid.syllables[x][y][z];
-		let promise = syllable.play();
-		promise.then(() => {
-			this.setRandomAnimateDirection();
-		this.runState = this.runStates.ANIMATE;
-	});
-
+		return syllable;
 	}
 
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	setAnimateDirection(x,y,z) {
 		this.animateDirection = {x:x, y:y, z:z};
 	}
@@ -207,8 +221,6 @@ export default class RunController {
 	 * TODO make sure we're not going backward
 	 */
 	setRandomAnimateDirection() {
-		// this.animateDirection = {x:0, y:0, z:this.animateInterval};
-		// return;
 
 		let direction = Math.floor(Math.random() * 6); // this calculation is incorrect. it will not be evenly distributed
 		let xInterval = 0,
@@ -256,11 +268,15 @@ export default class RunController {
 		return position - (Math.floor(position/dim) * dim) + 1;
 	}
 
-	setDrag() {
+	setDragging() {
 		this.runState = this.runStates.DRAG;
 	}
 
-	setDrift() {
+	setDrifting() {
 		this.runState = this.runStates.DRIFT;
+	}
+
+	setAnimating() {
+		this.runState = this.runStates.ANIMATE;
 	}
 }
