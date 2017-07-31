@@ -17,7 +17,7 @@ export default class RunController {
 
 		this.runState = this.runStates.ANIMATE;
 
-		this.animateInterval = 0.05;
+		this.animateInterval = 0.005;
 		this.setNewAnimateDirection();
 	}
 
@@ -211,5 +211,9 @@ export default class RunController {
 	 */
 	getCurrentLocation(position, dim) {
 		return position - (Math.floor(position/dim) * dim) + 1;
+	}
+
+	setDragging() {
+		this.runState = this.runStates.DRAG;
 	}
 }

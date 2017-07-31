@@ -38,6 +38,7 @@ export default class Syllabary {
 		console.info("Initializing Syllabary");
 		this.loadingDisplay = new LoadingDisplay();
 		this.syllabaryDisplay = new SyllabaryDisplay();
+		this.runController = new RunController(this);
 		this.load();
 	}
 
@@ -65,7 +66,10 @@ export default class Syllabary {
 				let hammer = new window.Hammer(el);
 				hammer.get('pinch').set({ enable: true });
 				hammer.on('pinch', function(ev) {
-					alert(ev);
+					that.runController.setDragging();
+					console.log(ev);
+					Syllabary.grid.zPosition += Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * 0.005;
+					that.syllabaryDisplay.render();
 				});
 
 				console.info("Running Syllabary");
@@ -87,8 +91,7 @@ export default class Syllabary {
 	 * TODO move all this stuff to a controller
 	 */
 	run() {
-		let controller = new RunController(this);
-		controller.run();
+		this.runController.run();
 
 		// continue regularly until some unforseen event takes place, in which case,
 		// this.complete()
