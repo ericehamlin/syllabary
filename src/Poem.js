@@ -11,16 +11,38 @@ export default class Poem {
 	}
 
 	display() {
-		if (!this.isLoaded) {
-			this.load();
-		}
+		let poemPromise = new Promise((resolve, reject) => {
+			if (!this.isLoaded) {
+				let loadPromise = this.load();
+				loadPromise.then((data) => {
+					if (this.text) {
+						Syllabary.syllabaryDisplay.poemDisplay.setText(this.text);
+						Syllabary.syllabaryDisplay.poemDisplay.setTitle(this.title);
+						Syllabary.syllabaryDisplay.poemDisplay.show();
+						resolve(true);
+					}
+					else {
+						resolve(false);
+					}
+				});
+			}
+			else {
+				if (this.text) {
+					Syllabary.syllabaryDisplay.poemDisplay.setText(this.text);
+					Syllabary.syllabaryDisplay.poemDisplay.setTitle(this.title);
+					Syllabary.syllabaryDisplay.poemDisplay.show();
+					resolve(true);
+				}
+				else {
+					resolve(false);
+				}
+			}
+		});
+		return poemPromise;
 	}
 
 	load() {
 		let that = this;
-		if (this.isLoaded) {
-			return;
-		}
 		let promise = FileLoader.load(this.url);
 		promise.then((data) => {
 
@@ -50,5 +72,6 @@ export default class Poem {
 			}
 			// else retry?
 		});
+		return promise;
 	}
 }

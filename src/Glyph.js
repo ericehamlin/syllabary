@@ -19,7 +19,6 @@ export default class Glyph {
 		let id = this.x + "-" + this.y + "-" + this.z;
 
 		let glyph = document.createElementNS("http://www.w3.org/2000/svg", "g");
-		//glyph.setAttribute("transform", transform[1]);
 		glyph.setAttribute("id", id);
 		glyph.innerHTML = innerHTML;
 

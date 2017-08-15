@@ -3,7 +3,7 @@
 import Syllabary from '../Syllabary';
 import GridDisplay from './GridDisplay.js';
 import PoemDisplay from './PoemDisplay.js';
-import ControllerDisplay from './ControllerDisplay.js';
+import Control from '../Control.js'
 
 export default class SyllabaryDisplay {
 
@@ -12,8 +12,9 @@ export default class SyllabaryDisplay {
 		this.display.setAttribute("class", "syllabary-display");
 		this.gridDisplay = new GridDisplay();
 
+		this.control = new Control();
 		this.poemDisplay = new PoemDisplay();
-
+		this.display.appendChild(this.control.svg);
 		this.insert(this.gridDisplay);
 
 	}
@@ -24,6 +25,7 @@ export default class SyllabaryDisplay {
 
 	render() {
 		this.gridDisplay.render();
+		this.control.render();
 	}
 
 	insert(display) {

@@ -2,7 +2,7 @@
 
 export default class PoemDisplay {
 
-	construct() {
+	constructor() {
 		this.display = document.createElement("div");
 		this.display.setAttribute("class", "poem-display");
 
@@ -18,8 +18,17 @@ export default class PoemDisplay {
 
 	}
 
+	setTitle(title) {
+		this.title.innerHTML = title;
+	}
+
+	setText(text) {
+		console.log(this);
+		this.text.innerHTML = text;
+	}
+
 	show() {
-		let container = document.getElementById(Syllabary.containerId);
+		let container = document.getElementsByClassName('syllabary-display')[0];
 		container.appendChild(this.display);
 	}
 

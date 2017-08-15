@@ -5,7 +5,6 @@ import GlyphLoader from './GlyphLoader.js';
 import LoadingDisplay from './display/LoadingDisplay.js';
 import SyllabaryDisplay from './display/SyllabaryDisplay.js';
 import RunController from './RunController.js';
-import * as Hammer from "hammerjs";
 
 export default class Syllabary {
 
@@ -37,7 +36,7 @@ export default class Syllabary {
 	initialize() {
 		console.info("Initializing Syllabary");
 		this.loadingDisplay = new LoadingDisplay();
-		this.syllabaryDisplay = new SyllabaryDisplay();
+		Syllabary.syllabaryDisplay = new SyllabaryDisplay();
 		this.runController = new RunController(this);
 		this.load();
 	}
@@ -58,9 +57,9 @@ export default class Syllabary {
 
 			if (loadingPercentComplete >= 100) {
 				that.loadingDisplay.remove();
-				that.syllabaryDisplay.initialize();
-				that.syllabaryDisplay.render();
-				that.syllabaryDisplay.add();
+				Syllabary.syllabaryDisplay.initialize();
+				Syllabary.syllabaryDisplay.render();
+				Syllabary.syllabaryDisplay.add();
 
 				console.info("Running Syllabary");
 				that.run();
@@ -90,5 +89,16 @@ export default class Syllabary {
 
 	complete() {
 		console.info("Completing Syllabary");
+	}
+
+	/**
+	 * TODO not a good name
+	 *
+	 * @param position
+	 * @param dim
+	 * @returns {number}
+	 */
+	static getCurrentLocation(position, dim) {
+		return position - (Math.floor(position/dim) * dim) + 1;
 	}
 }
