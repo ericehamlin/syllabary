@@ -13,38 +13,11 @@ export default class Control {
 			r3 = r1/2;
 
 
-		let outerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-		outerCircle.setAttribute("cx", 0);
-		outerCircle.setAttribute("cy", 0);
-		outerCircle.setAttribute("r", r1);
-		outerCircle.setAttribute("fill", "#dddddd");
+		this.outerCircleGroup = this.createCircle(r1, "#dddddd", (r1 + r2)/2, Syllabary.xDim, Syllabary.phonemes.x);
 
-		this.outerCircleGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-		this.outerCircleGroup.appendChild(outerCircle);
-		this.placePhonemes(this.outerCircleGroup, (r1 + r2)/2, Syllabary.xDim, Syllabary.phonemes.x);
+		this.middleCircleGroup = this.createCircle(r2, "#bbbbbb", (r2 + r3)/2, Syllabary.yDim, Syllabary.phonemes.y);
 
-
-		let middleCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-		middleCircle.setAttribute("cx", 0);
-		middleCircle.setAttribute("cy", 0);
-		middleCircle.setAttribute("r", r2);
-		middleCircle.setAttribute("fill", "#bbbbbb");
-
-		this.middleCircleGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-		this.middleCircleGroup.appendChild(middleCircle);
-		this.placePhonemes(this.middleCircleGroup, (r2 + r3)/2, Syllabary.yDim, Syllabary.phonemes.y);
-
-
-		let innerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-		innerCircle.setAttribute("cx", 0);
-		innerCircle.setAttribute("cy", 0);
-		innerCircle.setAttribute("r", r3);
-		innerCircle.setAttribute("fill", "#999999");
-
-		this.innerCircleGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-		this.innerCircleGroup.appendChild(innerCircle);
-		this.placePhonemes(this.innerCircleGroup, r3, Syllabary.zDim, Syllabary.phonemes.z);
-
+		this.innerCircleGroup = this.createCircle(r3, "#999999", r3, Syllabary.zDim, Syllabary.phonemes.z);
 
 		this.svg.appendChild(this.outerCircleGroup);
 		this.svg.appendChild(this.middleCircleGroup);
@@ -62,6 +35,29 @@ export default class Control {
 		this.innerCircleGroup.onmousedown = (e) => {
 			console.debug(e);
 		}
+	}
+
+	/**
+	 *
+	 * @param r
+	 * @param fill
+	 * @param textR
+	 * @param dim
+	 * @param phonemes
+	 * @returns {Element}
+	 */
+	createCircle(r, fill, textRadius, dim, phonemes) {
+		let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+		circle.setAttribute("cx", 0);
+		circle.setAttribute("cy", 0);
+		circle.setAttribute("r", r);
+		circle.setAttribute("fill", fill);
+
+		let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		group.appendChild(circle);
+		this.placePhonemes(group, textRadius, dim, phonemes);
+
+		return group;
 	}
 
 	/**
@@ -86,7 +82,7 @@ export default class Control {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	render() {
 		let x = Syllabary.getCurrentLocation(Syllabary.grid.xPosition, Syllabary.xDim);
