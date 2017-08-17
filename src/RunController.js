@@ -36,6 +36,9 @@ export default class RunController {
 		touchListener.get('swipe').set({ enable: true });
 
 		touchListener.on('pinchin', (ev) => {
+			if (this.isReading()) {
+				return;
+			}
 			this.setDragging();
 			let zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
 			Syllabary.grid.zPosition += zAnimate;
@@ -44,6 +47,9 @@ export default class RunController {
 		});
 
 		touchListener.on('pinchout', (ev) => {
+			if (this.isReading()) {
+				return;
+			}
 			this.setDragging();
 			let zAnimate = -Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
 			Syllabary.grid.zPosition += zAnimate;
@@ -56,6 +62,9 @@ export default class RunController {
 		});
 
 		touchListener.on('pan', (ev) => {
+			if (this.isReading()) {
+				return;
+			}
 			this.setDragging();
 			let xAnimate = -ev.deltaX * this.animateInterval * 0.1;
 			let yAnimate = -ev.deltaY * this.animateInterval * 0.1;
@@ -327,6 +336,13 @@ export default class RunController {
 	}
 
 
+	/**
+	 *
+	 * @returns {boolean}
+	 */
+	isReading() {
+		return this.runState === this.runStates.READ;
+	}
 
 	/**
 	 *
@@ -334,6 +350,14 @@ export default class RunController {
 	setReading() {
 		console.debug("Starting Read");
 		this.runState = this.runStates.READ;
+	}
+
+	/**
+	 *
+	 * @returns {boolean}
+	 */
+	isDragging() {
+		return this.runState === this.runStates.DRAG;
 	}
 
 	/**
@@ -346,10 +370,26 @@ export default class RunController {
 
 	/**
 	 *
+	 * @returns {boolean}
+	 */
+	isDrifting() {
+		return this.runState === this.runStates.DRIFT;
+	}
+
+	/**
+	 *
 	 */
 	setDrifting() {
 		console.debug("Starting Drift");
 		this.runState = this.runStates.DRIFT;
+	}
+
+	/**
+	 *
+	 * @returns {boolean}
+	 */
+	isAnimating() {
+		return this.runState === this.runStates.ANIMATE;
 	}
 
 	/**
@@ -362,9 +402,30 @@ export default class RunController {
 
 	/**
 	 *
+	 * @returns {boolean}
+	 */
+	isMagnetizing() {
+		return this.runState === this.runStates.MAGNETIZE;
+	}
+
+	/**
+	 *
 	 */
 	setMagnetizing() {
 		console.debug("Starting Magnetize");
 		this.runState = this.runStates.MAGNETIZE;
+	}
+
+	/**
+	 *
+	 * @returns {boolean}
+	 */
+	isControlling() {
+		return this.runState === this.runStates.CONTROL;
+	}
+
+	setControlling() {
+		console.debug("Starting Control");
+		this.runState = this.runStates.CONTROL;
 	}
 }
