@@ -13,6 +13,8 @@ export default class Control {
 			r3 = r1/2;
 
 
+		this.listeners = [];
+
 		this.outerCircleGroup = this.createCircle(r1, "#dddddd", (r1 + r2)/2, Syllabary.xDim, Syllabary.phonemes.x);
 
 		this.middleCircleGroup = this.createCircle(r2, "#bbbbbb", (r2 + r3)/2, Syllabary.yDim, Syllabary.phonemes.y);
@@ -23,18 +25,50 @@ export default class Control {
 		this.svg.appendChild(this.middleCircleGroup);
 		this.svg.appendChild(this.innerCircleGroup);
 
+		this.currentlyMovingCircle = null;
 
+		let that = this;
 		this.outerCircleGroup.onmousedown = (e) => {
-			console.debug(e);
+			that.currentlyMovingCircle = "outer";
+			that.angle = that.getAngle(e.screenX, e.screenY);
+			that.dispatchEvent(e);
 		}
 
 		this.middleCircleGroup.onmousedown = (e) => {
-			console.debug(e);
+			that.currentlyMovingCircle = "middle";
+			that.dispatchEvent(e);
 		}
 
 		this.innerCircleGroup.onmousedown = (e) => {
-			console.debug(e);
+			that.currentlyMovingCircle = "inner";
+			that.dispatchEvent(e);
 		}
+
+
+		window.onmousemove = (e) => {
+			if (that.currentlyMovingCircle) {
+				let angle = that.getAngle(e.screenX, e.screenY);
+				that.dispatchEvent(new CustomEvent('rotate', {detail: angle - that.angle}));
+				that.angle = angle;
+			}
+		}
+
+		window.onmouseup = (e) => {
+			that.currentlyMovingCircle = null;
+			console.log("up")
+		}
+	}
+
+	getAngle(x, y) {
+		let rect = this.outerCircleGroup.getBoundingClientRect();
+		let centerX = (rect.left + rect.width)/2;
+		let centerY = (rect.top + rect.height)/2;
+		let angle = Math.atan2(x-centerX, y-centerY);
+		return this.radiansToDegrees(angle);
+	}
+
+	radiansToDegrees (angle) {
+		return angle * (180 / Math.PI);
 	}
 
 	/**
@@ -97,4 +131,18 @@ export default class Control {
 		this.middleCircleGroup.setAttribute("transform", "rotate(" + yDeg + ")");
 		this.innerCircleGroup.setAttribute("transform", "rotate(" + zDeg + ")");
 	}
+
+
+	addEventListener(type, listener) {
+		this.listeners.push({type:type, listener:listener});
+	}
+
+	dispatchEvent(event) {
+		for (let index in this.listeners) {
+			if (event.type == this.listeners[index].type) {
+				this.listeners[index].listener(event);
+			}
+		}
+	}
+
 }

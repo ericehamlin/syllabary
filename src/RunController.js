@@ -17,12 +17,26 @@ export default class RunController {
 
 		this.syllabary = syllabary;
 
+
 		this.animateInterval = 0.005;
 
 		this.setRandomAnimateDirection();
 		this.setAnimating();
 
 		this.initializeTouchListener();
+
+		Syllabary.syllabaryDisplay.control.addEventListener("mousedown", (event) => {
+			this.setControlling();
+		});
+
+		Syllabary.syllabaryDisplay.control.addEventListener("rotate", (event) => {
+			Syllabary.grid.xPosition += event.detail;
+			this.renderGrid();
+		});
+
+		Syllabary.syllabaryDisplay.control.addEventListener("mouseup", (event) => {
+			console.log(event);
+		});
 	}
 
 	/**
@@ -47,7 +61,7 @@ export default class RunController {
 		});
 
 		touchListener.on('pinchout', (ev) => {
-			if (this.isReading()) {
+			if (this.isReading() || this.isControlling()) {
 				return;
 			}
 			this.setDragging();
@@ -62,7 +76,7 @@ export default class RunController {
 		});
 
 		touchListener.on('pan', (ev) => {
-			if (this.isReading()) {
+			if (this.isReading() || this.isControlling()) {
 				return;
 			}
 			this.setDragging();
