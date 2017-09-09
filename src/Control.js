@@ -47,8 +47,27 @@ export default class Control {
 
 		window.onmousemove = (e) => {
 			if (that.currentlyMovingCircle) {
+				let dimension;
 				let angle = that.getAngle(e.screenX, e.screenY);
-				that.dispatchEvent(new CustomEvent('rotate', {detail: angle - that.angle}));
+				let angleChange = that.angle - angle;
+				let change;
+
+				switch (that.currentlyMovingCircle) {
+					case "outer":
+						dimension = "x";
+						change = (angleChange * Syllabary.xDim / 360);
+						break;
+					case "middle":
+						dimension = "y";
+						change = (angleChange * Syllabary.yDim / 360);
+						break;
+					case "inner":
+						dimension = "z";
+						change = (angleChange * Syllabary.zDim / 360);
+						break;
+				}
+
+				that.dispatchEvent(new CustomEvent('rotate', {detail: {change: change, dimension: dimension}}));
 				that.angle = angle;
 			}
 		}

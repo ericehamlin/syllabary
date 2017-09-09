@@ -30,7 +30,8 @@ export default class RunController {
 		});
 
 		Syllabary.syllabaryDisplay.control.addEventListener("rotate", (event) => {
-			Syllabary.grid.xPosition += event.detail;
+
+			Syllabary.grid[event.detail.dimension + "Position"] += event.detail.change;
 			this.renderGrid();
 		});
 
