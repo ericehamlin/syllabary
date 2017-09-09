@@ -24,7 +24,8 @@ export default class Poem {
 					else {
 						resolve(false);
 					}
-				});
+				})
+				.catch((e) => {});
 			}
 			else {
 				if (this.text) {
