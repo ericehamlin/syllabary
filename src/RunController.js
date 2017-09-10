@@ -36,7 +36,7 @@ export default class RunController {
 		});
 
 		Syllabary.syllabaryDisplay.control.addEventListener("mouseup", (event) => {
-			console.log(event);
+			this.setMagnetizing();
 		});
 	}
 

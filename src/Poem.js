@@ -25,7 +25,9 @@ export default class Poem {
 						resolve(false);
 					}
 				})
-				.catch((e) => {});
+				.catch((e) => {
+					resolve(false);
+				});
 			}
 			else {
 				if (this.text) {

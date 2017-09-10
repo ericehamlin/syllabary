@@ -33,6 +33,8 @@ export default class PoemDisplay {
 	}
 
 	hide() {
-		this.display.parentNode.removeChild(this.display);
+		if (this.display.parentNode) {
+			this.display.parentNode.removeChild(this.display);
+		}
 	}
 }
