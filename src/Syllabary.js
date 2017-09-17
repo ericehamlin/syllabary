@@ -1,10 +1,12 @@
 'use strict';
 
+import Config from './Config.js';
 import Grid from './Grid.js';
 import GlyphLoader from './GlyphLoader.js';
 import LoadingDisplay from './display/LoadingDisplay.js';
 import SyllabaryDisplay from './display/SyllabaryDisplay.js';
 import RunController from './RunController.js';
+import WebAudioAPISound from './WebAudioAPISound.js';
 
 export default class Syllabary {
 
@@ -47,7 +49,7 @@ export default class Syllabary {
 		this.loadingDisplay.add();
 
 		let glyphLoader = new GlyphLoader();
-
+		let sound = new WebAudioAPISound(Config.baseUrl + "audio/1-1-1.mp3");
 		// LoadingScreen
 		// check loading until complete
 		let loadingPercentComplete = 0;
@@ -56,13 +58,20 @@ export default class Syllabary {
 			that.loadingDisplay.render(loadingPercentComplete);
 
 			if (loadingPercentComplete >= 100) {
-				that.loadingDisplay.remove();
-				Syllabary.syllabaryDisplay.initialize();
-				Syllabary.syllabaryDisplay.render();
-				Syllabary.syllabaryDisplay.add();
+				let button = that.loadingDisplay.addButton();
+				button.addEventListener("click", function() {
 
-				console.info("Running Syllabary");
-				that.run();
+
+					sound.play();
+
+					that.loadingDisplay.remove();
+					Syllabary.syllabaryDisplay.initialize();
+					Syllabary.syllabaryDisplay.render();
+					Syllabary.syllabaryDisplay.add();
+
+					console.info("Running Syllabary");
+					that.run();
+				});
 
 				return;
 			}
@@ -102,3 +111,6 @@ export default class Syllabary {
 		return position - (Math.floor(position/dim) * dim) + 1;
 	}
 }
+
+
+
