@@ -27,6 +27,10 @@ export default class Control {
 		this.svg.appendChild(this.middleCircleGroup);
 		this.svg.appendChild(this.innerCircleGroup);
 
+		this.container = document.createElement("div");
+		this.container.setAttribute("class", "control-container");
+		this.container.appendChild(this.svg);
+
 		this.currentlyMovingCircle = null;
 
 		let that = this;

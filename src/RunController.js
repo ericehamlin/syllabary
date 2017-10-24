@@ -276,12 +276,15 @@ export default class RunController {
 	 *
 	 */
 	read() {
+		let self = this;
 		let syllable = this.getCurrentSyllable();
 		let promise = syllable.play();
 		promise.then(() => {
-			Syllabary.syllabaryDisplay.poemDisplay.hide()
-			this.setRandomAnimateDirection();
-			this.setAnimating();
+			Syllabary.syllabaryDisplay.poemDisplay.hide().then(() => {
+				self.setRandomAnimateDirection();
+				self.setAnimating();
+			});
+
 		});
 
 	}

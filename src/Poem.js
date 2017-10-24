@@ -18,8 +18,9 @@ export default class Poem {
 					if (this.text) {
 						Syllabary.syllabaryDisplay.poemDisplay.setText(this.text);
 						Syllabary.syllabaryDisplay.poemDisplay.setTitle(this.title);
-						Syllabary.syllabaryDisplay.poemDisplay.show();
-						resolve(true);
+
+						Syllabary.syllabaryDisplay.poemDisplay.show().then(()=> { resolve(true); });
+
 					}
 					else {
 						resolve(false);
@@ -33,8 +34,7 @@ export default class Poem {
 				if (this.text) {
 					Syllabary.syllabaryDisplay.poemDisplay.setText(this.text);
 					Syllabary.syllabaryDisplay.poemDisplay.setTitle(this.title);
-					Syllabary.syllabaryDisplay.poemDisplay.show();
-					resolve(true);
+					Syllabary.syllabaryDisplay.poemDisplay.show().then(() => { resolve(true); });
 				}
 				else {
 					resolve(false);
@@ -65,7 +65,7 @@ export default class Poem {
 
 
 			this.title = getElementText("title");
-			this.text = getElementText("text");
+			this.text = getElementText("text").replace("\n", "<br\>");
 			this.isLoaded = true;
 		})
 		.catch((e) => {

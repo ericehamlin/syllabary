@@ -14,7 +14,7 @@ export default class SyllabaryDisplay {
 
 		this.control = new Control();
 		this.poemDisplay = new PoemDisplay();
-		this.display.appendChild(this.control.svg);
+		this.display.appendChild(this.control.container);
 		this.insert(this.gridDisplay);
 
 	}

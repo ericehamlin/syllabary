@@ -14,8 +14,11 @@ export default class PoemDisplay {
 
 		this.display.appendChild(this.title);
 		this.display.appendChild(this.text);
-		this.display.style.zIndex = (Syllabary.zDim * 2) + 1;
 
+		this.container = document.createElement("div");
+		this.container.setAttribute("class", "poem-container");
+
+		this.container.appendChild(this.display);
 	}
 
 	setTitle(title) {
@@ -28,13 +31,48 @@ export default class PoemDisplay {
 	}
 
 	show() {
+		let self = this;
 		let container = document.getElementsByClassName('syllabary-display')[0];
-		container.appendChild(this.display);
+		this.container.style.opacity = 0;
+		console.log("TENACITY", self.container.style.opacity);
+		container.appendChild(this.container);
+		window.addEventListener("resize", self.resize);
+		return new Promise((resolve, reject) => {
+			function fadeIn() {
+				self.container.style.opacity = parseFloat(self.container.style.opacity) + 0.02;
+				if (parseFloat(self.container.style.opacity) < 0.8) {
+					setTimeout(()=>{ fadeIn(); }, 10);
+				}
+				else {
+					resolve(true);
+				}
+			}
+			fadeIn();
+		});
 	}
 
 	hide() {
-		if (this.display.parentNode) {
-			this.display.parentNode.removeChild(this.display);
-		}
+		let self = this;
+		window.removeEventListener("resize", self.resize);
+		return new Promise((resolve, reject) => {
+			function fadeOut() {
+				self.container.style.opacity = parseFloat(self.container.style.opacity) - 0.02;
+				if (parseFloat(self.container.style.opacity) > 0) {
+					setTimeout(()=>{ fadeOut(); }, 10);
+
+				}
+				else {
+					if (self.container.parentNode) {
+						self.container.parentNode.removeChild(self.container);
+					}
+					resolve(true);
+				}
+			}
+			fadeOut();
+		});
+	}
+
+	resize() {
+		console.log("Resizing Poem");
 	}
 }
