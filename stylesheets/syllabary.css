@@ -22,14 +22,6 @@ html {
     overflow: hidden;
 }
 
-.control-container {
-    position: absolute;
-    z-index: 1000;
-}
-.control-display {
-    position: relative;
-}
-
 #syllabary-container,
 .syllabary-display,
 .grid-display,
@@ -75,22 +67,29 @@ html {
     font-size: 1.7em;
 }
 
-@media screen and (max-width: 750px) {
+
+/* Control */
+
+.control-container {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+}
+.control-display {
+    position: relative;
+    width: 20vmax;
+    height: 20vmax;
+}
+
+@media screen and (max-width: 1000px) and (orientation: portrait) {
     .control-container {
-        bottom: -100px;
-        width: 100%;
+        bottom: -20vmax;
         text-align: center;
     }
 
     .control-display {
         margin: 0 auto;
+        width: 40vmax;
+        height: 40vmax;
     }
 }
-
-/*@media screen and (max-width: 750px) and (orientation: landscape) {*/
-    /*.control-display {*/
-        /*left: 300px;*/
-        /*bottom: 200px;*/
-        /*top: auto;*/
-    /*}*/
-/*}*/

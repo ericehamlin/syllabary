@@ -8,7 +8,7 @@ export default class Control {
 		this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.svg.setAttribute("class", "control-display");
 		this.svg.setAttribute("viewBox", "-100, -100, 200, 200");
-		this.svg.setAttribute("width", "200");
+		// this.svg.setAttribute("width", "200");
 
 		let r1 = 100,
 			r2 = r1/1.33,

@@ -18,7 +18,7 @@ export default class GlyphLoader {
 		for (let x=1; x <= Syllabary.xDim; x++) {
 			for (let y=1; y <= Syllabary.yDim; y++) {
 				for (let z=1; z <= Syllabary.zDim; z++) {
-					let url = Config.baseUrl + "glyphs/" + x + "-" + y + "-" + z + ".svg";
+					let url = Config.baseUrl + "svg/" + x + "-" + y + "-" + z + ".svg";
 					let promise = FileLoader.load(url);
 					promise.then((data) => {
 						Syllabary.grid.syllables[x][y][z].setGlyphData(data);
