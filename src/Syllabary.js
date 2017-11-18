@@ -12,7 +12,8 @@ export default class Syllabary {
 
 	constructor({ containerId,
 		xDim = 20, yDim = 10, zDim = 18,
-		xPosition = null, yPosition = null, zPosition = null }) {
+		xPosition = null, yPosition = null, zPosition = null,
+		color1 = "000000", color2 = "ffffff", color3 = "aa0000"}) {
 
 		Syllabary.containerId = containerId;
 
@@ -31,6 +32,10 @@ export default class Syllabary {
 
 		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
+
+		Syllabary.color1 = color1;
+		Syllabary.color2 = color2;
+		Syllabary.color3 = color3;
 
 		this.initialize();
 	}

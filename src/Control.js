@@ -5,23 +5,22 @@ import Syllabary from './Syllabary';
 export default class Control {
 
 	constructor() {
+		let r1 = 150,
+			r2 = r1/1.3,
+			r3 = r1/1.7;
+
 		this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.svg.setAttribute("class", "control-display");
-		this.svg.setAttribute("viewBox", "-100, -100, 200, 200");
-		// this.svg.setAttribute("width", "200");
-
-		let r1 = 100,
-			r2 = r1/1.33,
-			r3 = r1/2;
+		this.svg.setAttribute("viewBox", `${-r1}, ${-r1}, ${r1*2}, ${r1*2}`);
 
 
 		this.listeners = [];
 
-		this.outerCircleGroup = this.createCircle(r1, "#dddddd", (r1 + r2)/2, Syllabary.xDim, Syllabary.phonemes.x);
+		this.outerCircleGroup = this.createCircle(r1, "#dddddd", (((r1 + r2)/2) - 10), Syllabary.xDim, Syllabary.phonemes.x);
 
-		this.middleCircleGroup = this.createCircle(r2, "#bbbbbb", (r2 + r3)/2, Syllabary.yDim, Syllabary.phonemes.y);
+		this.middleCircleGroup = this.createCircle(r2, "#bbbbbb", (((r2 + r3)/2) - 10), Syllabary.yDim, Syllabary.phonemes.y);
 
-		this.innerCircleGroup = this.createCircle(r3, "#999999", r3, Syllabary.zDim, Syllabary.phonemes.z);
+		this.innerCircleGroup = this.createCircle(r3, "#999999", (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
 
 		this.svg.appendChild(this.outerCircleGroup);
 		this.svg.appendChild(this.middleCircleGroup);
@@ -131,7 +130,7 @@ export default class Control {
 			let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
 			text.setAttribute("x", 0);
 			text.setAttribute("y", 0);
-			text.setAttribute("fill", "#000000");
+			text.setAttribute("fill", `#${Syllabary.color1}`);
 			text.setAttribute("transform",  "rotate("+  ((i-1)*degreesIncrease)  +") translate(0, "+(-r)+")" );
 			let actualText = document.createTextNode(phonemes[i]);
 			text.appendChild(actualText);
