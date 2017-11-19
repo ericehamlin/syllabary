@@ -22,9 +22,31 @@ export default class Control {
 
 		this.innerCircleGroup = this.createCircle(r3, "#999999", (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
 
+
+		// Create Indicator
+
+		let defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+		let clipPath = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
+		clipPath.setAttribute("id", "indicator-clip-path");
+		let circleClipPath = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+		circleClipPath.setAttribute("cx", "0");
+		circleClipPath.setAttribute("cy", "0");
+		circleClipPath.setAttribute("r", r1);
+		clipPath.appendChild(circleClipPath);
+		defs.appendChild(clipPath);
+		this.svg.appendChild(defs);
+
+		let indicator = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+		indicator.setAttribute("points", "0,0, -30,-200, 30,-200, 0,0"); // TODO
+		indicator.setAttribute("style", "fill: " + Syllabary.color3 + "; mix-blend-mode:  overlay;");
+		indicator.setAttribute("clip-path", "url(#indicator-clip-path)");
+
+
 		this.svg.appendChild(this.outerCircleGroup);
 		this.svg.appendChild(this.middleCircleGroup);
 		this.svg.appendChild(this.innerCircleGroup);
+		this.svg.appendChild(indicator);
+
 
 		this.container = document.createElement("div");
 		this.container.setAttribute("class", "control-container");
@@ -130,7 +152,7 @@ export default class Control {
 			let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
 			text.setAttribute("x", 0);
 			text.setAttribute("y", 0);
-			text.setAttribute("fill", `#${Syllabary.color1}`);
+			text.setAttribute("fill", Syllabary.color1);
 			text.setAttribute("transform",  "rotate("+  ((i-1)*degreesIncrease)  +") translate(0, "+(-r)+")" );
 			let actualText = document.createTextNode(phonemes[i]);
 			text.appendChild(actualText);

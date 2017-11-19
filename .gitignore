@@ -1,3 +1,8 @@
 /node_modules
 *.iml
 /.idea
+/svg
+/poems
+/audio
+/data
+/dist
