@@ -1,5 +1,7 @@
 'use strict';
 
+import Syllabary from './Syllabary';
+
 export default class Glyph {
 
 	constructor(x, y, z) {
@@ -21,6 +23,7 @@ export default class Glyph {
 		let glyph = document.createElementNS("http://www.w3.org/2000/svg", "g");
 		glyph.setAttribute("id", id);
 		glyph.innerHTML = innerHTML;
+		glyph.children[0].style.fill = Syllabary.color1;
 
 		this.glyph = glyph;
 

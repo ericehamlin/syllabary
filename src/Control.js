@@ -16,11 +16,37 @@ export default class Control {
 
 		this.listeners = [];
 
-		this.outerCircleGroup = this.createCircle(r1, "#dddddd", (((r1 + r2)/2) - 10), Syllabary.xDim, Syllabary.phonemes.x);
+		function hexToRgb(hex) {
+			// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+			var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+			hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+				return r + r + g + g + b + b;
+			});
 
-		this.middleCircleGroup = this.createCircle(r2, "#bbbbbb", (((r2 + r3)/2) - 10), Syllabary.yDim, Syllabary.phonemes.y);
+			var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+			return result ? {
+				r: parseInt(result[1], 16),
+				g: parseInt(result[2], 16),
+				b: parseInt(result[3], 16)
+			} : null;
+		}
 
-		this.innerCircleGroup = this.createCircle(r3, "#999999", (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
+		function blendHexColors(firstHexColor, secondHexColor, percent) {
+			let firstHexColorRgb = hexToRgb(firstHexColor);
+			let secondHexColorRgb = hexToRgb(secondHexColor);
+
+			let rDiff = (firstHexColorRgb.r - secondHexColorRgb.r) * percent;
+			let gDiff = (firstHexColorRgb.g - secondHexColorRgb.g) * percent;
+			let bDiff = (firstHexColorRgb.b - secondHexColorRgb.b) * percent;
+
+			return `rgb(${firstHexColorRgb.r - rDiff}, ${firstHexColorRgb.g - gDiff}, ${firstHexColorRgb.b - bDiff}`;
+		}
+
+		this.outerCircleGroup = this.createCircle(r1, blendHexColors(Syllabary.color2, Syllabary.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.xDim, Syllabary.phonemes.x);
+
+		this.middleCircleGroup = this.createCircle(r2, blendHexColors(Syllabary.color2, Syllabary.color1, 0.5), (((r2 + r3)/2) - 10), Syllabary.yDim, Syllabary.phonemes.y);
+
+		this.innerCircleGroup = this.createCircle(r3, blendHexColors(Syllabary.color2, Syllabary.color1, 0.8), (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
 
 
 		// Create Indicator

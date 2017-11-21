@@ -34,7 +34,6 @@ export default class PoemDisplay {
 		let self = this;
 		let container = document.getElementsByClassName('syllabary-display')[0];
 		this.container.style.opacity = 0;
-		console.log("TENACITY", self.container.style.opacity);
 		container.appendChild(this.container);
 		window.addEventListener("resize", self.resize);
 		return new Promise((resolve, reject) => {
