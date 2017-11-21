@@ -1,6 +1,7 @@
 'use strict';
 
 import Syllabary from './Syllabary';
+import Utils from './Utils.js';
 
 export default class Control {
 
@@ -12,32 +13,16 @@ export default class Control {
 		this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.svg.setAttribute("class", "control-display");
 		this.svg.setAttribute("viewBox", `${-r1}, ${-r1}, ${r1*2}, ${r1*2}`);
-
-
+		
 		this.listeners = [];
 
-		function hexToRgb(hex) {
-			// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-			var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-			hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-				return r + r + g + g + b + b;
-			});
-
-			var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-			return result ? {
-				r: parseInt(result[1], 16),
-				g: parseInt(result[2], 16),
-				b: parseInt(result[3], 16)
-			} : null;
-		}
-
 		function blendHexColors(firstHexColor, secondHexColor, percent) {
-			let firstHexColorRgb = hexToRgb(firstHexColor);
-			let secondHexColorRgb = hexToRgb(secondHexColor);
+			let firstHexColorRgb = Utils.hexToRgb(firstHexColor);
+			let secondHexColorRgb = Utils.hexToRgb(secondHexColor);
 
-			let rDiff = (firstHexColorRgb.r - secondHexColorRgb.r) * percent;
-			let gDiff = (firstHexColorRgb.g - secondHexColorRgb.g) * percent;
-			let bDiff = (firstHexColorRgb.b - secondHexColorRgb.b) * percent;
+			let rDiff = Math.round((firstHexColorRgb.r - secondHexColorRgb.r) * percent);
+			let gDiff = Math.round((firstHexColorRgb.g - secondHexColorRgb.g) * percent);
+			let bDiff = Math.round((firstHexColorRgb.b - secondHexColorRgb.b) * percent);
 
 			return `rgb(${firstHexColorRgb.r - rDiff}, ${firstHexColorRgb.g - gDiff}, ${firstHexColorRgb.b - bDiff}`;
 		}
