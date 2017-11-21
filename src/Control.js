@@ -6,6 +6,7 @@ import Utils from './Utils.js';
 export default class Control {
 
 	constructor() {
+		/* TODO base these on font size */
 		let r1 = 150,
 			r2 = r1/1.3,
 			r3 = r1/1.7;
@@ -13,10 +14,10 @@ export default class Control {
 		this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 		this.svg.setAttribute("class", "control-display");
 		this.svg.setAttribute("viewBox", `${-r1}, ${-r1}, ${r1*2}, ${r1*2}`);
-		
+
 		this.listeners = [];
 
-		function blendHexColors(firstHexColor, secondHexColor, percent) {
+		function blendHexColors(firstHexColor, secondHexColor, percent/* TODO not a good name*/) {
 			let firstHexColorRgb = Utils.hexToRgb(firstHexColor);
 			let secondHexColorRgb = Utils.hexToRgb(secondHexColor);
 
