@@ -94,15 +94,15 @@ export default class Control {
 				switch (that.currentlyMovingCircle) {
 					case "outer":
 						dimension = "x";
-						change = (angleChange * Syllabary.xDim / 360);
+						change = -(angleChange * Syllabary.xDim / 360);
 						break;
 					case "middle":
 						dimension = "y";
-						change = (angleChange * Syllabary.yDim / 360);
+						change = -(angleChange * Syllabary.yDim / 360);
 						break;
 					case "inner":
 						dimension = "z";
-						change = (angleChange * Syllabary.zDim / 360);
+						change = -(angleChange * Syllabary.zDim / 360);
 						break;
 				}
 
@@ -181,9 +181,9 @@ export default class Control {
 		let y = Syllabary.getCurrentLocation(Syllabary.grid.yPosition, Syllabary.yDim);
 		let z = Syllabary.getCurrentLocation(Syllabary.grid.zPosition, Syllabary.zDim);
 
-		let xDeg = (360 * x) / Syllabary.xDim;
-		let yDeg = (360 * y) / Syllabary.yDim;
-		let zDeg = (360 * z) / Syllabary.zDim;
+		let xDeg = -(360 * (x-1)) / Syllabary.xDim;
+		let yDeg = -(360 * (y-1)) / Syllabary.yDim;
+		let zDeg = -(360 * (z-1)) / Syllabary.zDim;
 
 		this.outerCircleGroup.setAttribute("transform", "rotate(" + xDeg + ")");
 		this.middleCircleGroup.setAttribute("transform", "rotate(" + yDeg + ")");
