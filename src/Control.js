@@ -159,11 +159,12 @@ export default class Control {
 	 * @param phonemes
 	 */
 	placePhonemes(group, r, dim, phonemes) {
-		let degreesIncrease = 360/(dim-1);
+		let degreesIncrease = 360/(dim);
 		for(let i=1; i<=dim; i++) {
 			let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
 			text.setAttribute("x", 0);
 			text.setAttribute("y", 0);
+			text.setAttribute("text-anchor", "middle");
 			text.setAttribute("fill", Syllabary.color1);
 			text.setAttribute("transform",  "rotate("+  ((i-1)*degreesIncrease)  +") translate(0, "+(-r)+")" );
 			let actualText = document.createTextNode(phonemes[i]);
