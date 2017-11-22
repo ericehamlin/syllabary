@@ -51,7 +51,7 @@ export default class Control {
 
 		this.info = document.createElement("div");
 		this.info.setAttribute("class", "control-info");
-		this.info.innerHTML = "HI GUYS";
+		this.info.innerHTML = "the Syllabary";
 
 		this.container = document.createElement("div");
 		this.container.setAttribute("class", "control-container");

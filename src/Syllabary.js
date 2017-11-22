@@ -25,11 +25,11 @@ export default class Syllabary {
 		/** A phoneme (from the Greek:  phonema, "a sound uttered") is the smallest linguistically distinctive unit of sound. */
 		Syllabary.phonemes = {};
 		/** initial consonants */
-		Syllabary.phonemes.x = [null, ' ', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'S', 'Tj', 'Sh', 'R', 'Y', 'G', 'K', 'H', 'W', 'L'];
+		Syllabary.phonemes.x = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'S', 'Tj', 'Sh', 'R', 'Y', 'G', 'K', 'H', 'W', 'L'];
 		/** vowels */
 		Syllabary.phonemes.y = [null, "U", "O", "o", "u", "a", "i", "e", "A", "E", "I"];
 		/** final consonants */
-		Syllabary.phonemes.z = [null, ' ', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
+		Syllabary.phonemes.z = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
 
 		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
@@ -40,8 +40,8 @@ export default class Syllabary {
 
 		let color2Rgb = Utils.hexToRgb(color2);
 		let stylesheet = document.styleSheets[0];
-		stylesheet.insertRule(`html, body { color: ${color1}; background-color: ${color2};`);
-		stylesheet.insertRule(`.fade-layer { background-color: ${color2};`);
+		stylesheet.insertRule(`html, body { color: ${color1}; background-color: ${color2}; }`);
+		stylesheet.insertRule(`.fade-layer { background-color: ${color2}; }`);
 		stylesheet.insertRule(`.center-fade { background: radial-gradient(rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0.75) 20%, rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0)); }`)
 		stylesheet.insertRule(`.poem-container { background-color: rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b}, 0.8); }`);
 		stylesheet.insertRule(`.control-info { background-color: ${Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.2)}; }`);
