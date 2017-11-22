@@ -121,7 +121,7 @@ export default class RunController {
 				break;
 		}
 
-		setTimeout(() => {this.run(); }, 10);
+		requestAnimationFrame(() => {this.run(); });
 	}
 
 	/**
