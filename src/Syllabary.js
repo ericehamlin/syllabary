@@ -43,7 +43,8 @@ export default class Syllabary {
 		stylesheet.insertRule(`html, body { color: ${color1}; background-color: ${color2};`);
 		stylesheet.insertRule(`.fade-layer { background-color: ${color2};`);
 		stylesheet.insertRule(`.center-fade { background: radial-gradient(rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0.75) 20%, rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0)); }`)
-		stylesheet.insertRule(`.poem-container { background-color:rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b}, 0.8); }`)
+		stylesheet.insertRule(`.poem-container { background-color: rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b}, 0.8); }`);
+		stylesheet.insertRule(`.control-info { background-color: ${Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.2)}; }`);
 
 		this.initialize();
 	}

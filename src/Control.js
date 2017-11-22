@@ -17,22 +17,11 @@ export default class Control {
 
 		this.listeners = [];
 
-		function blendHexColors(firstHexColor, secondHexColor, percent/* TODO not a good name*/) {
-			let firstHexColorRgb = Utils.hexToRgb(firstHexColor);
-			let secondHexColorRgb = Utils.hexToRgb(secondHexColor);
+		this.outerCircleGroup = this.createCircle(r1, Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.xDim, Syllabary.phonemes.x);
 
-			let rDiff = Math.round((firstHexColorRgb.r - secondHexColorRgb.r) * percent);
-			let gDiff = Math.round((firstHexColorRgb.g - secondHexColorRgb.g) * percent);
-			let bDiff = Math.round((firstHexColorRgb.b - secondHexColorRgb.b) * percent);
+		this.middleCircleGroup = this.createCircle(r2, Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.yDim, Syllabary.phonemes.y);
 
-			return `rgb(${firstHexColorRgb.r - rDiff}, ${firstHexColorRgb.g - gDiff}, ${firstHexColorRgb.b - bDiff}`;
-		}
-
-		this.outerCircleGroup = this.createCircle(r1, blendHexColors(Syllabary.color2, Syllabary.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.xDim, Syllabary.phonemes.x);
-
-		this.middleCircleGroup = this.createCircle(r2, blendHexColors(Syllabary.color2, Syllabary.color1, 0.5), (((r2 + r3)/2) - 10), Syllabary.yDim, Syllabary.phonemes.y);
-
-		this.innerCircleGroup = this.createCircle(r3, blendHexColors(Syllabary.color2, Syllabary.color1, 0.8), (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
+		this.innerCircleGroup = this.createCircle(r3, Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.6), (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
 
 
 		// Create Indicator
@@ -60,9 +49,16 @@ export default class Control {
 		this.svg.appendChild(indicator);
 
 
+		this.info = document.createElement("div");
+		this.info.setAttribute("class", "control-info");
+		this.info.innerHTML = "HI GUYS";
+
 		this.container = document.createElement("div");
 		this.container.setAttribute("class", "control-container");
 		this.container.appendChild(this.svg);
+		this.container.appendChild(this.info);
+
+
 
 		this.currentlyMovingCircle = null;
 
