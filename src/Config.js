@@ -7,10 +7,11 @@ let Config = {
 	color2: "#ffffff",
 	color3: "#aa0000",
 
+	debug: false,
 
 	set: (conf) => {
 		for(let key in conf) {
-			if(Config[key]) {
+			if(Config.hasOwnProperty(key)) {
 				Config[key] = conf[key]
 			}
 		}

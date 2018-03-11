@@ -8,6 +8,7 @@ import LoadingDisplay from './display/LoadingDisplay.js';
 import SyllabaryDisplay from './display/SyllabaryDisplay.js';
 import RunController from './RunController.js';
 import WebAudioAPISound from './WebAudioAPISound.js';
+import DebugControls from './DebugControls.js';
 
 export default class Syllabary {
 
@@ -51,8 +52,10 @@ export default class Syllabary {
 		this.loadingDisplay = new LoadingDisplay();
 		Syllabary.syllabaryDisplay = new SyllabaryDisplay();
 		this.runController = new RunController(this);
+		if (Config.debug) { new DebugControls(this); }
 		this.load();
 	}
+
 
 	load() {
 		let that = this;

@@ -6,6 +6,7 @@ import * as Hammer from "hammerjs";
 
 export default class RunController {
 
+	
 	constructor(syllabary) {
 		this.runStates = {
 			"READ" : "read", 			// audio is currently playing
@@ -13,7 +14,8 @@ export default class RunController {
 			"CONTROL" : "control",		// user is controlling using provided control
 			"DRIFT" : "drift",			// user has released drag
 			"ANIMATE" : "animate",		// standard animation is advancing or drift has come to an end
-			"MAGNETIZE" : "magnetize"	// drifting has stopped and grid is moving toward closest syllable
+			"MAGNETIZE" : "magnetize",	// drifting has stopped and grid is moving toward closest syllable
+			"PAUSE" : "pause"
 		};
 
 		this.syllabary = syllabary;
@@ -39,6 +41,16 @@ export default class RunController {
 		Syllabary.syllabaryDisplay.control.addEventListener("mouseup", (event) => {
 			this.setMagnetizing();
 		});
+
+		/**
+		 * unfortunately need to put this here to bind `this`
+		 * if there's a better way, I'd like to know
+		 */
+		this.setPaused = () => {
+			console.debug("Starting Pause");
+			this.pausedRunState = this.runState;
+			this.runState = this.runStates.PAUSE;
+		}
 	}
 
 	/**
@@ -100,6 +112,9 @@ export default class RunController {
 	 */
 	run() {
 		switch(this.runState) {
+			case this.runStates.PAUSE :
+				break;
+
 			case this.runStates.READ :
 				break;
 
@@ -476,5 +491,13 @@ export default class RunController {
 	setControlling() {
 		console.debug("Starting Control");
 		this.runState = this.runStates.CONTROL;
+	}
+
+	/**
+	 *
+	 * @returns {boolean}
+	 */
+	isPaused() {
+		return this.runState === this.runStates.PAUSE;
 	}
 }

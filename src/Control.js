@@ -68,17 +68,17 @@ export default class Control {
 			that.currentlyMovingCircle = "outer";
 			that.angle = that.getAngle(e.screenX, e.screenY);
 			that.dispatchEvent(e);
-		}
+		};
 
 		this.middleCircleGroup.onmousedown = (e) => {
 			that.currentlyMovingCircle = "middle";
 			that.dispatchEvent(e);
-		}
+		};
 
 		this.innerCircleGroup.onmousedown = (e) => {
 			that.currentlyMovingCircle = "inner";
 			that.dispatchEvent(e);
-		}
+		};
 
 
 		window.onmousemove = (e) => {
@@ -106,7 +106,7 @@ export default class Control {
 				that.dispatchEvent(new CustomEvent('rotate', {detail: {change: change, dimension: dimension}}));
 				that.angle = angle;
 			}
-		}
+		};
 
 		window.onmouseup = (e) => {
 			that.currentlyMovingCircle = null;
