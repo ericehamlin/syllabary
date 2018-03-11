@@ -27,5 +27,9 @@ export default class Syllable {
 			});
 		});
 	}
+
+	pause() {
+		this.audio.pause();
+	}
 }
 

@@ -24,6 +24,10 @@ export default class SyllableAudio {
 		});
 	}
 
+	pause() {
+		this.data.stop();
+	}
+
 	load() {
 		this.data = new WebAudioAPISound(this.url);
 

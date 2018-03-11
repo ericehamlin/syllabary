@@ -50,6 +50,7 @@ export default class RunController {
 			console.debug("Starting Pause");
 			this.pausedRunState = this.runState;
 			this.runState = this.runStates.PAUSE;
+			this.readingSyllable.pause();
 		}
 	}
 
@@ -293,9 +294,10 @@ export default class RunController {
 	 */
 	read() {
 		let self = this;
-		let syllable = this.getCurrentSyllable();
-		let promise = syllable.play();
+		this.readingSyllable = this.getCurrentSyllable();
+		let promise = this.readingSyllable.play();
 		promise.then(() => {
+			this.readingSyllable = null;
 			Syllabary.syllabaryDisplay.poemDisplay.hide().then(() => {
 				self.setRandomAnimateDirection();
 				self.setAnimating();
