@@ -1,6 +1,7 @@
 'use strict';
 
 import Syllabary from './Syllabary';
+import Config from './Config.js';
 import Utils from './Utils.js';
 
 export default class Control {
@@ -17,11 +18,11 @@ export default class Control {
 
 		this.listeners = [];
 
-		this.outerCircleGroup = this.createCircle(r1, Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.xDim, Syllabary.phonemes.x);
+		this.outerCircleGroup = this.createCircle(r1, Utils.blendHexColors(Config.color2, Config.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.xDim, Syllabary.phonemes.x);
 
-		this.middleCircleGroup = this.createCircle(r2, Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.yDim, Syllabary.phonemes.y);
+		this.middleCircleGroup = this.createCircle(r2, Utils.blendHexColors(Config.color2, Config.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.yDim, Syllabary.phonemes.y);
 
-		this.innerCircleGroup = this.createCircle(r3, Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.6), (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
+		this.innerCircleGroup = this.createCircle(r3, Utils.blendHexColors(Config.color2, Config.color1, 0.6), (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
 
 
 		// Create Indicator
@@ -39,7 +40,7 @@ export default class Control {
 
 		let indicator = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
 		indicator.setAttribute("points", "0,0, -30,-200, 30,-200, 0,0"); // TODO
-		indicator.setAttribute("style", "fill: " + Syllabary.color3 + "; mix-blend-mode:  overlay;");
+		indicator.setAttribute("style", "fill: " + Config.color3 + "; mix-blend-mode:  overlay;");
 		indicator.setAttribute("clip-path", "url(#indicator-clip-path)");
 
 
@@ -161,7 +162,7 @@ export default class Control {
 			text.setAttribute("x", 0);
 			text.setAttribute("y", 0);
 			text.setAttribute("text-anchor", "middle");
-			text.setAttribute("fill", Syllabary.color1);
+			text.setAttribute("fill", Config.color1);
 			text.setAttribute("transform",  "rotate("+  ((i-1)*degreesIncrease)  +") translate(0, "+(-r)+")" );
 			let actualText = document.createTextNode(phonemes[i]);
 			text.appendChild(actualText);
@@ -173,9 +174,9 @@ export default class Control {
 	 *
 	 */
 	render() {
-		let x = Syllabary.getCurrentLocation(Syllabary.grid.xPosition, Syllabary.xDim);
-		let y = Syllabary.getCurrentLocation(Syllabary.grid.yPosition, Syllabary.yDim);
-		let z = Syllabary.getCurrentLocation(Syllabary.grid.zPosition, Syllabary.zDim);
+		let x = Syllabary.getX();
+		let y = Syllabary.getY();
+		let z = Syllabary.getZ();
 
 		let xDeg = (360 * (x-1)) / Syllabary.xDim;
 		let yDeg = (360 * (y-1)) / Syllabary.yDim;

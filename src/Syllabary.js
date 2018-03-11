@@ -11,10 +11,10 @@ import WebAudioAPISound from './WebAudioAPISound.js';
 
 export default class Syllabary {
 
-	constructor({ containerId,
-		xDim = 20, yDim = 10, zDim = 18,
-		xPosition = null, yPosition = null, zPosition = null,
-		color1 = "#000000", color2 = "#ffffff", color3 = "#aa0000"}) {
+	constructor(options) {
+		let { containerId, xDim = 20, yDim = 10, zDim = 18, xPosition = null, yPosition = null, zPosition = null} = options;
+
+		Config.set(options);
 
 		Syllabary.containerId = containerId;
 
@@ -34,17 +34,14 @@ export default class Syllabary {
 		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
 
-		Syllabary.color1 = color1;
-		Syllabary.color2 = color2;
-		Syllabary.color3 = color3;
 
-		let color2Rgb = Utils.hexToRgb(color2);
+		let color2Rgb = Utils.hexToRgb(Config.color2);
 		let stylesheet = document.styleSheets[0];
-		stylesheet.insertRule(`html, body { color: ${color1}; background-color: ${color2}; }`);
-		stylesheet.insertRule(`.fade-layer { background-color: ${color2}; }`);
+		stylesheet.insertRule(`html, body { color: ${Config.color1}; background-color: ${Config.color2}; }`);
+		stylesheet.insertRule(`.fade-layer { background-color: ${Config.color2}; }`);
 		stylesheet.insertRule(`.center-fade { background: radial-gradient(rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0.75) 20%, rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0)); }`)
 		stylesheet.insertRule(`.poem-container { background-color: rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b}, 0.8); }`);
-		stylesheet.insertRule(`.control-info { background-color: ${Utils.blendHexColors(Syllabary.color2, Syllabary.color1, 0.2)}; }`);
+		stylesheet.insertRule(`.control-info { background-color: ${Utils.blendHexColors(Config.color2, Config.color1, 0.2)}; }`);
 
 		this.initialize();
 	}
@@ -123,6 +120,21 @@ export default class Syllabary {
 	 */
 	static getCurrentLocation(position, dim) {
 		return position - (Math.floor(position/dim) * dim) + 1;
+	}
+
+	static getX({diff=0, actual=null} = {}) {
+		let x = actual || Syllabary.grid.xPosition + diff;
+		return Syllabary.getCurrentLocation(x, Syllabary.xDim);
+	}
+
+	static getY({diff=0, actual=null} = {}) {
+		let y = actual || Syllabary.grid.yPosition + diff;
+		return Syllabary.getCurrentLocation(y, Syllabary.yDim);
+	}
+
+	static getZ({diff=0, actual=null} = {}) {
+		let z = actual || Syllabary.grid.zPosition + diff;
+		return Syllabary.getCurrentLocation(z, Syllabary.zDim);
 	}
 }
 

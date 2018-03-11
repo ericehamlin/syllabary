@@ -1,6 +1,7 @@
 'use strict';
 
 import Syllabary from "./Syllabary.js";
+import NavQueue from "./NavQueue.js";
 import * as Hammer from "hammerjs";
 
 export default class RunController {
@@ -143,7 +144,7 @@ export default class RunController {
 			this.snapToNearestSyllable();
 
 			console.debug("Ending Animate");
-			this.runState = this.runStates.READ;
+			this.setReading();
 			this.read();
 		}
 	}
@@ -294,9 +295,9 @@ export default class RunController {
 	 * @returns {Syllable}
 	 */
 	getCurrentSyllable() {
-		let x = Syllabary.getCurrentLocation(Syllabary.grid.xPosition, Syllabary.xDim);
-		let y = Syllabary.getCurrentLocation(Syllabary.grid.yPosition, Syllabary.yDim);
-		let z = Syllabary.getCurrentLocation(Syllabary.grid.zPosition, Syllabary.zDim);
+		let x = Syllabary.getX();
+		let y = Syllabary.getY();
+		let z = Syllabary.getZ();
 
 		let syllable = Syllabary.grid.syllables[x][y][z];
 		return syllable;
@@ -314,34 +315,63 @@ export default class RunController {
 
 	/**
 	 * randomly assign new direction
-	 * TODO make sure we're not going backward
 	 */
 	setRandomAnimateDirection() {
+		let xInterval,
+			yInterval,
+			zInterval;
 
-		let direction = Math.floor(Math.random() * 6); // this calculation is incorrect. it will not be evenly distributed
-		let xInterval = 0,
-			yInterval = 0,
+		let allowedDirection = false;
+
+		while(!allowedDirection) {
+			let direction = Math.floor(Math.random() * 6); // this calculation is incorrect. it will not be evenly distributed
+
+			xInterval = 0;
+			yInterval = 0;
 			zInterval = 0;
-		switch(direction) {
-			case 0:
-				xInterval = this.animateInterval;
-				break;
-			case 1:
-				xInterval = -this.animateInterval;
-				break;
-			case 2:
-				yInterval = this.animateInterval;
-				break;
-			case 3:
-				yInterval = -this.animateInterval;
-				break;
-			case 4:
-				zInterval = this.animateInterval;
-				break;
-			case 5:
-			default:
-				zInterval = -this.animateInterval;
-				break;
+
+			let xDiff = 0,
+				yDiff = 0,
+				zDiff = 0;
+
+			switch (direction) {
+				case 0:
+					xDiff = 1;
+					xInterval = this.animateInterval;
+					break;
+				case 1:
+					xDiff = -1;
+					xInterval = -this.animateInterval;
+					break;
+				case 2:
+					yDiff = 1;
+					yInterval = this.animateInterval;
+					break;
+				case 3:
+					yDiff = -1;
+					yInterval = -this.animateInterval;
+					break;
+				case 4:
+					zDiff = 1;
+					zInterval = this.animateInterval;
+					break;
+				case 5:
+				default:
+					zDiff = -1;
+					zInterval = -this.animateInterval;
+					break;
+			}
+
+			let targetX = Syllabary.getX({diff: xDiff}),
+				targetY = Syllabary.getY({diff: yDiff}),
+				targetZ = Syllabary.getZ({diff: zDiff});
+
+			if (NavQueue.includes(targetX, targetY, targetZ)) {
+				console.log("Cannot return to " + targetX + "-" + targetY + "-" + targetZ);
+			} else {
+				allowedDirection = true;
+			}
+
 		}
 		this.setAnimateDirection(xInterval, yInterval, zInterval);
 	}
@@ -367,6 +397,7 @@ export default class RunController {
 	 */
 	setReading() {
 		console.debug("Starting Read");
+		NavQueue.add(Syllabary.getX(), Syllabary.getY(), Syllabary.getZ());
 		this.runState = this.runStates.READ;
 	}
 
