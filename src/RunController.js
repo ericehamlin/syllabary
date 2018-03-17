@@ -20,27 +20,13 @@ export default class RunController {
 
 		this.syllabary = syllabary;
 
-
 		this.animateInterval = 0.005;
 
 		this.setRandomAnimateDirection();
+
+		this.initializeEventListeners();
+
 		this.setAnimating();
-
-		this.initializeTouchListener();
-
-		Syllabary.syllabaryDisplay.control.addEventListener("mousedown", (event) => {
-			this.setControlling();
-		});
-
-		Syllabary.syllabaryDisplay.control.addEventListener("rotate", (event) => {
-
-			Syllabary.grid[event.detail.dimension + "Position"] += event.detail.change;
-			this.renderGrid();
-		});
-
-		Syllabary.syllabaryDisplay.control.addEventListener("mouseup", (event) => {
-			this.setMagnetizing();
-		});
 
 		/**
 		 * unfortunately need to put this here to bind `this`
@@ -76,20 +62,14 @@ export default class RunController {
 		}
 	}
 
-	/**
-	 *
-	 */
-	initializeTouchListener() {
+	initializeEventListeners() {
+
 		let container = document.getElementById(Syllabary.containerId);
 
-		let touchListener = new window.Hammer(container);
-		touchListener.get('pinch').set({ enable: true });
-		touchListener.get('swipe').set({ enable: true });
-
-		touchListener.on('pinchin', (ev) => {
-			if (this.isReading()) {
-				return;
-			}
+		this.touchListener = new window.Hammer(container);
+		this.touchListener.get('pinch').set({ enable: true });
+		this.touchListener.get('swipe').set({ enable: true });
+		this.touchListener.on('pinchin', (ev) => {
 			this.setDragging();
 			let zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
 			Syllabary.grid.zPosition += zAnimate;
@@ -97,10 +77,7 @@ export default class RunController {
 			this.renderGrid();
 		});
 
-		touchListener.on('pinchout', (ev) => {
-			if (this.isReading() || this.isControlling()) {
-				return;
-			}
+		this.touchListener.on('pinchout', (ev) => {
 			this.setDragging();
 			let zAnimate = -Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
 			Syllabary.grid.zPosition += zAnimate;
@@ -108,14 +85,11 @@ export default class RunController {
 			this.renderGrid();
 		});
 
-		touchListener.on('pinchend', (ev) => {
-				this.setDrifting();
+		this.touchListener.on('pinchend', (ev) => {
+			this.setDrifting();
 		});
 
-		touchListener.on('pan', (ev) => {
-			if (this.isReading() || this.isControlling()) {
-				return;
-			}
+		this.touchListener.on('pan', (ev) => {
 			this.setDragging();
 			let xAnimate = -ev.deltaX * this.animateInterval * 0.1;
 			let yAnimate = -ev.deltaY * this.animateInterval * 0.1;
@@ -125,9 +99,72 @@ export default class RunController {
 			this.renderGrid();
 		});
 
-		touchListener.on('panend', (ev) => {
+		this.touchListener.on('panend', (ev) => {
 			this.setDrifting();
 		});
+
+		this.controlMouseDown = (event) => {
+			this.setControlling();
+		};
+
+		this.controlRotate = (event) => {
+			Syllabary.grid[event.detail.dimension + "Position"] += event.detail.change;
+			this.renderGrid();
+		};
+
+		this.controlMouseUp = (event) => {
+			this.setMagnetizing();
+		};
+
+
+		Syllabary.syllabaryDisplay.control.addEventListener("mousedown", this.controlMouseDown);
+		Syllabary.syllabaryDisplay.control.addEventListener("rotate", this.controlRotate);
+		Syllabary.syllabaryDisplay.control.addEventListener("mouseup", this.controlMouseUp);
+
+		this.addEventListeners();
+	}
+
+	addEventListeners() {
+		this.addTouchEventListeners();
+		this.addControlEventListeners();
+	}
+
+	removeEventListeners() {
+		this.removeTouchEventListeners();
+		this.removeControlEventListeners();
+	}
+
+	addControlEventListeners() {
+		if (this.hasControlEventListeners) {
+			return false;
+		}
+		console.debug("Adding Control Event Listeners");
+		Syllabary.syllabaryDisplay.control.startEventListeners();
+		this.hasControlEventListeners = true;
+	}
+
+	removeControlEventListeners() {
+		console.debug("Removing Control Event Listeners");
+		Syllabary.syllabaryDisplay.control.pauseEventListeners();
+		this.hasControlEventListeners = false;
+	}
+
+	/**
+	 *
+	 */
+	addTouchEventListeners() {
+		if (this.hasTouchEventListeners) {
+			return false;
+		}
+		console.debug("Adding Touch Event Listeners");
+		this.touchListener.set({enable: true});
+		this.hasTouchEventListeners = true;
+	}
+
+	removeTouchEventListeners() {
+		console.debug("Removing Touch Event Listeners");
+		this.touchListener.set({enable: false});
+		this.hasTouchEventListeners = false;
 	}
 
 	/**
@@ -436,6 +473,7 @@ export default class RunController {
 	 */
 	setReading() {
 		console.debug("Starting Read");
+		this.removeEventListeners();
 		NavQueue.add(Syllabary.getX(), Syllabary.getY(), Syllabary.getZ());
 		this.runState = this.runStates.READ;
 	}
@@ -453,6 +491,7 @@ export default class RunController {
 	 */
 	setDragging() {
 		console.debug("Starting Drag");
+		this.removeControlEventListeners();
 		this.runState = this.runStates.DRAG;
 	}
 
@@ -469,6 +508,7 @@ export default class RunController {
 	 */
 	setDrifting() {
 		console.debug("Starting Drift");
+		this.addEventListeners();
 		this.runState = this.runStates.DRIFT;
 	}
 
@@ -485,6 +525,7 @@ export default class RunController {
 	 */
 	setAnimating() {
 		console.debug("Starting Animate");
+		this.addEventListeners();
 		this.runState = this.runStates.ANIMATE;
 	}
 
@@ -501,6 +542,7 @@ export default class RunController {
 	 */
 	setMagnetizing() {
 		console.debug("Starting Magnetize");
+		this.addEventListeners();
 		this.runState = this.runStates.MAGNETIZE;
 	}
 
@@ -514,6 +556,7 @@ export default class RunController {
 
 	setControlling() {
 		console.debug("Starting Control");
+		this.removeTouchEventListeners();
 		this.runState = this.runStates.CONTROL;
 	}
 

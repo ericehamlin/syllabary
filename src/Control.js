@@ -60,57 +60,12 @@ export default class Control {
 		this.container.appendChild(this.info);
 
 
-
 		this.currentlyMovingCircle = null;
 
 		let that = this;
-		this.outerCircleGroup.onmousedown = (e) => {
-			that.currentlyMovingCircle = "outer";
-			that.angle = that.getAngle(e.screenX, e.screenY);
-			that.dispatchEvent(e);
-		};
 
-		this.middleCircleGroup.onmousedown = (e) => {
-			that.currentlyMovingCircle = "middle";
-			that.dispatchEvent(e);
-		};
+		this.initializeEventListeners();
 
-		this.innerCircleGroup.onmousedown = (e) => {
-			that.currentlyMovingCircle = "inner";
-			that.dispatchEvent(e);
-		};
-
-
-		window.onmousemove = (e) => {
-			if (that.currentlyMovingCircle) {
-				let dimension;
-				let angle = that.getAngle(e.screenX, e.screenY);
-				let angleChange = that.angle - angle;
-				let change;
-
-				switch (that.currentlyMovingCircle) {
-					case "outer":
-						dimension = "x";
-						change = (angleChange * Syllabary.xDim / 360);
-						break;
-					case "middle":
-						dimension = "y";
-						change = (angleChange * Syllabary.yDim / 360);
-						break;
-					case "inner":
-						dimension = "z";
-						change = (angleChange * Syllabary.zDim / 360);
-						break;
-				}
-
-				that.dispatchEvent(new CustomEvent('rotate', {detail: {change: change, dimension: dimension}}));
-				that.angle = angle;
-			}
-		};
-
-		window.onmouseup = (e) => {
-			that.currentlyMovingCircle = null;
-		}
 	}
 
 	getAngle(x, y) {
@@ -192,6 +147,74 @@ export default class Control {
 		this.listeners.push({type:type, listener:listener});
 	}
 
+	initializeEventListeners() {
+		this.handleOuterCircleMouseDown = (e) => {
+			this.currentlyMovingCircle = "outer";
+			this.angle = this.getAngle(e.screenX, e.screenY);
+			this.dispatchEvent(e);
+		};
+
+		this.handleMiddleCircleMousedown = (e) => {
+			this.currentlyMovingCircle = "middle";
+			this.angle = this.getAngle(e.screenX, e.screenY);
+			this.dispatchEvent(e);
+		};
+
+		this.handleInnerCircleMousedown = (e) => {
+			this.currentlyMovingCircle = "inner";
+			this.angle = this.getAngle(e.screenX, e.screenY);
+			this.dispatchEvent(e);
+		};
+
+		this.handleWindowMouseMove = (e) => {
+			if (this.currentlyMovingCircle) {
+				let dimension;
+				let angle = this.getAngle(e.screenX, e.screenY);
+				let angleChange = this.angle - angle;
+				let change;
+
+				switch (this.currentlyMovingCircle) {
+					case "outer":
+						dimension = "x";
+						change = (angleChange * Syllabary.xDim / 360);
+						break;
+					case "middle":
+						dimension = "y";
+						change = (angleChange * Syllabary.yDim / 360);
+						break;
+					case "inner":
+						dimension = "z";
+						change = (angleChange * Syllabary.zDim / 360);
+						break;
+				}
+
+				this.dispatchEvent(new CustomEvent('rotate', {detail: {change: change, dimension: dimension}}));
+				this.angle = angle;
+			}
+		};
+
+		this.handleWindowMouseUp = (e) => {
+			this.currentlyMovingCircle = null;
+			this.dispatchEvent(e);
+		}
+	}
+
+	startEventListeners() {
+		this.outerCircleGroup.addEventListener('mousedown', this.handleOuterCircleMouseDown);
+		this.middleCircleGroup.addEventListener('mousedown', this.handleMiddleCircleMousedown);
+		this.innerCircleGroup.addEventListener('mousedown', this.handleInnerCircleMousedown);
+		window.addEventListener('mousemove', this.handleWindowMouseMove);
+		window.addEventListener('mouseup', this.handleWindowMouseUp);
+	}
+
+	pauseEventListeners() {
+		this.outerCircleGroup.removeEventListener('mousedown', this.handleOuterCircleMouseDown);
+		this.middleCircleGroup.removeEventListener('mousedown', this.handleMiddleCircleMousedown);
+		this.innerCircleGroup.removeEventListener('mousedown', this.handleInnerCircleMousedown);
+		window.removeEventListener('mousemove', this.handleWindowMouseMove);
+		window.removeEventListener('mouseup', this.handleWindowMouseUp);
+	}
+
 	dispatchEvent(event) {
 		for (let index in this.listeners) {
 			if (event.type == this.listeners[index].type) {
@@ -199,5 +222,4 @@ export default class Control {
 			}
 		}
 	}
-
 }
