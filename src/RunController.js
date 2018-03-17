@@ -47,10 +47,32 @@ export default class RunController {
 		 * if there's a better way, I'd like to know
 		 */
 		this.setPaused = () => {
-			console.debug("Starting Pause");
-			this.pausedRunState = this.runState;
-			this.runState = this.runStates.PAUSE;
-			this.readingSyllable.pause();
+			if (this.isPaused()) {
+				console.debug("Resuming...");
+				switch(this.pausedRunState){
+					case this.runStates.ANIMATE:
+						this.setAnimating();
+						break;
+					case this.runStates.CONTROL:
+					case this.runStates.DRAG:
+					case this.runStates.DRIFT:
+						this.setDrifting();
+						break;
+					case this.runStates.MAGNETIZE:
+						this.setMagnetizing();
+					case this.runStates.READ:
+						this.setReading();
+						break;
+				}
+				this.pausedRunState = null;
+				this.readingSyllable.resume();
+			}
+			else {
+				console.debug("Starting Pause");
+				this.pausedRunState = this.runState;
+				this.runState = this.runStates.PAUSE;
+				this.readingSyllable.pause();
+			}
 		}
 	}
 

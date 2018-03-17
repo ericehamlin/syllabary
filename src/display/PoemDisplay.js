@@ -9,11 +9,15 @@ export default class PoemDisplay {
 		this.title = document.createElement("div");
 		this.title.setAttribute("class", "poem-title");
 
+		this.textContainer = document.createElement("div");
+		this.textContainer.setAttribute("class", "poem-text-container");
+
 		this.text = document.createElement("div");
 		this.text.setAttribute("class", "poem-text");
 
+		this.textContainer.appendChild(this.text);
 		this.display.appendChild(this.title);
-		this.display.appendChild(this.text);
+		this.display.appendChild(this.textContainer);
 
 		this.container = document.createElement("div");
 		this.container.setAttribute("class", "poem-container");

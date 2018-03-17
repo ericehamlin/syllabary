@@ -25,7 +25,11 @@ export default class SyllableAudio {
 	}
 
 	pause() {
-		this.data.stop();
+		this.data.pause();
+	}
+
+	resume() {
+		this.data.resume();
 	}
 
 	load() {

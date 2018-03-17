@@ -52,14 +52,24 @@ html {
 }
 
 .poem-display {
-    position: relative;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 50px;
+    right: 0px;
     max-width: 700px;
     margin: 0 auto;
-    padding: 2em 2em 10em 2em;
+    padding: 2em 2em 2em 2em;
+    overflow: hidden;
+}
+
+.poem-text-container {
+    position: relative;
+    overflow: hidden;
 }
 
 .poem-text {
-    text-overflow: clip;
+
 }
 
 .poem-title {

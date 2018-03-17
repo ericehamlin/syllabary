@@ -55,6 +55,12 @@ WebAudioAPISoundManager.prototype = {
 					this.playingSounds[url][i].noteOff(0);
 			}
 		}
+	},
+	pause: function() {
+		this.context.suspend();
+	},
+	resume: function() {
+		this.context.resume();
 	}
 };
 
@@ -103,7 +109,12 @@ WebAudioAPISound.prototype = {
 			setTimeout(function(){ that.play(); }, 10);
 		}
 	},
-
+	pause: function() {
+		this.manager.pause();
+	},
+	resume: function() {
+		this.manager.resume();
+	},
 	stop: function () {
 		this.manager.stopSoundWithUrl(this.url);
 	},

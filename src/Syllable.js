@@ -31,5 +31,9 @@ export default class Syllable {
 	pause() {
 		this.audio.pause();
 	}
+
+	resume() {
+		this.audio.resume();
+	}
 }
 
