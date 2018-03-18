@@ -13,11 +13,8 @@ export default class Glyph {
 	}
 
 	setData(data) {
-
 		this.data = this.filterData(data);
 
-		let transformReg = /transform="([^"]*)"/i;
-		let transform = this.data.match(transformReg);
 		let innerHTML = this.data.replace(/<g[^>]*>|<\/g>/i, "");
 		let id = this.x + "-" + this.y + "-" + this.z;
 
