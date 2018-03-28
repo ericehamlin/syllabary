@@ -97,13 +97,13 @@ WebAudioAPISound.prototype = {
 			var source = this.makeSource(buffer);
 			source.loop = this.settings.loop;
 			source.start();
-			source.addEventListener('ended', ()=>{
+			source.addEventListener('ended', () => {
 				that.onEnd();
-		});
-
+			});
 			if(!this.manager.playingSounds.hasOwnProperty(this.url))
 				this.manager.playingSounds[this.url] = [];
 			this.manager.playingSounds[this.url].push(source);
+			this.startTime = new Date();
 		}
 		else {
 			setTimeout(function(){ that.play(); }, 10);
@@ -127,6 +127,21 @@ WebAudioAPISound.prototype = {
 	},
 	translateVolume: function(volume, inverse){
 		return inverse ? volume * 100 : volume / 100;
+	},
+	getBuffer: function() {
+		return this.manager.bufferList[this.url];
+	},
+	getDuration: function() {
+		return this.getBuffer().duration;
+	},
+	getCurrentTime() {
+		if (!this.startTime) { return 0; }
+		let currentTime = ((new Date()).getTime() - this.startTime.getTime()) / 1000;
+		console.log(currentTime);
+		return currentTime;
+	},
+	getPercentCompleted: function() {
+		return this.getBuffer() ? (this.getCurrentTime() / this.getDuration()) * 100 : 0;
 	},
 	makeSource: function (buffer) {
 		var source = this.manager.context.createBufferSource();

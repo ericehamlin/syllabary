@@ -39,7 +39,9 @@ export default class PoemDisplay {
 		let container = document.getElementsByClassName('syllabary-display')[0];
 		this.container.style.opacity = 0;
 		container.appendChild(this.container);
+
 		window.addEventListener("resize", self.resize);
+
 		return new Promise((resolve, reject) => {
 			function fadeIn() {
 				self.container.style.opacity = parseFloat(self.container.style.opacity) + 0.02;
@@ -75,7 +77,20 @@ export default class PoemDisplay {
 		});
 	}
 
+	// TODO: will this be helpful?
 	resize() {
 		console.log("Resizing Poem");
+	}
+
+	scroll() {
+
+	}
+
+	getTextHeight() {
+		return this.text.clientHeight;
+	}
+
+	getTextContainerHeight() {
+		return this.textContainer.clientHeight;
 	}
 }

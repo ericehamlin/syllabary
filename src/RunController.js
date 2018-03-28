@@ -176,6 +176,7 @@ export default class RunController {
 				break;
 
 			case this.runStates.READ :
+				this.scrollPoemText();
 				break;
 
 			case this.runStates.DRAG :
@@ -459,6 +460,13 @@ export default class RunController {
 		Syllabary.syllabaryDisplay.render();
 	}
 
+	scrollPoemText() {
+		let syllable = this.getCurrentSyllable();
+		if (syllable.audio.data) {
+			let percentCompleted = syllable.audio.data.getPercentCompleted();
+			console.log(percentCompleted);
+		}
+	}
 
 	/**
 	 *
