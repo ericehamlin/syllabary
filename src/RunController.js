@@ -462,10 +462,14 @@ export default class RunController {
 
 	scrollPoemText() {
 		let syllable = this.getCurrentSyllable();
-		if (syllable.audio.data) {
-			let percentCompleted = syllable.audio.data.getPercentCompleted();
-			console.log(percentCompleted);
-		}
+    if (!syllable.audio.data || !syllable.poem.isLoaded || !syllable.poem.title) {
+      return false;
+    }
+    let textHeight = this.syllabary.syllabaryDisplay.poemDisplay.getTextHeight();
+    let textContainerHeight = this.syllabary.syllabaryDisplay.poemDisplay.getTextContainerHeight();
+    let percentCompleted = syllable.audio.data.getPercentCompleted();
+    console.log(percentCompleted);
+
 	}
 
 	/**

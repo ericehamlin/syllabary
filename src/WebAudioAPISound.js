@@ -109,40 +109,52 @@ WebAudioAPISound.prototype = {
 			setTimeout(function(){ that.play(); }, 10);
 		}
 	},
+
 	pause: function() {
+	  this.pausedElapsedTime = this.getElapsedTime();
 		this.manager.pause();
 	},
+
 	resume: function() {
+	  this.startTime = new Date((new Date()).getTime() - (this.pausedElapsedTime * 1000));
 		this.manager.resume();
 	},
+
 	stop: function () {
 		this.manager.stopSoundWithUrl(this.url);
 	},
+
 	getVolume: function () {
 		return this.translateVolume(this.volume, true);
 	},
+
 	//Expect to receive in range 0-100
 	setVolume: function (volume) {
 		this.volume = this.translateVolume(volume);
 	},
+
 	translateVolume: function(volume, inverse){
 		return inverse ? volume * 100 : volume / 100;
 	},
+
 	getBuffer: function() {
 		return this.manager.bufferList[this.url];
 	},
+
 	getDuration: function() {
 		return this.getBuffer().duration;
 	},
-	getCurrentTime() {
+
+	getElapsedTime() {
 		if (!this.startTime) { return 0; }
-		let currentTime = ((new Date()).getTime() - this.startTime.getTime()) / 1000;
-		console.log(currentTime);
-		return currentTime;
+		let elapsedTime = ((new Date()).getTime() - this.startTime.getTime()) / 1000;
+		return elapsedTime;
 	},
+
 	getPercentCompleted: function() {
-		return this.getBuffer() ? (this.getCurrentTime() / this.getDuration()) * 100 : 0;
+		return this.getBuffer() ? (this.getElapsedTime() / this.getDuration()) * 100 : 0;
 	},
+
 	makeSource: function (buffer) {
 		var source = this.manager.context.createBufferSource();
 		var gainNode = this.manager.context.createGain();
