@@ -5,7 +5,11 @@
 <div id="syllabary-container"></div>
 <script src="dist/syllabary.js"></script>
 <script>
-    new Syllabary({containerId: 'syllabary-container', xPosition: 0, yPosition: 0, zPosition: 0});
-    //, color1: "#aaaaff", color2: "#003300"
+    var options = {containerId: 'syllabary-container'};
+    var params = new URLSearchParams(window.location.search).entries();
+    for(pair of params) {
+        options[pair[0]] = pair[1];
+    }
+    new Syllabary(options);
 </script>
 </body>
