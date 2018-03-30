@@ -64,12 +64,16 @@ html {
 }
 
 .poem-text-container {
-    position: relative;
+    position: absolute;
+    top: 100px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
     overflow: hidden;
 }
 
 .poem-text {
-
+    position: absolute;
 }
 
 .poem-title {

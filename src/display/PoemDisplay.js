@@ -40,7 +40,7 @@ export default class PoemDisplay {
 		this.container.style.opacity = 0;
 		container.appendChild(this.container);
 
-		window.addEventListener("resize", self.resize);
+    this.text.style.top = 0;
 
 		return new Promise((resolve, reject) => {
 			function fadeIn() {
@@ -77,20 +77,11 @@ export default class PoemDisplay {
 		});
 	}
 
-	// TODO: will this be helpful?
-	resize() {
-		console.log("Resizing Poem");
-	}
-
-	scroll() {
-
-	}
-
 	getTextHeight() {
-		return this.text.clientHeight;
+		return parseInt(window.getComputedStyle(this.text).height);
 	}
 
 	getTextContainerHeight() {
-		return this.textContainer.clientHeight;
+		return parseInt(window.getComputedStyle(this.textContainer).height);
 	}
 }

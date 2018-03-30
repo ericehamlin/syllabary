@@ -458,15 +458,47 @@ export default class RunController {
 		Syllabary.syllabaryDisplay.render();
 	}
 
+  /**
+   * WebAudioAPISound.js:145 Uncaught TypeError: Cannot read property 'duration' of undefined
+   at WebAudioAPISound.getDuration (WebAudioAPISound.js:145)
+   at RunController.scrollPoemText (RunController.js:468)
+   at RunController.run (RunController.js:177)
+   at RunController.js:199
+   * @returns {boolean}
+   */
 	scrollPoemText() {
-		let syllable = this.getCurrentSyllable();
+    console.log("scroll");
+		const syllable = this.getCurrentSyllable();
     if (!syllable.audio.data || !syllable.poem.isLoaded || !syllable.poem.title) {
       return false;
     }
-    let textHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextHeight();
-    let textContainerHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextContainerHeight();
-    let percentCompleted = syllable.audio.data.getPercentCompleted();
-    console.log(percentCompleted);
+    console.log("trollin")
+
+    const textHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextHeight(),
+      textContainerHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextContainerHeight(),
+      // audioDuration = syllable.audio.data.getDuration(),
+      audioElapsed = syllable.audio.data.getElapsedTime();
+
+    const topOffset = 0.5 * textContainerHeight,
+      bottomOffset = 0.1 * textContainerHeight;
+
+    // let textToAudioRatio = textHeight / audioDuration;
+
+    let percentNeedToScroll = syllable.audio.data.getPercentCompleted();
+    let totalScroll = textHeight - textContainerHeight;
+
+    if (totalScroll <= 0) {
+      return false;
+    }
+
+    let scroll = (totalScroll * percentNeedToScroll) / 100;
+    console.log(textHeight, textContainerHeight, scroll);
+    Syllabary.syllabaryDisplay.poemDisplay.text.style.top = -scroll;
+    // if (audioElapsed * textToAudioRatio > topOffset) {
+    //   console.log("scrolling");
+    // }
+
+    // console.log(audioDuration, audioPercentCompleted, textHeight, textContainerHeight);
 
 	}
 
