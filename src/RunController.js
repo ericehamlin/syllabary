@@ -7,7 +7,7 @@ import * as Hammer from "hammerjs";
 export default class RunController {
 
 	
-	constructor(syllabary) {
+	constructor() {
 		this.runStates = {
 			"READ" : "read", 			// audio is currently playing
 			"DRAG" : "drag",			// user is controlling using touch gesture
@@ -17,8 +17,6 @@ export default class RunController {
 			"MAGNETIZE" : "magnetize",	// drifting has stopped and grid is moving toward closest syllable
 			"PAUSE" : "pause"
 		};
-
-		this.syllabary = syllabary;
 
 		this.animateInterval = 0.005;
 
@@ -465,8 +463,8 @@ export default class RunController {
     if (!syllable.audio.data || !syllable.poem.isLoaded || !syllable.poem.title) {
       return false;
     }
-    let textHeight = this.syllabary.syllabaryDisplay.poemDisplay.getTextHeight();
-    let textContainerHeight = this.syllabary.syllabaryDisplay.poemDisplay.getTextContainerHeight();
+    let textHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextHeight();
+    let textContainerHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextContainerHeight();
     let percentCompleted = syllable.audio.data.getPercentCompleted();
     console.log(percentCompleted);
 

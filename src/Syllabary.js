@@ -10,9 +10,9 @@ import RunController from './RunController.js';
 import WebAudioAPISound from './WebAudioAPISound.js';
 import DebugControls from './DebugControls.js';
 
-export default class Syllabary {
+let Syllabary = {
 
-	constructor(options) {
+	start: (options) => {
 		let { containerId, xDim = 20, yDim = 10, zDim = 18, xPosition = null, yPosition = null, zPosition = null} = options;
 
 		Config.set(options);
@@ -44,23 +44,21 @@ export default class Syllabary {
 		stylesheet.insertRule(`.poem-container { background-color: rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b}, 0.8); }`);
 		stylesheet.insertRule(`.control-info { background-color: ${Utils.blendHexColors(Config.color2, Config.color1, 0.2)}; }`);
 
-		this.initialize();
-	}
+		Syllabary.initialize();
+	},
 
-	initialize() {
+	initialize: () => {
 		console.info("Initializing Syllabary");
-		this.loadingDisplay = new LoadingDisplay();
+		Syllabary.loadingDisplay = new LoadingDisplay();
 		Syllabary.syllabaryDisplay = new SyllabaryDisplay();
-		this.runController = new RunController(this);
-		if (Config.debug) { new DebugControls(this); }
-		this.load();
-	}
+		Syllabary.runController = new RunController();
+		if (Config.debug) { new DebugControls(); }
+		Syllabary.load();
+	},
 
 
-	load() {
-		let that = this;
-
-		this.loadingDisplay.add();
+	load: () => {
+		Syllabary.loadingDisplay.add();
 
 		let glyphLoader = new GlyphLoader();
 		let sound = new WebAudioAPISound(Config.baseUrl + "audio/1-1-1.mp3");
@@ -69,22 +67,22 @@ export default class Syllabary {
 		let loadingPercentComplete = 0;
 		function checkLoading() {
 			loadingPercentComplete = glyphLoader.getPercentLoaded();
-			that.loadingDisplay.render(loadingPercentComplete);
+			Syllabary.loadingDisplay.render(loadingPercentComplete);
 
 			if (loadingPercentComplete >= 100) {
-				let button = that.loadingDisplay.addButton();
+				let button = Syllabary.loadingDisplay.addButton();
 				button.addEventListener("click", function() {
 
 
 					sound.play();
 
-					that.loadingDisplay.remove();
+					Syllabary.loadingDisplay.remove();
 					Syllabary.syllabaryDisplay.initialize();
 					Syllabary.syllabaryDisplay.render();
 					Syllabary.syllabaryDisplay.add();
 
 					console.info("Running Syllabary");
-					that.run();
+					Syllabary.run();
 				});
 
 				return;
@@ -96,23 +94,23 @@ export default class Syllabary {
 
 		// when complete,
 
-	}
+	},
 
 
 	/**
 	 * TODO move all this stuff to a controller
 	 */
-	run() {
-		this.runController.run();
+	run: () => {
+		Syllabary.runController.run();
 
 		// continue regularly until some unforseen event takes place, in which case,
 		// this.complete()
 
-	}
+	},
 
-	complete() {
+	complete: () => {
 		console.info("Completing Syllabary");
-	}
+	},
 
 	/**
 	 * TODO not a good name
@@ -121,25 +119,27 @@ export default class Syllabary {
 	 * @param dim
 	 * @returns {number}
 	 */
-	static getCurrentLocation(position, dim) {
+	getCurrentLocation: (position, dim) => {
 		return position - (Math.floor(position/dim) * dim) + 1;
-	}
+	},
 
-	static getX({diff=0, actual=null} = {}) {
+	getX: ({diff=0, actual=null} = {}) => {
 		let x = actual || Syllabary.grid.xPosition + diff;
 		return Syllabary.getCurrentLocation(x, Syllabary.xDim);
-	}
+	},
 
-	static getY({diff=0, actual=null} = {}) {
+	getY: ({diff=0, actual=null} = {}) => {
 		let y = actual || Syllabary.grid.yPosition + diff;
 		return Syllabary.getCurrentLocation(y, Syllabary.yDim);
-	}
+	},
 
-	static getZ({diff=0, actual=null} = {}) {
+	getZ: ({diff=0, actual=null} = {}) => {
 		let z = actual || Syllabary.grid.zPosition + diff;
 		return Syllabary.getCurrentLocation(z, Syllabary.zDim);
 	}
-}
+};
+
+export default Syllabary;
 
 
 

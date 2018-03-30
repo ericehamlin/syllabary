@@ -3,7 +3,7 @@
 import Syllabary from "./Syllabary.js";
 
 export default class DebugControls {
-	constructor(syllabary) {
+	constructor() {
 		console.info("Initializing Debug Controls");
 
 		let debugControls = document.createElement("div");
@@ -11,7 +11,7 @@ export default class DebugControls {
 
 		let pauseButton = document.createElement("a");
 		pauseButton.textContent = "pause";
-		pauseButton.onclick = syllabary.runController.setPaused;
+		pauseButton.onclick = Syllabary.runController.setPaused;
 
 		debugControls.appendChild(pauseButton);
 
