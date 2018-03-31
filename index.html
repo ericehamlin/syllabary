@@ -6,8 +6,9 @@
 <script src="dist/syllabary.js"></script>
 <script>
     var options = {containerId: 'syllabary-container'};
-    var params = new URLSearchParams(window.location.search).entries();
-    for(pair of params) {
+    var params = window.location.search.replace('?', '').split('&');
+    for(param of params) {
+        var pair = param.split('=');
         options[pair[0]] = pair[1];
     }
     Syllabary.start(options);

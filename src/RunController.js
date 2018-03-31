@@ -467,12 +467,10 @@ export default class RunController {
    * @returns {boolean}
    */
 	scrollPoemText() {
-    console.log("scroll");
 		const syllable = this.getCurrentSyllable();
-    if (!syllable.audio.data || !syllable.poem.isLoaded || !syllable.poem.title) {
+    if (!syllable.audio.data || !syllable.poem.isLoaded || !syllable.poem.text) {
       return false;
     }
-    console.log("trollin")
 
     const textHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextHeight(),
       textContainerHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextContainerHeight(),
@@ -492,7 +490,6 @@ export default class RunController {
     }
 
     let scroll = (totalScroll * percentNeedToScroll) / 100;
-    console.log(textHeight, textContainerHeight, scroll);
     Syllabary.syllabaryDisplay.poemDisplay.text.style.top = -scroll;
     // if (audioElapsed * textToAudioRatio > topOffset) {
     //   console.log("scrolling");
