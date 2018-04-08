@@ -14,20 +14,22 @@ export default class GlyphLoader {
 	}
 
 	load() {
-		let that = this;
-		for (let x=1; x <= Syllabary.xDim; x++) {
-			for (let y=1; y <= Syllabary.yDim; y++) {
-				for (let z=1; z <= Syllabary.zDim; z++) {
-					let url = Config.baseUrl + "svg/" + x + "-" + y + "-" + z + ".svg";
-					let promise = FileLoader.load(url);
-					promise.then((data) => {
-						Syllabary.grid.syllables[x][y][z].setGlyphData(data);
-					})/*.catch((e) => {
-						console.log(e);
-					});*/
-				}
-			}
-		}
+	  for (let i=1; i <= Syllabary.xDim; i++) {
+	    for (let j=1; j <= Syllabary.yDim; j++) {
+        let url = Config.baseUrl + "coallatedSvg/" + i + "-" + j + ".svg";
+        let promise = FileLoader.load(url);
+        promise.then((data) => {
+          let svgs = data.match(/<svg[\s\S]+?\/svg>/gim);
+          svgs.forEach(svg => {
+            let match = svg.match(/id="(.+?)-(.+?)-(.+?)"/);
+            let x = match[1],
+                y = match[2],
+                z = match[3];
+            Syllabary.grid.syllables[x][y][z].setGlyphData(svg);
+          });
+        });
+      }
+    }
 	}
 
 	getNumLoaded() {
