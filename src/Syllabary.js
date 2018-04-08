@@ -61,7 +61,7 @@ let Syllabary = {
 		Syllabary.loadingDisplay.add();
 
 		let glyphLoader = new GlyphLoader();
-		let sound = new WebAudioAPISound(Config.baseUrl + "audio/1-1-1.mp3");
+		let sound = new WebAudioAPISound(Config.baseUrl + "audio/silence.mp3");
 		// LoadingScreen
 		// check loading until complete
 		let loadingPercentComplete = 0;
