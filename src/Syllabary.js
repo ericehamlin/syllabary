@@ -4,8 +4,8 @@ import Config from './Config.js';
 import Utils from './Utils.js';
 import Grid from './Grid.js';
 import GlyphLoader from './GlyphLoader.js';
-import LoadingDisplay from './display/LoadingDisplay.js';
-import SyllabaryDisplay from './display/SyllabaryDisplay.js';
+import LoadingDisplay from './LoadingDisplay.js';
+import SyllabaryDisplay from './SyllabaryDisplay.js';
 import RunController from './RunController.js';
 import WebAudioAPISound from './WebAudioAPISound.js';
 import DebugControls from './DebugControls.js';
@@ -71,7 +71,7 @@ let Syllabary = {
 
 			if (loadingPercentComplete >= 100) {
 				let button = LoadingDisplay.addButton();
-        
+
 				button.addEventListener("click", function() {
 					sound.play();
           LoadingDisplay.remove();
