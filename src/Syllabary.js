@@ -49,7 +49,7 @@ let Syllabary = {
 
 	initialize: () => {
 		console.info("Initializing Syllabary");
-		Syllabary.loadingDisplay = new LoadingDisplay();
+    LoadingDisplay.create();
 		Syllabary.syllabaryDisplay = new SyllabaryDisplay();
 		Syllabary.runController = new RunController();
 		if (Config.debug) { new DebugControls(); }
@@ -58,25 +58,23 @@ let Syllabary = {
 
 
 	load: () => {
-		Syllabary.loadingDisplay.add();
+    LoadingDisplay.add();
 
 		let glyphLoader = new GlyphLoader();
 		let sound = new WebAudioAPISound(Config.baseUrl + "audio/silence.mp3");
-		// LoadingScreen
+
 		// check loading until complete
 		let loadingPercentComplete = 0;
 		function checkLoading() {
 			loadingPercentComplete = glyphLoader.getPercentLoaded();
-			Syllabary.loadingDisplay.render(loadingPercentComplete);
+      LoadingDisplay.render(loadingPercentComplete);
 
 			if (loadingPercentComplete >= 100) {
-				let button = Syllabary.loadingDisplay.addButton();
+				let button = LoadingDisplay.addButton();
+        
 				button.addEventListener("click", function() {
-
-
 					sound.play();
-
-					Syllabary.loadingDisplay.remove();
+          LoadingDisplay.remove();
 					Syllabary.syllabaryDisplay.initialize();
 					Syllabary.syllabaryDisplay.render();
 					Syllabary.syllabaryDisplay.add();

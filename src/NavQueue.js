@@ -1,6 +1,5 @@
 'use strict';
 
-import Syllabary from './Syllabary.js';
 import Config from './Config.js';
 
 let NavQueue = {

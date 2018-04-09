@@ -2,30 +2,31 @@
 
 import Syllabary from '../Syllabary';
 
-export default class LoadingDisplay {
+let LoadingDisplay = {
 
-	constructor() {
-		this.display = document.createElement("div");
-		this.display.setAttribute("class", "loading-display");
-	}
+	create: () => {
+    LoadingDisplay.display = document.createElement("div");
+    LoadingDisplay.display.setAttribute("class", "loading-display");
+	},
 
+	render: (percentComplete) => {
+    LoadingDisplay.display.innerHTML = Math.round(percentComplete) + "% complete";
+	},
 
-	render(percentComplete) {
-		this.display.innerHTML = Math.round(percentComplete) + "% complete";
-	}
-
-	addButton() {
+	addButton: () => {
 		let button = document.createElement("button");
 		button.innerHTML = "Play";
-		this.display.appendChild(button);
+    LoadingDisplay.display.appendChild(button);
 		return button;
-	}
+	},
 
-	add() {
-		document.getElementById(Syllabary.containerId).appendChild(this.display);
-	}
+	add: () => {
+		document.getElementById(Syllabary.containerId).appendChild(LoadingDisplay.display);
+	},
 
-	remove() {
-		this.display.parentNode.removeChild(this.display);
+	remove: () => {
+    LoadingDisplay.display.parentNode.removeChild(LoadingDisplay.display);
 	}
-}
+};
+
+export default LoadingDisplay;
