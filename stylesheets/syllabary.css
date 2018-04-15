@@ -114,7 +114,7 @@ html {
     top: 0;
 }
 
-@media screen and (max-width: 1000px) and (orientation: portrait) {
+@media only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: portrait) {
     .control-container {
         bottom: -18vmax;
         text-align: center;
@@ -131,3 +131,42 @@ html {
         float: none;
     }
 }
+
+@media only screen and (max-width: 567px) and (orientation: portrait) {
+    .control-container {
+        bottom: -24vmax;
+        text-align: center;
+    }
+
+    .control-info {
+        top: 22vmax;
+    }
+
+    .control-display {
+        margin: 0 auto;
+        width: 50vmax;
+        height: 50vmax;
+        float: none;
+    }
+}
+
+
+@media only screen and (max-height: 567px) and (orientation: landscape) {
+    .control-container {
+        right: -50vmax;
+        text-align: center;
+        transform: rotate(-90deg);
+    }
+
+    .control-info {
+        top: 10vmax;
+    }
+
+    .control-display {
+        margin: 0 auto;
+        width: 50vmax;
+        height: 50vmax;
+        float: none;
+    }
+}
+
