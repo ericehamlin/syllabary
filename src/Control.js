@@ -3,6 +3,7 @@
 import Syllabary from './Syllabary';
 import Config from './Config.js';
 import Utils from './Utils.js';
+import * as Hammer from "hammerjs";
 
 export default class Control {
 
@@ -147,29 +148,48 @@ export default class Control {
 		this.listeners.push({type:type, listener:listener});
 	}
 
+	// TODO: cancel control when no pan
 	initializeEventListeners() {
-		this.handleOuterCircleMouseDown = (e) => {
+	  this.syllabaryTouchListener = new window.Hammer(document.getElementById(Syllabary.containerId));
+    this.syllabaryTouchListener.get('pan').set({ enable: true });
+    // TODO: necessary?
+    this.syllabaryTouchListener.on('panstart', e => void(0) );
+    this.syllabaryTouchListener.on('pan', e => this.handleWindowMouseMove(e) );
+    this.syllabaryTouchListener.on('panend', e => this.handleWindowMouseUp(e) );
+
+    let startPan = (e) => {
+      this.syllabaryTouchListener.set({ enable: true });
+      this.angle = this.getAngle(e.center.x, e.center.y);
+      this.dispatchEvent(e);
+    };
+
+    this.outerCircleTouchListener = new window.Hammer(this.outerCircleGroup);
+    this.outerCircleTouchListener.get('press').set({ enable: true, time: 0 });
+    this.outerCircleTouchListener.on('press', (e) => {
 			this.currentlyMovingCircle = "outer";
-			this.angle = this.getAngle(e.screenX, e.screenY);
-			this.dispatchEvent(e);
-		};
+			startPan(e);
+		});
 
-		this.handleMiddleCircleMousedown = (e) => {
-			this.currentlyMovingCircle = "middle";
-			this.angle = this.getAngle(e.screenX, e.screenY);
-			this.dispatchEvent(e);
-		};
+    this.middleCircleTouchListener = new window.Hammer(this.middleCircleGroup);
+    this.middleCircleTouchListener.get('press').set({ enable: true, time: 0 });
+    this.middleCircleTouchListener.on('press', (e) => {
+      this.currentlyMovingCircle = "middle";
+      startPan(e);
+    });
 
-		this.handleInnerCircleMousedown = (e) => {
-			this.currentlyMovingCircle = "inner";
-			this.angle = this.getAngle(e.screenX, e.screenY);
-			this.dispatchEvent(e);
-		};
+    this.innerCircleTouchListener = new window.Hammer(this.innerCircleGroup);
+    this.innerCircleTouchListener.get('press').set({ enable: true, time: 0 });
+    this.innerCircleTouchListener.on('press', (e) => {
+      this.currentlyMovingCircle = "inner";
+      startPan(e);
+    });
 
+
+    // TODO: calculate better
 		this.handleWindowMouseMove = (e) => {
 			if (this.currentlyMovingCircle) {
 				let dimension;
-				let angle = this.getAngle(e.screenX, e.screenY);
+				let angle = this.getAngle(e.center.x, e.center.y);
 				let angleChange = this.angle - angle;
 				let change;
 
@@ -188,31 +208,30 @@ export default class Control {
 						break;
 				}
 
+        change = Number.isNaN(change) ? 0 : change;
 				this.dispatchEvent(new CustomEvent('rotate', {detail: {change: change, dimension: dimension}}));
 				this.angle = angle;
 			}
 		};
 
 		this.handleWindowMouseUp = (e) => {
+		  console.log("done");
 			this.currentlyMovingCircle = null;
+      this.syllabaryTouchListener.set({ enable: false });
 			this.dispatchEvent(e);
 		}
 	}
 
 	startEventListeners() {
-		this.outerCircleGroup.addEventListener('mousedown', this.handleOuterCircleMouseDown);
-		this.middleCircleGroup.addEventListener('mousedown', this.handleMiddleCircleMousedown);
-		this.innerCircleGroup.addEventListener('mousedown', this.handleInnerCircleMousedown);
-		window.addEventListener('mousemove', this.handleWindowMouseMove);
-		window.addEventListener('mouseup', this.handleWindowMouseUp);
+    this.outerCircleTouchListener.set({enable: true});
+    this.middleCircleTouchListener.set({enable: true});
+    this.innerCircleTouchListener.set({enable: true});
 	}
 
 	pauseEventListeners() {
-		this.outerCircleGroup.removeEventListener('mousedown', this.handleOuterCircleMouseDown);
-		this.middleCircleGroup.removeEventListener('mousedown', this.handleMiddleCircleMousedown);
-		this.innerCircleGroup.removeEventListener('mousedown', this.handleInnerCircleMousedown);
-		window.removeEventListener('mousemove', this.handleWindowMouseMove);
-		window.removeEventListener('mouseup', this.handleWindowMouseUp);
+    this.outerCircleTouchListener.set({enable: false});
+    this.middleCircleTouchListener.set({enable: false});
+    this.innerCircleTouchListener.set({enable: false});
 	}
 
 	dispatchEvent(event) {

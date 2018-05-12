@@ -62,7 +62,7 @@ export default class RunController {
 
 	initializeEventListeners() {
 
-		let container = document.getElementById(Syllabary.containerId);
+		let container = document.getElementsByClassName('grid-display')[0];
 
 		this.touchListener = new window.Hammer(container);
 		this.touchListener.get('pinch').set({ enable: true });
@@ -114,10 +114,12 @@ export default class RunController {
 			this.setMagnetizing();
 		};
 
-
-		Syllabary.syllabaryDisplay.control.addEventListener("mousedown", this.controlMouseDown);
-		Syllabary.syllabaryDisplay.control.addEventListener("rotate", this.controlRotate);
-		Syllabary.syllabaryDisplay.control.addEventListener("mouseup", this.controlMouseUp);
+    Syllabary.syllabaryDisplay.control.addEventListener("press", this.controlMouseDown);
+    Syllabary.syllabaryDisplay.control.addEventListener("rotate", this.controlRotate);
+    Syllabary.syllabaryDisplay.control.addEventListener("panend", this.controlMouseUp);
+		//Syllabary.syllabaryDisplay.control.addEventListener("mousedown", this.controlMouseDown);
+		//Syllabary.syllabaryDisplay.control.addEventListener("rotate", this.controlRotate);
+		//Syllabary.syllabaryDisplay.control.addEventListener("mouseup", this.controlMouseUp);
 
 		this.addEventListeners();
 	}

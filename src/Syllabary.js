@@ -51,7 +51,6 @@ let Syllabary = {
 		console.info("Initializing Syllabary");
     LoadingDisplay.create();
 		Syllabary.syllabaryDisplay = new SyllabaryDisplay();
-		Syllabary.runController = new RunController();
 		if (Config.debug) { new DebugControls(); }
 		Syllabary.load();
 	},
@@ -78,7 +77,7 @@ let Syllabary = {
 					Syllabary.syllabaryDisplay.initialize();
 					Syllabary.syllabaryDisplay.render();
 					Syllabary.syllabaryDisplay.add();
-
+          Syllabary.runController = new RunController();
 					console.info("Running Syllabary");
 					Syllabary.run();
 				});

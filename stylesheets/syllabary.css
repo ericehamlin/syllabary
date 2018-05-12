@@ -132,6 +132,24 @@ html {
     }
 }
 
+@media only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: landscape) {
+    .control-container {
+        bottom: -18vmax;
+        text-align: center;
+    }
+
+    .control-info {
+        top: 20vmax;
+    }
+
+    .control-display {
+        margin: 0 auto;
+        width: 40vmax;
+        height: 40vmax;
+        float: none;
+    }
+}
+
 @media only screen and (max-width: 567px) and (orientation: portrait) {
     .control-container {
         bottom: -24vmax;
