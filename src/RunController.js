@@ -101,25 +101,22 @@ export default class RunController {
 			this.setDrifting();
 		});
 
-		this.controlMouseDown = (event) => {
+		const controlStartRotate = (event) => {
 			this.setControlling();
 		};
 
-		this.controlRotate = (event) => {
+		const controlRotate = (event) => {
 			Syllabary.grid[event.detail.dimension + "Position"] += event.detail.change;
 			this.renderGrid();
 		};
 
-		this.controlMouseUp = (event) => {
+		const controlEndRotate = (event) => {
 			this.setMagnetizing();
 		};
 
-    Syllabary.syllabaryDisplay.control.addEventListener("press", this.controlMouseDown);
-    Syllabary.syllabaryDisplay.control.addEventListener("rotate", this.controlRotate);
-    Syllabary.syllabaryDisplay.control.addEventListener("panend", this.controlMouseUp);
-		//Syllabary.syllabaryDisplay.control.addEventListener("mousedown", this.controlMouseDown);
-		//Syllabary.syllabaryDisplay.control.addEventListener("rotate", this.controlRotate);
-		//Syllabary.syllabaryDisplay.control.addEventListener("mouseup", this.controlMouseUp);
+    Syllabary.syllabaryDisplay.control.addEventListener("startrotate", controlStartRotate);
+    Syllabary.syllabaryDisplay.control.addEventListener("rotate", controlRotate);
+    Syllabary.syllabaryDisplay.control.addEventListener("endrotate", controlEndRotate);
 
 		this.addEventListeners();
 	}

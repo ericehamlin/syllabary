@@ -71,14 +71,15 @@ export default class Control {
 
 	getAngle(x, y) {
 		let rect = this.outerCircleGroup.getBoundingClientRect();
-		let centerX = (rect.left + rect.width)/2;
-		let centerY = (rect.top + rect.height)/2;
+		let centerX = (rect.left + rect.right)/2;
+		let centerY = (rect.top + rect.bottom)/2;
 		let angle = Math.atan2(x-centerX, y-centerY);
-		return this.radiansToDegrees(angle);
+		return -this.radiansToDegrees(angle);
+
 	}
 
-	radiansToDegrees (angle) {
-		return angle * (180 / Math.PI);
+	radiansToDegrees (radians) {
+		return radians * (180 / Math.PI);
 	}
 
 	/**
@@ -150,18 +151,51 @@ export default class Control {
 
 	// TODO: cancel control when no pan
 	initializeEventListeners() {
-	  this.syllabaryTouchListener = new window.Hammer(document.getElementById(Syllabary.containerId));
-    this.syllabaryTouchListener.get('pan').set({ enable: true });
-    // TODO: necessary?
-    this.syllabaryTouchListener.on('panstart', e => void(0) );
-    this.syllabaryTouchListener.on('pan', e => this.handleWindowMouseMove(e) );
-    this.syllabaryTouchListener.on('panend', e => this.handleWindowMouseUp(e) );
 
-    let startPan = (e) => {
-      this.syllabaryTouchListener.set({ enable: true });
+    const startPan = (e) => {
+      syllabaryTouchListener.set({ enable: true });
       this.angle = this.getAngle(e.center.x, e.center.y);
-      this.dispatchEvent(e);
+      this.dispatchEvent(new CustomEvent('startrotate'));
     };
+
+    const handlePan = (e) => {
+      if (this.currentlyMovingCircle) {
+        let dimension;
+        let angle = this.getAngle(e.center.x, e.center.y);
+        let angleChange = this.angle - angle;
+        let change;
+
+        switch (this.currentlyMovingCircle) {
+          case "outer":
+            dimension = "x";
+            change = (angleChange * Syllabary.xDim / 360);
+            break;
+          case "middle":
+            dimension = "y";
+            change = (angleChange * Syllabary.yDim / 360);
+            break;
+          case "inner":
+            dimension = "z";
+            change = (angleChange * Syllabary.zDim / 360);
+            break;
+        }
+
+        change = Number.isNaN(change) ? 0 : change;
+        this.dispatchEvent(new CustomEvent('rotate', {detail: {change: change, dimension: dimension}}));
+        this.angle = angle;
+      }
+    };
+
+    const handlePanEnd = (e) => {
+      this.currentlyMovingCircle = null;
+      syllabaryTouchListener.set({ enable: false });
+      this.dispatchEvent(new CustomEvent('endrotate'));
+    };
+
+    let syllabaryTouchListener = new window.Hammer(document.getElementById(Syllabary.containerId));
+    syllabaryTouchListener.on('pan', e => handlePan(e) );
+    syllabaryTouchListener.on('panend', e => handlePanEnd(e) );
+
 
     this.outerCircleTouchListener = new window.Hammer(this.outerCircleGroup);
     this.outerCircleTouchListener.get('press').set({ enable: true, time: 0 });
@@ -183,43 +217,6 @@ export default class Control {
       this.currentlyMovingCircle = "inner";
       startPan(e);
     });
-
-
-    // TODO: calculate better
-		this.handleWindowMouseMove = (e) => {
-			if (this.currentlyMovingCircle) {
-				let dimension;
-				let angle = this.getAngle(e.center.x, e.center.y);
-				let angleChange = this.angle - angle;
-				let change;
-
-				switch (this.currentlyMovingCircle) {
-					case "outer":
-						dimension = "x";
-						change = (angleChange * Syllabary.xDim / 360);
-						break;
-					case "middle":
-						dimension = "y";
-						change = (angleChange * Syllabary.yDim / 360);
-						break;
-					case "inner":
-						dimension = "z";
-						change = (angleChange * Syllabary.zDim / 360);
-						break;
-				}
-
-        change = Number.isNaN(change) ? 0 : change;
-				this.dispatchEvent(new CustomEvent('rotate', {detail: {change: change, dimension: dimension}}));
-				this.angle = angle;
-			}
-		};
-
-		this.handleWindowMouseUp = (e) => {
-		  console.log("done");
-			this.currentlyMovingCircle = null;
-      this.syllabaryTouchListener.set({ enable: false });
-			this.dispatchEvent(e);
-		}
 	}
 
 	startEventListeners() {
