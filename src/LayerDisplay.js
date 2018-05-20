@@ -61,8 +61,7 @@ export default class LayerDisplay {
 
       // Fade closest layer out
 			if (exactZPosition > (Syllabary.zDim - 1)) {
-				let opacity =  Math.pow(Syllabary.zDim - exactZPosition, 2);
-				this.display.style.opacity = opacity;
+				this.display.style.opacity = Math.pow(Syllabary.zDim - exactZPosition, 2);
 			}
 
 			// Reposition glyphs on layer according to x, y position
@@ -79,7 +78,7 @@ export default class LayerDisplay {
 	}
 
 	isDisplayed(exactZPosition) {
-    return exactZPosition >= (Syllabary.zDim - this.numVisibleLayers - 1);
+    return exactZPosition > (Syllabary.zDim - this.numVisibleLayers);
   }
 
 	/**
