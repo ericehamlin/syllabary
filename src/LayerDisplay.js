@@ -3,6 +3,8 @@
 export default class LayerDisplay {
 
 	constructor(z) {
+	  this.numVisibleLayers = 4;
+
 		this.display = document.createElement("div");
 		this.display.setAttribute("class", "layer");
 
@@ -18,9 +20,6 @@ export default class LayerDisplay {
 		this.fadeLayer.style.zIndex = 2;
 		this.display.appendChild(this.fadeLayer);
 
-		// if (z>1) {
-		// 	this.display.setAttribute("style", "visibility:hidden;");
-		// }
 		this.z = z;
 	}
 
@@ -34,34 +33,33 @@ export default class LayerDisplay {
 	}
 
 	render() {
+		const exactZPosition = this.getExactZPosition();
 
-		let numVisibleLayers = 4;
+    // TODO what exactly is this?
+    const calculated = (exactZPosition + this.numVisibleLayers + 1 - Syllabary.zDim) * 300; // TODO: what is this number 300?
 
-		let exactZPosition = this.getExactZPosition();
+    // Displace layer on x-y axes
+    const displacement = (calculated / -2) + "%";
 
+    // Scale layer according to depth
+    const scale = (100 + calculated) + "%";
 
-		if (exactZPosition < Syllabary.zDim - numVisibleLayers - 1) {
-			this.display.style.display = "none";
-		}
-		else {
+    if (this.isDisplayed(exactZPosition)) {
+
 			this.display.style.display = "block";
 
 			// Position layer in stack
 			this.display.style.zIndex = this.getZIndex();
 
-			// Scale layer according to depth
-			let calculated = (exactZPosition + numVisibleLayers + 1 - Syllabary.zDim) * 300;
-
-			let displacement = calculated / -2 + "%";
-			let scale = (100 + calculated) + "%";
 			this.display.style.top = displacement;
 			this.display.style.left = displacement;
 			this.display.style.width = scale;
 			this.display.style.height = scale;
 
+      // TODO: this is the line that's affecting the Z-fade problem
+			this.fadeLayer.style.opacity = Math.abs(exactZPosition + 1 - Syllabary.zDim) / this.numVisibleLayers;
 
-			this.fadeLayer.style.opacity = Math.abs(exactZPosition + 1 - Syllabary.zDim) / numVisibleLayers;
-
+      // Fade closest layer out
 			if (exactZPosition > (Syllabary.zDim - 1)) {
 				let opacity =  Math.pow(Syllabary.zDim - exactZPosition, 2);
 				this.display.style.opacity = opacity;
@@ -75,7 +73,14 @@ export default class LayerDisplay {
 				}
 			}
 		}
+    else {
+      this.display.style.display = "none";
+    }
 	}
+
+	isDisplayed(exactZPosition) {
+    return exactZPosition >= (Syllabary.zDim - this.numVisibleLayers - 1);
+  }
 
 	/**
 	 * TODO check decimals
@@ -111,6 +116,7 @@ export default class LayerDisplay {
 	 * the offset from the real
 	 *
 	 * TODO negative numbers now not working since I got rid of -1
+   * This TODO might also have something to do with Z-fade problem
 	 */
 	getZOffset() {
 		return Math.floor((Syllabary.zDim - this.z + Syllabary.grid.zPosition /*- 1*/) / Syllabary.zDim) * Syllabary.zDim;
