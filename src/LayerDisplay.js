@@ -102,9 +102,7 @@ export default class LayerDisplay {
 	 * for sizing
 	 */
 	getExactZPosition() {
-		let zOffset = this.getZOffset();
-		let zPosition = Syllabary.zDim - (this.z - Syllabary.grid.zPosition) - zOffset;
-		return zPosition;
+		return this.getZOrder() - this.getZOffset();
 	}
 
 	/**
@@ -113,11 +111,25 @@ export default class LayerDisplay {
 	 * the number of lengths(depths)
 	 * the distance outside the box
 	 * the offset from the real
+   * Come on!
 	 *
 	 * TODO negative numbers now not working since I got rid of -1
    * This TODO might also have something to do with Z-fade problem
 	 */
 	getZOffset() {
-		return Math.floor((Syllabary.zDim - this.z + Syllabary.grid.zPosition /*- 1*/) / Syllabary.zDim) * Syllabary.zDim;
+    return ( Math.floor((this.getZOrder() /*- 1*/) / Syllabary.zDim) * Syllabary.zDim );
 	}
+
+  /**
+   *
+   * The (adjusted) placement of the layer in 3-space
+   * If there were 10 layers this would range from -10 to 10 including floating-point numbers
+   *
+   * Except... not really. I've seen it go as high as 30.585171249546192
+   * and I believe as low as -22.3433434343
+   *
+   */
+	getZOrder() {
+	  return Syllabary.zDim - this.z + Syllabary.grid.zPosition;
+  }
 }

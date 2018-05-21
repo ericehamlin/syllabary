@@ -1,7 +1,7 @@
 'use strict';
 
 import Syllabary from './Syllabary';
-import Syllable from './Syllable.js';
+import Syllable from './Syllable';
 
 export default class Grid {
 
@@ -47,29 +47,6 @@ export default class Grid {
                 }
             }
         }
-
-        // create display layers and put glyphs in them
-    }
-
-//Movement is in percentages, translated to screen pixels if necessary.
-    move(deltaX, deltaY, deltaZ) {
-        this.xPosition += deltaX;
-        this.yPosition += deltaY;
-        this.zPosition += deltaZ;
-    }
-
-    render() {
-            //cycle through all Syllables
-            // syllable would be in view?
-                // no
-                    // hide
-                //  yes
-                    //position if necessary
-                    //resize if necessary
-                    // show
-            //atmospherics, as needed -- in layers
-
-            // actually we should be embedding glyphs in layers for display purposes. Then we can just position the layer
     }
 
     getTotalSyllables() {
@@ -85,5 +62,47 @@ export default class Grid {
                 }
             }
         }
+    }
+
+    setX(x) {
+        this.xPosition = x
+    }
+
+    addX(add) {
+        this.xPosition += add;
+    }
+
+    setY(y) {
+        this.yPosition = y;
+    }
+
+    addY(add) {
+        this.yPosition += add;
+    }
+
+    setZ(z) {
+        this.zPosition = z;
+    }
+
+    addZ(add) {
+        this.zPosition += add;
+    }
+
+    setXYZ(x, y, z) {
+        this.setX(x);
+        this.setY(y);
+        this.setZ(z);
+    }
+
+    addXYZ(x, y, z) {
+        this.addX(x);
+        this.addY(y);
+        this.addZ(z);
+    }
+
+    snapToNearestSyllable() {
+        this.setX(Math.round(this.xPosition));
+        this.setY(Math.round(this.yPosition));
+        this.setZ(Math.round(this.zPosition));
     }
 }
