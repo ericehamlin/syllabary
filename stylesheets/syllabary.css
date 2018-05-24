@@ -130,6 +130,11 @@ html {
         height: 40vmax;
         float: none;
     }
+
+    .poem-display {
+        margin-left: 10vmin;
+        margin-right: 10vmin;
+    }
 }
 
 @media only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: landscape) {
@@ -148,6 +153,7 @@ html {
         height: 40vmax;
         float: none;
     }
+
 }
 
 @media only screen and (max-width: 567px) and (orientation: portrait) {
