@@ -58,16 +58,17 @@ export default class PoemDisplay {
 
 	hide() {
 		let self = this;
+    const fadeIncrement = 0.02;
 		window.removeEventListener("resize", self.resize);
 		return new Promise((resolve, reject) => {
 			function fadeOut() {
-				self.container.style.opacity = parseFloat(self.container.style.opacity) - 0.02;
-				if (parseFloat(self.container.style.opacity) > 0) {
+				self.container.style.opacity = parseFloat(self.container.style.opacity) - fadeIncrement;
+				if (parseFloat(self.container.style.opacity) > fadeIncrement) {
 					setTimeout(()=>{ fadeOut(); }, 10);
-
 				}
 				else {
-					if (self.container.parentNode) {
+          self.container.style.opacity = 0;
+          if (self.container.parentNode) {
 						self.container.parentNode.removeChild(self.container);
 					}
 					resolve(true);
