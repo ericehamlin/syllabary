@@ -65,7 +65,7 @@ export default class Poem {
 
 
 			this.title = getElementText("title");
-			this.text = getElementText("text").replace("\n", "<br\>");
+			this.text = `<pre>${getElementText("text")}</pre>`;
 			this.isLoaded = true;
 		})
 		.catch((e) => {
