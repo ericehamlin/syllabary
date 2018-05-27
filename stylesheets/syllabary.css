@@ -20,6 +20,7 @@ html {
 
 pre {
     font-family: 'underwood_championregular';
+    white-space: pre-wrap;
 }
 
 #syllabary-container {

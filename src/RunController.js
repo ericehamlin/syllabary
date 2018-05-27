@@ -482,19 +482,12 @@ export default class RunController {
 
     let percentNeedToScroll = syllable.audio.data.getPercentCompleted();
     let totalScroll = textHeight - textContainerHeight;
-
     if (totalScroll <= 0) {
       return false;
     }
 
     let scroll = (totalScroll * percentNeedToScroll) / 100;
-    Syllabary.syllabaryDisplay.poemDisplay.text.style.top = -scroll;
-    // if (audioElapsed * textToAudioRatio > topOffset) {
-    //   console.log("scrolling");
-    // }
-
-    // console.log(audioDuration, audioPercentCompleted, textHeight, textContainerHeight);
-
+    Syllabary.syllabaryDisplay.poemDisplay.text.style.top = -scroll + "px";
 	}
 
 	/**
