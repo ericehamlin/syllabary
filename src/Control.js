@@ -3,6 +3,7 @@
 import Syllabary from './Syllabary';
 import Config from './Config.js';
 import Utils from './Utils.js';
+import EventMixin from './EventMixin.js';
 import * as Hammer from "hammerjs";
 
 export default class Control {
@@ -50,20 +51,7 @@ export default class Control {
 		this.svg.appendChild(this.innerCircleGroup);
 		this.svg.appendChild(indicator);
 
-
-		this.info = document.createElement("div");
-		this.info.setAttribute("class", "control-info");
-		this.info.innerHTML = "the Syllabary";
-
-		this.container = document.createElement("div");
-		this.container.setAttribute("class", "control-container");
-		this.container.appendChild(this.svg);
-		this.container.appendChild(this.info);
-
-
 		this.currentlyMovingCircle = null;
-
-		let that = this;
 
 		this.initializeEventListeners();
 
@@ -142,11 +130,6 @@ export default class Control {
 		this.outerCircleGroup.setAttribute("transform", "rotate(" + -xDeg + ")");
 		this.middleCircleGroup.setAttribute("transform", "rotate(" + -yDeg + ")");
 		this.innerCircleGroup.setAttribute("transform", "rotate(" + -zDeg + ")");
-	}
-
-
-	addEventListener(type, listener) {
-		this.listeners.push({type:type, listener:listener});
 	}
 
 	// TODO: cancel control when no pan
@@ -230,12 +213,6 @@ export default class Control {
     this.middleCircleTouchListener.set({enable: false});
     this.innerCircleTouchListener.set({enable: false});
 	}
-
-	dispatchEvent(event) {
-		for (let index in this.listeners) {
-			if (event.type == this.listeners[index].type) {
-				this.listeners[index].listener(event);
-			}
-		}
-	}
 }
+
+Object.assign(Control.prototype, EventMixin);
