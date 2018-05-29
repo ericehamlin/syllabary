@@ -15,7 +15,6 @@ export default class RunController {
 			DRIFT : "drift",			// user has released drag
 			ANIMATE : "animate",		// standard animation is advancing or drift has come to an end
 			MAGNETIZE : "magnetize",	// drifting has stopped and grid is moving toward closest syllable
-      INFO: "info",
 			PAUSE : "pause"
 		};
 
@@ -653,20 +652,6 @@ export default class RunController {
 		this.removeTouchEventListeners();
 		this.runState = this.runStates.CONTROL;
 	}
-
-  /**
-   *
-   * @returns {boolean}
-   */
-	isInfo() {
-	  return this.runState === this.runStates.INFO;
-  }
-
-  setInfo() {
-    console.debug("Starting Info");
-    // this.removeTouchEventListeners();
-    this.runState = this.runStates.INFO;
-  }
 
 	/**
 	 *

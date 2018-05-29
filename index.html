@@ -10,7 +10,7 @@
 <script>
     var options = {containerId: 'syllabary-container'};
     var params = window.location.search.replace('?', '').split('&');
-    for(param of params) {
+    for(param in params) {
         var pair = param.split('=');
         options[pair[0]] = pair[1];
     }

@@ -122,6 +122,7 @@ pre {
 @media only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: portrait) {
     .control-container {
         bottom: -18vmax;
+        top: 75vmax;
         text-align: center;
     }
 
