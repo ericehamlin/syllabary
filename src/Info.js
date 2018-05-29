@@ -19,11 +19,11 @@ export default class Info {
     let touchListener = new window.Hammer(this.container);
     touchListener.get('swipe').set({ enable: true, direction: window.Hammer.DIRECTION_VERTICAL });
     touchListener.on('swipeup', (ev) => {
-      console.log("swipeup");
+      this.dispatchEvent(new CustomEvent('showinfo'));
     });
 
     touchListener.on('swipedown', (ev) => {
-      console.log("swipedown");
+      this.dispatchEvent(new CustomEvent('hideinfo'));
     });
 
   }

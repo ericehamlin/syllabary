@@ -9,14 +9,14 @@ export default class RunController {
 
 	constructor() {
 		this.runStates = {
-			"READ" : "read", 			// audio is currently playing
-			"DRAG" : "drag",			// user is controlling using touch gesture
-			"CONTROL" : "control",		// user is controlling using provided control
-			"DRIFT" : "drift",			// user has released drag
-			"ANIMATE" : "animate",		// standard animation is advancing or drift has come to an end
-			"MAGNETIZE" : "magnetize",	// drifting has stopped and grid is moving toward closest syllable
-      "INFO": "info",
-			"PAUSE" : "pause"
+			READ : "read", 			// audio is currently playing
+			DRAG : "drag",			// user is controlling using touch gesture
+			CONTROL : "control",		// user is controlling using provided control
+			DRIFT : "drift",			// user has released drag
+			ANIMATE : "animate",		// standard animation is advancing or drift has come to an end
+			MAGNETIZE : "magnetize",	// drifting has stopped and grid is moving toward closest syllable
+      INFO: "info",
+			PAUSE : "pause"
 		};
 
 		this.animateInterval = Config.animateInterval;
@@ -33,32 +33,40 @@ export default class RunController {
 		 */
 		this.setPaused = () => {
 			if (this.isPaused()) {
-				console.debug("Resuming...");
-				switch(this.pausedRunState){
-					case this.runStates.ANIMATE:
-						this.setAnimating();
-						break;
-					case this.runStates.CONTROL:
-					case this.runStates.DRAG:
-					case this.runStates.DRIFT:
-						this.setDrifting();
-						break;
-					case this.runStates.MAGNETIZE:
-						this.setMagnetizing();
-					case this.runStates.READ:
-						this.setReading();
-						break;
-				}
-				this.pausedRunState = null;
-				this.readingSyllable.resume();
+        this.setResumed();
 			}
 			else {
 				console.debug("Starting Pause");
 				this.pausedRunState = this.runState;
 				this.runState = this.runStates.PAUSE;
-				this.readingSyllable.pause();
+        if (this.readingSyllable) {
+          this.readingSyllable.pause();
+        }
 			}
-		}
+		};
+
+		this.setResumed = () => {
+      console.debug("Resuming...");
+      switch(this.pausedRunState){
+        case this.runStates.ANIMATE:
+          this.setAnimating();
+          break;
+        case this.runStates.CONTROL:
+        case this.runStates.DRAG:
+        case this.runStates.DRIFT:
+          this.setDrifting();
+          break;
+        case this.runStates.MAGNETIZE:
+          this.setMagnetizing();
+        case this.runStates.READ:
+          this.setReading();
+          break;
+      }
+      this.pausedRunState = null;
+      if (this.readingSyllable) {
+        this.readingSyllable.resume();
+      }
+    }
 	}
 
   /**
@@ -120,9 +128,13 @@ export default class RunController {
    */
   initializeInfoListeners() {
     const showInfo = (e) => {
+      this.setPaused();
+      this.removeEventListeners();
     };
 
     const hideInfo = (e) => {
+      this.setPaused();
+      this.addEventListeners();
     };
 
     Syllabary.syllabaryDisplay.info.addEventListener("showinfo", showInfo);
