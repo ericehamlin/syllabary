@@ -9,10 +9,16 @@ export default {
 		resolve({
 			module: true,
 			preferBuiltins: false,
-			jsnext: true
+			jsnext: true,
+      customResolveOptions: {
+        moduleDirectory: ['src', 'node_modules']
+      }
 		}),
 		babel({
-			exclude: 'node_modules/**' // only transpile our source code
+			exclude: 'node_modules/**', // only transpile our source code
+      plugins: ['external-helpers'],
+      babelrc: false,
+      presets: [['env', { modules: false }]]
 		})
 	],
 	moduleName: 'Syllabary',
