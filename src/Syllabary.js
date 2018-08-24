@@ -39,7 +39,7 @@ let Syllabary = {
     Syllabary.dims[Syllabary.soundsToDimensionsMap.initialConsonants] = Syllabary.dims.initialConsonants;
     Syllabary.dims[Syllabary.soundsToDimensionsMap.vowels] = Syllabary.dims.vowels;
     Syllabary.dims[Syllabary.soundsToDimensionsMap.finalConsonants] = Syllabary.dims.finalConsonants;
-    
+
 
 		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);

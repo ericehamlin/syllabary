@@ -5,10 +5,10 @@ import Config from 'Config';
 
 export default class Glyph {
 
-	constructor(x, y, z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
+	constructor(initialConsonant, vowel, finalConsonant) {
+		this.initialConsonant = initialConsonant;
+		this.vowel = vowel;
+		this.finalConsonant = finalConsonant;
 		this.isLoaded = false;
 	}
 
@@ -19,7 +19,7 @@ export default class Glyph {
 		this.data = this.filterData(data);
 
 		let innerHTML = this.data.replace(/<g[^>]*>|<\/g>/i, "");
-		let id = this.x + "-" + this.y + "-" + this.z;
+		let id = this.initialConsonant + "-" + this.vowel + "-" + this.finalConsonant;
 
 		let glyph = document.createElementNS("http://www.w3.org/2000/svg", "g");
 		glyph.setAttribute("id", id);
@@ -49,7 +49,7 @@ export default class Glyph {
 		const interval = 700;
 
 		// TODO these names suck -- not at all clear what's going on here
-		let centeredX = this.x - offsetX - 1;
+		let centeredX = this.initialConsonant - offsetX - 1;
 		let syllabaryOffsetX = Math.floor(centeredX/Syllabary.dims.x);
 		centeredX -= syllabaryOffsetX * Syllabary.dims.x;
 		if (centeredX > Syllabary.dims.x / 2) {
@@ -58,7 +58,7 @@ export default class Glyph {
 
 		let placeX = centeredX * interval;
 
-		let centeredY = this.y - offsetY - 1;
+		let centeredY = this.vowel - offsetY - 1;
 		let syllabaryOffsetY = Math.floor(centeredY/Syllabary.dims.y);
 		centeredY -= syllabaryOffsetY * Syllabary.dims.y;
 		if (centeredY > Syllabary.dims.y / 2) {

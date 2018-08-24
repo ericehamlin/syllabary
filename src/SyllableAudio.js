@@ -4,8 +4,8 @@ import Config from 'Config';
 import WebAudioAPISound from 'WebAudioAPISound';
 
 export default class SyllableAudio {
-	constructor(i, j, k) {
-		this.url = Config.baseUrl + "audio/" + i + "-" + j + "-" + k + ".mp3";
+	constructor(initialConsonant, vowel, finalConsonant) {
+		this.url = Config.baseUrl + "audio/" + initialConsonant + "-" + vowel + "-" + finalConsonant + ".mp3";
 		this.isLoaded = false;
 	}
 

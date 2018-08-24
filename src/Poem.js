@@ -5,8 +5,8 @@ import FileLoader from 'FileLoader';
 
 export default class Poem {
 
-	constructor(i, j, k) {
-		this.url = Config.baseUrl + "poems/" + i + "-" + j + "-" + k + ".xml";
+	constructor(initialConsonant, vowel, finalConsonant) {
+		this.url = Config.baseUrl + "poems/" + initialConsonant + "-" + vowel + "-" + finalConsonant + ".xml";
 		this.isLoaded = false;
 	}
 

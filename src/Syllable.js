@@ -6,10 +6,10 @@ import SyllableAudio from 'SyllableAudio';
 
 export default class Syllable {
 
-	constructor(x, y, z) {
-		this.poem = new Poem(x,y,z);
-		this.glyph = new Glyph(x,y,z);
-		this.audio = new SyllableAudio(x,y,z);
+	constructor(initialConsonant, vowel, finalConsonant) {
+		this.poem = new Poem(initialConsonant, vowel, finalConsonant);
+		this.glyph = new Glyph(initialConsonant, vowel, finalConsonant);
+		this.audio = new SyllableAudio(initialConsonant, vowel, finalConsonant);
 	}
 
 	setGlyphData(data) {
