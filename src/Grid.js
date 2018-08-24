@@ -44,7 +44,7 @@ export default class Grid {
 
                 for(let z=1; z <= Syllabary.dims.z; z++) {
                     let {initialConsonant, vowel, finalConsonant} = Syllabary.getSyllableValuesForXYZ({x:x, y:y ,z:z});
-                    this.syllables[x][y][z] = new Syllable(initialConsonant, vowel, finalConsonant);
+                    this.syllables[x][y][z] = new Syllable(initialConsonant, vowel, finalConsonant, x, y, z);
                 }
             }
         }

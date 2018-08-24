@@ -6,9 +6,9 @@ import SyllableAudio from 'SyllableAudio';
 
 export default class Syllable {
 
-	constructor(initialConsonant, vowel, finalConsonant) {
+	constructor(initialConsonant, vowel, finalConsonant, x, y, z) {
 		this.poem = new Poem(initialConsonant, vowel, finalConsonant);
-		this.glyph = new Glyph(initialConsonant, vowel, finalConsonant);
+		this.glyph = new Glyph(initialConsonant, vowel, finalConsonant, x, y, z);
 		this.audio = new SyllableAudio(initialConsonant, vowel, finalConsonant);
 	}
 

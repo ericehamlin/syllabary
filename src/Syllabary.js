@@ -34,7 +34,7 @@ let Syllabary = {
       finalConsonants:   Syllabary.phonemes.finalConsonants.length - 1
     };
 
-    Syllabary.soundsToDimensionsMap = {initialConsonants: 'x', vowels: 'y', finalConsonants: 'z'};
+    Syllabary.soundsToDimensionsMap = {initialConsonants: 'x', vowels: 'z', finalConsonants: 'y'};
 
     Syllabary.dims[Syllabary.soundsToDimensionsMap.initialConsonants] = Syllabary.dims.initialConsonants;
     Syllabary.dims[Syllabary.soundsToDimensionsMap.vowels] = Syllabary.dims.vowels;
