@@ -22,19 +22,24 @@ let Syllabary = {
 		/** A phoneme (from the Greek:  phonema, "a sound uttered") is the smallest linguistically distinctive unit of sound. */
 		Syllabary.phonemes = {};
 		/** initial consonants */
-		Syllabary.phonemes.i = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'S', 'Tj', 'Sh', 'R', 'Y', 'G', 'K', 'H', 'W', 'L'];
+		Syllabary.phonemes.initialConsonants = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'S', 'Tj', 'Sh', 'R', 'Y', 'G', 'K', 'H', 'W', 'L'];
 		/** vowels */
-		Syllabary.phonemes.j = [null, "U", "O", "o", "u", "a", "i", "e", "A", "E", "I"];
+		Syllabary.phonemes.vowels = [null, "U", "O", "o", "u", "a", "i", "e", "A", "E", "I"];
 		/** final consonants */
-		Syllabary.phonemes.k = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
+		Syllabary.phonemes.finalConsonants = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
 
-    Syllabary.iDim = Syllabary.phonemes.i.length - 1;
-    Syllabary.jDim = Syllabary.phonemes.j.length - 1;
-    Syllabary.kDim = Syllabary.phonemes.k.length - 1;
+    Syllabary.dims = {
+      initialConsonants: Syllabary.phonemes.initialConsonants.length - 1,
+      vowels:            Syllabary.phonemes.vowels.length - 1,
+      finalConsonants:   Syllabary.phonemes.finalConsonants.length - 1
+    };
 
-    Syllabary.xDim = Syllabary.phonemes.i.length - 1;
-    Syllabary.yDim = Syllabary.phonemes.j.length - 1;
-    Syllabary.zDim = Syllabary.phonemes.k.length - 1;
+    Syllabary.soundsToDimensionsMap = {initialConsonants: 'x', vowels: 'y', finalConsonants: 'z'};
+
+    Syllabary.dims[Syllabary.soundsToDimensionsMap.initialConsonants] = Syllabary.dims.initialConsonants;
+    Syllabary.dims[Syllabary.soundsToDimensionsMap.vowels] = Syllabary.dims.vowels;
+    Syllabary.dims[Syllabary.soundsToDimensionsMap.finalConsonants] = Syllabary.dims.finalConsonants;
+    
 
 		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
@@ -125,17 +130,17 @@ let Syllabary = {
 
 	getX: ({diff=0, actual=null} = {}) => {
 		let x = actual || Syllabary.grid.xPosition + diff;
-		return Syllabary.getCurrentLocation(x, Syllabary.xDim);
+		return Syllabary.getCurrentLocation(x, Syllabary.dims.x);
 	},
 
 	getY: ({diff=0, actual=null} = {}) => {
 		let y = actual || Syllabary.grid.yPosition + diff;
-		return Syllabary.getCurrentLocation(y, Syllabary.yDim);
+		return Syllabary.getCurrentLocation(y, Syllabary.dims.y);
 	},
 
 	getZ: ({diff=0, actual=null} = {}) => {
 		let z = actual || Syllabary.grid.zPosition + diff;
-		return Syllabary.getCurrentLocation(z, Syllabary.zDim);
+		return Syllabary.getCurrentLocation(z, Syllabary.dims.z);
 	},
 
 	getPhonemeFilename(x, y, z) {

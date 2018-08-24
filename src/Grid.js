@@ -18,31 +18,31 @@ export default class Grid {
             this.xPosition = xPosition;
         }
         else {
-            this.xPosition = getRandomInt(0, Syllabary.xDim);
+            this.xPosition = getRandomInt(0, Syllabary.dims.x);
         }
 
         if (yPosition != null) {
             this.yPosition = yPosition;
         }
         else {
-            this.yPosition = getRandomInt(0, Syllabary.yDim);
+            this.yPosition = getRandomInt(0, Syllabary.dims.y);
         }
 
         if (zPosition != null) {
             this.zPosition = zPosition;
         }
         else {
-            this.zPosition = getRandomInt(0, Syllabary.zDim);
+            this.zPosition = getRandomInt(0, Syllabary.dims.z);
         }
 
         this.syllables = [];
-        for(let x=1; x <= Syllabary.xDim; x++) {
+        for(let x=1; x <= Syllabary.dims.x; x++) {
             this.syllables[x] = [];
 
-            for(let y=1; y <= Syllabary.yDim; y++) {
+            for(let y=1; y <= Syllabary.dims.y; y++) {
                 this.syllables[x][y] = [];
 
-                for(let z=1; z <= Syllabary.zDim; z++) {
+                for(let z=1; z <= Syllabary.dims.z; z++) {
                     this.syllables[x][y][z] = new Syllable(x,y,z);
                 }
             }
@@ -50,13 +50,13 @@ export default class Grid {
     }
 
     getTotalSyllables() {
-        return Syllabary.xDim * Syllabary.yDim * Syllabary.zDim;
+        return Syllabary.dims.x * Syllabary.dims.y * Syllabary.dims.z;
     }
 
     forEachSyllable(action) {
-        for (let x=1; x <= Syllabary.xDim; x++) {
-            for (let y=1; y <= Syllabary.yDim; y++) {
-                for (let z=1; z <= Syllabary.zDim; z++) {
+        for (let x=1; x <= Syllabary.dims.x; x++) {
+            for (let y=1; y <= Syllabary.dims.y; y++) {
+                for (let z=1; z <= Syllabary.dims.z; z++) {
                     let syllable = this.syllables[x][y][z];
                     action(syllable);
                 }

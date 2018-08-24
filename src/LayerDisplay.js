@@ -36,7 +36,7 @@ export default class LayerDisplay {
 		const exactZPosition = this.getExactZPosition();
 
     // TODO what exactly is this?
-    const calculated = (exactZPosition + this.numVisibleLayers + 1 - Syllabary.zDim) * 300; // TODO: what is this number 300?
+    const calculated = (exactZPosition + this.numVisibleLayers + 1 - Syllabary.dims.z) * 300; // TODO: what is this number 300?
 
     // Displace layer on x-y axes
     const displacement = (calculated / -2) + "%";
@@ -57,11 +57,11 @@ export default class LayerDisplay {
 			this.display.style.height = scale;
 
       // TODO: this is the line that's affecting the Z-fade problem
-			this.fadeLayer.style.opacity = Math.abs(exactZPosition + 1 - Syllabary.zDim) / this.numVisibleLayers;
+			this.fadeLayer.style.opacity = Math.abs(exactZPosition + 1 - Syllabary.dims.z) / this.numVisibleLayers;
 
       // Fade closest layer out
-			if (exactZPosition > (Syllabary.zDim - 1)) {
-				this.display.style.opacity = Math.pow(Syllabary.zDim - exactZPosition, 2);
+			if (exactZPosition > (Syllabary.dims.z - 1)) {
+				this.display.style.opacity = Math.pow(Syllabary.dims.z - exactZPosition, 2);
 			}
 
 			// Reposition glyphs on layer according to x, y position
@@ -78,7 +78,7 @@ export default class LayerDisplay {
 	}
 
 	isDisplayed(exactZPosition) {
-    return exactZPosition > (Syllabary.zDim - this.numVisibleLayers);
+    return exactZPosition > (Syllabary.dims.z - this.numVisibleLayers);
   }
 
 	/**
@@ -89,10 +89,10 @@ export default class LayerDisplay {
 		let zIndex;
 		let zOffset = this.getZOffset();
 		if (Syllabary.grid.zPosition >= 0) {
-			zIndex = (Syllabary.zDim - Math.floor(this.z - Syllabary.grid.zPosition) - zOffset);
+			zIndex = (Syllabary.dims.z - Math.floor(this.z - Syllabary.grid.zPosition) - zOffset);
 		}
 		else {
-			zIndex = (Syllabary.zDim - Math.ceil(this.z - Syllabary.grid.zPosition) - zOffset);
+			zIndex = (Syllabary.dims.z - Math.ceil(this.z - Syllabary.grid.zPosition) - zOffset);
 		}
 		return zIndex * 2;
 	}
@@ -117,7 +117,7 @@ export default class LayerDisplay {
    * This TODO might also have something to do with Z-fade problem
 	 */
 	getZOffset() {
-    return ( Math.floor((this.getZOrder() /*- 1*/) / Syllabary.zDim) * Syllabary.zDim );
+    return ( Math.floor((this.getZOrder() /*- 1*/) / Syllabary.dims.z) * Syllabary.dims.z );
 	}
 
   /**
@@ -130,6 +130,6 @@ export default class LayerDisplay {
    *
    */
 	getZOrder() {
-	  return Syllabary.zDim - this.z + Syllabary.grid.zPosition;
+	  return Syllabary.dims.z - this.z + Syllabary.grid.zPosition;
   }
 }

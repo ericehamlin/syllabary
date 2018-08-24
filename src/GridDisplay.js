@@ -10,12 +10,12 @@ export default class GridDisplay {
 
 		this.centerFade = document.createElement("div");
 		this.centerFade.setAttribute("class", "center-fade");
-		this.centerFade.style.zIndex = (Syllabary.zDim * 2 ) - 3;
+		this.centerFade.style.zIndex = (Syllabary.dims.z * 2 ) - 3;
 
 		this.display.appendChild(this.centerFade);
 
 		this.layers = [];
-		for (let z=1; z <= Syllabary.zDim; z++) {
+		for (let z=1; z <= Syllabary.dims.z; z++) {
 
 			let layer = new LayerDisplay(z);
 

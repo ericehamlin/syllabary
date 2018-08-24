@@ -8,25 +8,25 @@ export default class GlyphLoader {
 
 	constructor() {
 		this.numGlyphsLoaded = 0;
-		this.numGlyphsTotal = Syllabary.xDim * Syllabary.yDim * Syllabary.zDim;
+		this.numGlyphsTotal = Syllabary.dims.initialConsonants * Syllabary.dims.vowels * Syllabary.dims.finalConsonants;
 
 		this.load();
 	}
 
 	load() {
-	  for (let i=1; i <= Syllabary.iDim; i++) {
-	    for (let j=1; j <= Syllabary.jDim; j++) {
-        let url = Config.baseUrl + "coallatedSvg/" + i + "-" + j + ".svg";
+	  for (let i=1; i <= Syllabary.dims.initialConsonants; i++) {
+	    for (let j=1; j <= Syllabary.dims.vowels; j++) {
+        const url = Config.baseUrl + "coallatedSvg/" + i + "-" + j + ".svg";
         let promise = FileLoader.load(url);
         promise.then((data) => {
           let svgs = data.match(/<svg[\s\S]+?\/svg>/gim);
           svgs.forEach(svg => {
-            let match = svg.match(/id="(.+?)-(.+?)-(.+?)"/);
-            let x = match[1],
-                y = match[2],
-                z = match[3];
+            const match = svg.match(/id="(.+?)-(.+?)-(.+?)"/);
+            const initialConsonant = match[1],
+                  vowel = match[2],
+                  finalConsonant = match[3];
             // TODO: xyz
-            Syllabary.grid.syllables[x][y][z].setGlyphData(svg);
+            Syllabary.grid.syllables[initialConsonant][vowel][finalConsonant].setGlyphData(svg);
           });
         });
       }

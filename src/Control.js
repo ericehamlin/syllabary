@@ -20,11 +20,11 @@ export default class Control {
 
 		this.listeners = [];
 
-		this.outerCircleGroup = this.createCircle(r1, Utils.blendHexColors(Config.color2, Config.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.iDim, Syllabary.phonemes.i);
+		this.outerCircleGroup = this.createCircle(r1, Utils.blendHexColors(Config.color2, Config.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.dims.initialConsonants, Syllabary.phonemes.initialConsonants);
 
-		this.middleCircleGroup = this.createCircle(r2, Utils.blendHexColors(Config.color2, Config.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.jDim, Syllabary.phonemes.j);
+		this.middleCircleGroup = this.createCircle(r2, Utils.blendHexColors(Config.color2, Config.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.dims.vowels, Syllabary.phonemes.vowels);
 
-		this.innerCircleGroup = this.createCircle(r3, Utils.blendHexColors(Config.color2, Config.color1, 0.6), (r3 - 20), Syllabary.kDim, Syllabary.phonemes.k);
+		this.innerCircleGroup = this.createCircle(r3, Utils.blendHexColors(Config.color2, Config.color1, 0.6), (r3 - 20), Syllabary.dims.finalConsonants, Syllabary.phonemes.finalConsonants);
 
 
 		// Create Indicator
@@ -123,9 +123,9 @@ export default class Control {
 		let y = Syllabary.getY();
 		let z = Syllabary.getZ();
 
-		let xDeg = (360 * (x-1)) / Syllabary.xDim;
-		let yDeg = (360 * (y-1)) / Syllabary.yDim;
-		let zDeg = (360 * (z-1)) / Syllabary.zDim;
+		let xDeg = (360 * (x-1)) / Syllabary.dims.x;
+		let yDeg = (360 * (y-1)) / Syllabary.dims.y;
+		let zDeg = (360 * (z-1)) / Syllabary.dims.z;
 
 		this.outerCircleGroup.setAttribute("transform", "rotate(" + -xDeg + ")");
 		this.middleCircleGroup.setAttribute("transform", "rotate(" + -yDeg + ")");
@@ -151,15 +151,15 @@ export default class Control {
         switch (this.currentlyMovingCircle) {
           case "outer":
             dimension = "x";
-            change = (angleChange * Syllabary.xDim / 360);
+            change = (angleChange * Syllabary.initialDim / 360);
             break;
           case "middle":
             dimension = "y";
-            change = (angleChange * Syllabary.yDim / 360);
+            change = (angleChange * Syllabary.middleDim / 360);
             break;
           case "inner":
             dimension = "z";
-            change = (angleChange * Syllabary.zDim / 360);
+            change = (angleChange * Syllabary.endDim / 360);
             break;
         }
 

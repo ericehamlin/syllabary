@@ -50,19 +50,19 @@ export default class Glyph {
 
 		// TODO these names suck -- not at all clear what's going on here
 		let centeredX = this.x - offsetX - 1;
-		let syllabaryOffsetX = Math.floor(centeredX/Syllabary.xDim);
-		centeredX -= syllabaryOffsetX * Syllabary.xDim;
-		if (centeredX > Syllabary.xDim / 2) {
-			centeredX -= Syllabary.xDim;
+		let syllabaryOffsetX = Math.floor(centeredX/Syllabary.dims.x);
+		centeredX -= syllabaryOffsetX * Syllabary.dims.x;
+		if (centeredX > Syllabary.dims.x / 2) {
+			centeredX -= Syllabary.dims.x;
 		}
 
 		let placeX = centeredX * interval;
 
 		let centeredY = this.y - offsetY - 1;
-		let syllabaryOffsetY = Math.floor(centeredY/Syllabary.yDim);
-		centeredY -= syllabaryOffsetY * Syllabary.yDim;
-		if (centeredY > Syllabary.yDim / 2) {
-			centeredY -= Syllabary.yDim;
+		let syllabaryOffsetY = Math.floor(centeredY/Syllabary.dims.y);
+		centeredY -= syllabaryOffsetY * Syllabary.dims.y;
+		if (centeredY > Syllabary.dims.y / 2) {
+			centeredY -= Syllabary.dims.y;
 		}
 		let placeY = centeredY * interval;
 		this.glyph.setAttribute("transform", `translate(${placeX}, ${placeY})`);
