@@ -24,9 +24,8 @@ export default class GlyphLoader {
             const initialConsonant = match[1],
               vowel = match[2],
               finalConsonant = match[3];
-            // TODO: xyz
-            // OKAY this is the key right here
-            Syllabary.grid.syllables[initialConsonant][vowel][finalConsonant].setGlyphData(svg);
+            let {x, y, z} = Syllabary.getXYZForSyllableValues(initialConsonant, vowel, finalConsonant);
+            Syllabary.grid.syllables[x][y][z].setGlyphData(svg);
           });
         });
       }

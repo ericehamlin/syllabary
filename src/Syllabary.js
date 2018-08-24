@@ -143,20 +143,16 @@ let Syllabary = {
 		return Syllabary.getCurrentLocation(z, Syllabary.dims.z);
 	},
 
-	getPhonemeFilename(x, y, z) {
+
+  getXYZForSyllable(syllable) {
+    return Syllabary.getXYZForSyllableValues(syllable.initialConsonant, syllable.vowel, syllable.finalConsonant);
   },
 
-  getXForPhonemeIndex() {
-  },
-
-  getPhonemeIndexForX() {
-  },
-
-  getPositionForSyllable(syllable) {
-    return {
-      [Syllabary.soundsToDimensionsMap.initialConsonants]: syllable.initialConsonant,
-      [Syllabary.soundsToDimensionsMap.vowels]: syllable.vowel,
-      [Syllabary.soundsToDimensionsMap.finalConsonants]: syllable.finalConsonant
+  getXYZForSyllableValues(initialConsonant, vowel, finalConsonant) {
+    return     {
+      [Syllabary.soundsToDimensionsMap.initialConsonants]: initialConsonant,
+      [Syllabary.soundsToDimensionsMap.vowels]: vowel,
+      [Syllabary.soundsToDimensionsMap.finalConsonants]: finalConsonant
     };
   },
 
