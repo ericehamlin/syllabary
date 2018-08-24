@@ -12,6 +12,9 @@ export default class Glyph {
 		this.isLoaded = false;
 	}
 
+	/**
+   * TODO: xyz
+   */
 	setData(data) {
 		this.data = this.filterData(data);
 

@@ -25,6 +25,7 @@ export default class GlyphLoader {
             let x = match[1],
                 y = match[2],
                 z = match[3];
+            // TODO: xyz
             Syllabary.grid.syllables[x][y][z].setGlyphData(svg);
           });
         });

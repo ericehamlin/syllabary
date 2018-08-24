@@ -1,8 +1,8 @@
 'use strict';
 
-import Poem from './Poem.js';
-import Glyph from './Glyph.js';
-import SyllableAudio from './SyllableAudio.js';
+import Poem from 'Poem';
+import Glyph from 'Glyph';
+import SyllableAudio from 'SyllableAudio';
 
 export default class Syllable {
 

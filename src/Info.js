@@ -1,6 +1,6 @@
 'use strict';
 
-import EventMixin from './EventMixin.js';
+import EventMixin from 'EventMixin';
 import * as Hammer from "hammerjs";
 
 export default class Info {

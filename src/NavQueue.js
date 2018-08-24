@@ -1,6 +1,6 @@
 'use strict';
 
-import Config from './Config.js';
+import Config from 'Config';
 
 let NavQueue = {
 

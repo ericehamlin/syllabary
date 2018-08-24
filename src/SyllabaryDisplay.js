@@ -1,10 +1,10 @@
 'use strict';
 
-import Syllabary from './Syllabary';
-import GridDisplay from './GridDisplay.js';
-import PoemDisplay from './PoemDisplay.js';
-import Control from './Control.js'
-import Info from './Info.js';
+import Syllabary from 'Syllabary';
+import GridDisplay from 'GridDisplay';
+import PoemDisplay from 'PoemDisplay';
+import Control from 'Control'
+import Info from 'Info';
 
 export default class SyllabaryDisplay {
 
