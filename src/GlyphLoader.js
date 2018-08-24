@@ -14,8 +14,8 @@ export default class GlyphLoader {
 	}
 
 	load() {
-	  for (let i=1; i <= Syllabary.xDim; i++) {
-	    for (let j=1; j <= Syllabary.yDim; j++) {
+	  for (let i=1; i <= Syllabary.iDim; i++) {
+	    for (let j=1; j <= Syllabary.jDim; j++) {
         let url = Config.baseUrl + "coallatedSvg/" + i + "-" + j + ".svg";
         let promise = FileLoader.load(url);
         promise.then((data) => {

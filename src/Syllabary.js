@@ -13,7 +13,7 @@ import DebugControls from 'DebugControls';
 let Syllabary = {
 
 	start: (options) => {
-		let { containerId, xPosition = null, yPosition = null, zPosition = null} = options;
+		let { containerId, xPosition = null, yPosition = null, zPosition = null } = options;
 
 		Config.set(options);
 
@@ -38,7 +38,6 @@ let Syllabary = {
 
 		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
-
 
 		let color2Rgb = Utils.hexToRgb(Config.color2);
 		let stylesheet = document.styleSheets[0];
