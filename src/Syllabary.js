@@ -13,15 +13,11 @@ import DebugControls from 'DebugControls';
 let Syllabary = {
 
 	start: (options) => {
-		let { containerId, xDim = 20, yDim = 10, zDim = 18, xPosition = null, yPosition = null, zPosition = null} = options;
+		let { containerId, xPosition = null, yPosition = null, zPosition = null} = options;
 
 		Config.set(options);
 
 		Syllabary.containerId = containerId;
-
-		Syllabary.xDim = xDim;
-		Syllabary.yDim = yDim;
-		Syllabary.zDim = zDim;
 
 		/** A phoneme (from the Greek:  phonema, "a sound uttered") is the smallest linguistically distinctive unit of sound. */
 		Syllabary.phonemes = {};
@@ -31,6 +27,10 @@ let Syllabary = {
 		Syllabary.phonemes.y = [null, "U", "O", "o", "u", "a", "i", "e", "A", "E", "I"];
 		/** final consonants */
 		Syllabary.phonemes.z = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
+
+    Syllabary.xDim = Syllabary.phonemes.x.length - 1;
+    Syllabary.yDim = Syllabary.phonemes.y.length - 1;
+    Syllabary.zDim = Syllabary.phonemes.z.length - 1;
 
 		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
@@ -133,7 +133,12 @@ let Syllabary = {
 	getZ: ({diff=0, actual=null} = {}) => {
 		let z = actual || Syllabary.grid.zPosition + diff;
 		return Syllabary.getCurrentLocation(z, Syllabary.zDim);
-	}
+	},
+
+	getPhonemeFilename(x, y, z) {
+  }
+
+
 };
 
 export default Syllabary;

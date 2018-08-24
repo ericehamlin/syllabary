@@ -1,11 +1,11 @@
 'use strict';
 
-import Config from './Config.js';
-import WebAudioAPISound from './WebAudioAPISound.js';
+import Config from 'Config';
+import WebAudioAPISound from 'WebAudioAPISound';
 
 export default class SyllableAudio {
-	constructor(x, y, z) {
-		this.url = Config.baseUrl + "audio/" + x + "-" + y + "-" + z + ".mp3";
+	constructor(i, j, k) {
+		this.url = Config.baseUrl + "audio/" + i + "-" + j + "-" + k + ".mp3";
 		this.isLoaded = false;
 	}
 

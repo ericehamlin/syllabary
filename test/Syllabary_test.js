@@ -19,10 +19,8 @@ describe('Syllabary', function() {
     Syllabary = require('../src/Syllabary').default;
 
   });
-  describe('#indexOf()', function() {
+  describe('#indexOf', function() {
     it('should return -1 when the value is not present', function() {
-      Syllabary.getX();
-      //assert.equal([1,2,3].indexOf(4), -1);
     });
   });
 });

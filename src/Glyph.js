@@ -43,7 +43,7 @@ export default class Glyph {
 
 	place(offsetX, offsetY) {
 
-		let interval = 700;
+		const interval = 700;
 
 		// TODO these names suck -- not at all clear what's going on here
 		let centeredX = this.x - offsetX - 1;

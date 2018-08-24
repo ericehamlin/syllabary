@@ -1,12 +1,12 @@
 'use strict';
 
-import Config from './Config.js';
-import FileLoader from './FileLoader.js';
+import Config from 'Config';
+import FileLoader from 'FileLoader';
 
 export default class Poem {
 
-	constructor(x, y, z) {
-		this.url = Config.baseUrl + "poems/" + x + "-" + y + "-" + z + ".xml";
+	constructor(i, j, k) {
+		this.url = Config.baseUrl + "poems/" + i + "-" + j + "-" + k + ".xml";
 		this.isLoaded = false;
 	}
 
