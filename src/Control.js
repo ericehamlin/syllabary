@@ -123,13 +123,15 @@ export default class Control {
 		let y = Syllabary.getY();
 		let z = Syllabary.getZ();
 
-		let xDeg = (360 * (x-1)) / Syllabary.dims.x;
-		let yDeg = (360 * (y-1)) / Syllabary.dims.y;
-		let zDeg = (360 * (z-1)) / Syllabary.dims.z;
+		let deg = {
+      x: (360 * (x - 1)) / Syllabary.dims.x,
+      y: (360 * (y - 1)) / Syllabary.dims.y,
+      z: (360 * (z - 1)) / Syllabary.dims.z
+    };
 
-		this.outerCircleGroup.setAttribute("transform", "rotate(" + -xDeg + ")");
-		this.middleCircleGroup.setAttribute("transform", "rotate(" + -yDeg + ")");
-		this.innerCircleGroup.setAttribute("transform", "rotate(" + -zDeg + ")");
+		this.outerCircleGroup.setAttribute("transform", "rotate(" + -deg[Syllabary.soundsToDimensionsMap.initialConsonants] + ")");
+		this.middleCircleGroup.setAttribute("transform", "rotate(" + -deg[Syllabary.soundsToDimensionsMap.vowels] + ")");
+		this.innerCircleGroup.setAttribute("transform", "rotate(" + -deg[Syllabary.soundsToDimensionsMap.finalConsonants] + ")");
 	}
 
 	// TODO: cancel control when no pan
@@ -150,16 +152,16 @@ export default class Control {
 
         switch (this.currentlyMovingCircle) {
           case "outer":
-            dimension = "x";
-            change = (angleChange * Syllabary.initialDim / 360);
+            dimension = Syllabary.soundsToDimensionsMap.initialConsonants;
+            change = (angleChange * Syllabary.dims.initialConsonants / 360);
             break;
           case "middle":
-            dimension = "y";
-            change = (angleChange * Syllabary.middleDim / 360);
+            dimension = Syllabary.soundsToDimensionsMap.vowels;
+            change = (angleChange * Syllabary.dims.vowels / 360);
             break;
           case "inner":
-            dimension = "z";
-            change = (angleChange * Syllabary.endDim / 360);
+            dimension = Syllabary.soundsToDimensionsMap.finalConsonants;
+            change = (angleChange * Syllabary.dims.finalConsonants / 360);
             break;
         }
 
