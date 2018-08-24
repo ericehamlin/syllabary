@@ -43,18 +43,8 @@ export default class Grid {
                 this.syllables[x][y] = [];
 
                 for(let z=1; z <= Syllabary.dims.z; z++) {
-                    this.syllables[x][y][z] = new Syllable(x,y,z);
-                }
-            }
-        }
-    }
-
-    forEachSyllable(action) {
-        for (let x=1; x <= Syllabary.dims.x; x++) {
-            for (let y=1; y <= Syllabary.dims.y; y++) {
-                for (let z=1; z <= Syllabary.dims.z; z++) {
-                    let syllable = this.syllables[x][y][z];
-                    action(syllable);
+                    let {initialConsonant, vowel, finalConsonant} = Syllabary.getSyllableValuesForXYZ({x:x, y:y ,z:z});
+                    this.syllables[x][y][z] = new Syllable(initialConsonant, vowel, finalConsonant);
                 }
             }
         }

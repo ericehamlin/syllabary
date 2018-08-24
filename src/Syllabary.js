@@ -152,6 +152,22 @@ let Syllabary = {
   getPhonemeIndexForX() {
   },
 
+  getPositionForSyllable(syllable) {
+    return {
+      [Syllabary.soundsToDimensionsMap.initialConsonants]: syllable.initialConsonant,
+      [Syllabary.soundsToDimensionsMap.vowels]: syllable.vowel,
+      [Syllabary.soundsToDimensionsMap.finalConsonants]: syllable.finalConsonant
+    };
+  },
+
+  getSyllableValuesForXYZ(args) {
+    return {
+      initialConsonant: args[Syllabary.soundsToDimensionsMap.initialConsonants],
+      vowel: args[Syllabary.soundsToDimensionsMap.vowels],
+      finalConsonant: args[Syllabary.soundsToDimensionsMap.finalConsonants]
+    }
+  },
+
   getTotalSyllables() {
     return Syllabary.dims.initialConsonants * Syllabary.dims.vowels * Syllabary.dims.finalConsonants
   }

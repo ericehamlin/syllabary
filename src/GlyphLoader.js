@@ -25,6 +25,7 @@ export default class GlyphLoader {
               vowel = match[2],
               finalConsonant = match[3];
             // TODO: xyz
+            // OKAY this is the key right here
             Syllabary.grid.syllables[initialConsonant][vowel][finalConsonant].setGlyphData(svg);
           });
         });
@@ -34,11 +35,17 @@ export default class GlyphLoader {
 
   getNumLoaded() {
     let numGlyphsLoaded = 0;
-    Syllabary.grid.forEachSyllable(function (syllable) {
-      if (syllable.glyph.isLoaded) {
-        numGlyphsLoaded++;
+    for (let x=1; x <= Syllabary.dims.x; x++) {
+      for (let y=1; y <= Syllabary.dims.y; y++) {
+        for (let z=1; z <= Syllabary.dims.z; z++) {
+          let syllable = Syllabary.grid.syllables[x][y][z];
+          if (syllable.glyph.isLoaded) {
+            numGlyphsLoaded++;
+          }
+        }
       }
-    });
+    }
+
     return numGlyphsLoaded;
   }
 
