@@ -22,15 +22,19 @@ let Syllabary = {
 		/** A phoneme (from the Greek:  phonema, "a sound uttered") is the smallest linguistically distinctive unit of sound. */
 		Syllabary.phonemes = {};
 		/** initial consonants */
-		Syllabary.phonemes.x = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'S', 'Tj', 'Sh', 'R', 'Y', 'G', 'K', 'H', 'W', 'L'];
+		Syllabary.phonemes.i = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'S', 'Tj', 'Sh', 'R', 'Y', 'G', 'K', 'H', 'W', 'L'];
 		/** vowels */
-		Syllabary.phonemes.y = [null, "U", "O", "o", "u", "a", "i", "e", "A", "E", "I"];
+		Syllabary.phonemes.j = [null, "U", "O", "o", "u", "a", "i", "e", "A", "E", "I"];
 		/** final consonants */
-		Syllabary.phonemes.z = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
+		Syllabary.phonemes.k = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
 
-    Syllabary.xDim = Syllabary.phonemes.x.length - 1;
-    Syllabary.yDim = Syllabary.phonemes.y.length - 1;
-    Syllabary.zDim = Syllabary.phonemes.z.length - 1;
+    Syllabary.iDim = Syllabary.phonemes.i.length - 1;
+    Syllabary.jDim = Syllabary.phonemes.j.length - 1;
+    Syllabary.kDim = Syllabary.phonemes.k.length - 1;
+
+    Syllabary.xDim = Syllabary.phonemes.i.length - 1;
+    Syllabary.yDim = Syllabary.phonemes.j.length - 1;
+    Syllabary.zDim = Syllabary.phonemes.k.length - 1;
 
 		/** this probably shouldn't be a class variable, but it needs to be globally available */
 		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
@@ -136,9 +140,13 @@ let Syllabary = {
 	},
 
 	getPhonemeFilename(x, y, z) {
+  },
+
+  getXForPhonemeIndex() {
+  },
+
+  getPhonemeIndexForX() {
   }
-
-
 };
 
 export default Syllabary;

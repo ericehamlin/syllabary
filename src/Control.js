@@ -20,11 +20,11 @@ export default class Control {
 
 		this.listeners = [];
 
-		this.outerCircleGroup = this.createCircle(r1, Utils.blendHexColors(Config.color2, Config.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.xDim, Syllabary.phonemes.x);
+		this.outerCircleGroup = this.createCircle(r1, Utils.blendHexColors(Config.color2, Config.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.iDim, Syllabary.phonemes.i);
 
-		this.middleCircleGroup = this.createCircle(r2, Utils.blendHexColors(Config.color2, Config.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.yDim, Syllabary.phonemes.y);
+		this.middleCircleGroup = this.createCircle(r2, Utils.blendHexColors(Config.color2, Config.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.jDim, Syllabary.phonemes.j);
 
-		this.innerCircleGroup = this.createCircle(r3, Utils.blendHexColors(Config.color2, Config.color1, 0.6), (r3 - 20), Syllabary.zDim, Syllabary.phonemes.z);
+		this.innerCircleGroup = this.createCircle(r3, Utils.blendHexColors(Config.color2, Config.color1, 0.6), (r3 - 20), Syllabary.kDim, Syllabary.phonemes.k);
 
 
 		// Create Indicator
