@@ -150,6 +150,10 @@ let Syllabary = {
   },
 
   getPhonemeIndexForX() {
+  },
+
+  getTotalSyllables() {
+    return Syllabary.dims.initialConsonants * Syllabary.dims.vowels * Syllabary.dims.finalConsonants
   }
 };
 

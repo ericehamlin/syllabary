@@ -49,10 +49,6 @@ export default class Grid {
         }
     }
 
-    getTotalSyllables() {
-        return Syllabary.dims.x * Syllabary.dims.y * Syllabary.dims.z;
-    }
-
     forEachSyllable(action) {
         for (let x=1; x <= Syllabary.dims.x; x++) {
             for (let y=1; y <= Syllabary.dims.y; y++) {
