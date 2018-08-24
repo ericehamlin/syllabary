@@ -1,8 +1,8 @@
 'use strict';
 
-import Config from "./Config";
-import Syllabary from "./Syllabary.js";
-import NavQueue from "./NavQueue.js";
+import Config from "Config";
+import Syllabary from "Syllabary";
+import NavQueue from "NavQueue";
 import * as Hammer from "hammerjs";
 
 export default class RunController {

@@ -1,8 +1,8 @@
 'use strict';
 
-import Config from './Config.js';
-import Syllabary from './Syllabary.js';
-import FileLoader from './FileLoader.js';
+import Config from 'Config';
+import Syllabary from 'Syllabary';
+import FileLoader from 'FileLoader';
 
 export default class GlyphLoader {
 

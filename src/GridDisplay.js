@@ -1,7 +1,7 @@
 'use strict';
 
-import Syllabary from './Syllabary';
-import LayerDisplay from './LayerDisplay.js';
+import Syllabary from 'Syllabary';
+import LayerDisplay from 'LayerDisplay';
 
 export default class GridDisplay {
 	constructor() {

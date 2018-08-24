@@ -1,7 +1,7 @@
 'use strict';
 
-import Syllabary from './Syllabary';
-import Config from './Config.js';
+import Syllabary from 'Syllabary';
+import Config from 'Config';
 
 export default class Glyph {
 

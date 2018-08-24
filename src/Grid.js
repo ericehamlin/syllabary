@@ -1,7 +1,7 @@
 'use strict';
 
-import Syllabary from './Syllabary';
-import Syllable from './Syllable';
+import Syllabary from 'Syllabary';
+import Syllable from 'Syllable';
 
 export default class Grid {
 
