@@ -2,18 +2,31 @@
 
 import EventMixin from 'EventMixin';
 import * as Hammer from "hammerjs";
+import Style from 'Style';
+import Utils from 'Utils';
+
 
 export default class Info {
   constructor() {
     this.listeners = [];
 
+    this.bar = document.createElement("div");
+    this.bar.setAttribute("class", "control-bar");
+
+    this.title = document.createElement("div");
+    this.title.setAttribute("id", "syllabary-title");
+    this.title.innerHTML = "the Syllabary";
+
+    this.bar.appendChild(this.title);
+
     this.info = document.createElement("div");
     this.info.setAttribute("class", "control-info");
-    this.info.innerHTML = "the Syllabary";
+    this.info.innerHTML = "Info about the Syllabary";
 
     this.container = document.createElement("div");
     this.container.setAttribute("class", "control-container");
 
+    this.container.appendChild(this.bar);
     this.container.appendChild(this.info);
 
     let self = this;
@@ -26,6 +39,7 @@ export default class Info {
         }
         else {
           self.container.style.top = target + 'px';
+          callback();
           return;
         }
       }
@@ -43,13 +57,38 @@ export default class Info {
 
     let touchListener = new window.Hammer(this.container);
     touchListener.get('swipe').set({ enable: true, direction: window.Hammer.DIRECTION_VERTICAL });
+
     touchListener.on('swipeup', (e) => {
+      const top = Style.whenMediaQueryMatches({
+        TABLET_LANDSCAPE: Utils.convertVmaxToPx(-10),
+        TABLET_PORTRAIT: Utils.convertVmaxToPx(-10),
+        PHONE_LANDSCAPE: Utils.convertVmaxToPx(-10),
+        PHONE_PORTAIT: Utils.convertVmaxToPx(-10),
+        DESKTOP: Utils.convertVmaxToPx(-10)
+      });
       this.dispatchEvent(new CustomEvent('showinfo'));
-      slide(e.overallVelocityY, 0);
+      slide(e.overallVelocityY, top, () => {
+        console.log("hi");
+        this.container.classList.add('open');
+        this.container.classList.remove('closed');
+        this.container.style.top = null;
+      });
     });
 
     touchListener.on('swipedown', (e) => {
-      slide(e.overallVelocityY, 75, () => self.dispatchEvent(new CustomEvent('hideinfo')) );
+      const top = Style.whenMediaQueryMatches({
+        TABLET_LANDSCAPE: Utils.convertVmaxToPx(0),
+        TABLET_PORTRAIT: Utils.convertVmaxToPx(75),
+        PHONE_LANDSCAPE: Utils.convertVmaxToPx(600),
+        PHONE_PORTAIT: Utils.convertVmaxToPx(300),
+        DESKTOP: Utils.convertVmaxToPx(500)
+      });
+      slide(e.overallVelocityY, top, () => {
+        self.dispatchEvent(new CustomEvent('hideinfo'));
+        this.container.classList.add('closed');
+        this.container.classList.remove('open');
+        this.container.style.top = null;
+      });
     });
 
   }

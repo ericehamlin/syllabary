@@ -26,4 +26,12 @@ export default class Utils {
 
 		return `rgb(${firstHexColorRgb.r - rDiff}, ${firstHexColorRgb.g - gDiff}, ${firstHexColorRgb.b - bDiff})`;
 	}
+
+	static convertVmaxToPx(vmax) {
+    const maxDim = document.documentElement.clientWidth > document.documentElement.clientHeight ?
+      document.documentElement.clientWidth :
+      document.documentElement.clientHeight;
+    const px = vmax/maxDim;
+	  return px;
+  }
 }

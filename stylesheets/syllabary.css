@@ -6,12 +6,6 @@
 
 }
 
-/* @font-face {
-    font-family: 'elegant typewriter';
-    src: url('../fonts/ELEGANT_TYPEWRITER.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-} */
 
 html {
     font-family: 'underwood_championregular';
@@ -88,17 +82,30 @@ pre {
 
 /* Control */
 
-.control-container {
+.control-container, .control-container.closed {
     position: absolute;
     z-index: 1000;
     width: 100%;
-    bottom: -8vmax;
+    top: 37vmax;
+}
+
+.control-container.open {
+    top: -10vmax;
+}
+
+.control-bar {
+    position: absolute;
+    z-index: 1;
+    top: 10vmax;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .control-info {
     position: absolute;
     z-index: 1;
-    top: 10vmax;
+    top: 30vmax;
     left: 0;
     right: 0;
     bottom: 0;
@@ -120,10 +127,13 @@ pre {
 }
 
 @media only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: portrait) {
-    .control-container {
-        bottom: -18vmax;
+    .control-container, .control-container.closed {
         top: 75vmax;
         text-align: center;
+    }
+
+    .control-container.open {
+        top: -10vmax;
     }
 
     .control-info {
@@ -144,9 +154,13 @@ pre {
 }
 
 @media only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: landscape) {
-    .control-container {
-        bottom: -18vmax;
+    .control-container, .control-container.closed {
+        top: 75vmax;
         text-align: center;
+    }
+
+    .control-container.open {
+        top: -10vmax;
     }
 
     .control-info {
@@ -163,9 +177,13 @@ pre {
 }
 
 @media only screen and (max-width: 567px) and (orientation: portrait) {
-    .control-container {
-        bottom: -24vmax;
+    .control-container, .control-container.closed {
+        top: 75vmax;
         text-align: center;
+    }
+
+    .control-container.open {
+        top: -10vmax;
     }
 
     .control-info {
@@ -182,10 +200,15 @@ pre {
 
 
 @media only screen and (max-height: 567px) and (orientation: landscape) {
-    .control-container {
+    .control-container, .control-container.closed {
+        top: 75vmax;
         right: -50vmax;
         text-align: center;
         transform: rotate(-90deg);
+    }
+
+    .control-container.open {
+        top: -10vmax;
     }
 
     .control-info {
