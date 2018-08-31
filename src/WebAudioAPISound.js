@@ -14,12 +14,53 @@ var WebAudioAPISoundManager = function (context) {
 	this.context = context;
 	this.bufferList = {};
 	this.playingSounds = {};
+	this.errors = {};
 };
 
 /*
  * WebAudioAPISoundManager Prototype
  */
 WebAudioAPISoundManager.prototype = {
+
+  syncStream: function(node){ // should be done by api itself. and hopefully will.
+    var buf8 = new Uint8Array(node.buf);
+    buf8.indexOf = Array.prototype.indexOf;
+    var i=node.sync, b=buf8;
+    while(1) {
+      node.retry++;
+      i=b.indexOf(0xFF,i); if(i==-1 || (b[i+1] & 0xE0 == 0xE0 )) break;
+      i++;
+    }
+    if(i!=-1) {
+      var tmp=node.buf.slice(i); //carefull there it returns copy
+      delete(node.buf); node.buf=null;
+      node.buf=tmp;
+      node.sync=i;
+      return true;
+    }
+    return false;
+  },
+
+  decode: function(node) {
+    var self = this;
+    try{
+      self.context.decodeAudioData(node.buf,
+        function(decoded){
+          self.bufferList[node.url] = decoded;
+          self.errors[node.url] = undefined;
+        },
+        function(){ // only on error attempt to sync on frame boundary
+          console.info("Audio decoding problem -- re-syncing", node.url);
+          if(self.syncStream(node)) {
+            self.decode(node);
+          }
+        });
+    } catch(e) {
+      console.error('Audio decoding exception', e.message);
+      self.errors[node.url] = 'decode';
+    }
+  },
+
 	addSound: function (url) {
 		// Load buffer asynchronously
 		var request = new XMLHttpRequest();
@@ -29,25 +70,23 @@ WebAudioAPISoundManager.prototype = {
 		var self = this;
 
 		request.onload = function () {
-			// Asynchronously decode the audio file data in request.response
-			self.context.decodeAudioData(
-				request.response,
-
-				function (buffer) {
-					if (!buffer) {
-						alert('error decoding file data: ' + url);
-						return;
-					}
-					self.bufferList[url] = buffer;
-				});
+		  var node = {
+        url: url,
+        buf: request.response,
+        sync: 0,
+        retry: 0
+      };
+      self.decode(node);
 		};
 
 		request.onerror = function () {
-			alert('BufferLoader: XHR error');
+		  console.error(`Failed to load ${url}`);
+			this.errors[url] = 'load'
 		};
 
 		request.send();
 	},
+
 	stopSoundWithUrl: function(url) {
 		if(this.playingSounds.hasOwnProperty(url)){
 			for(var i in this.playingSounds[url]){
@@ -56,9 +95,11 @@ WebAudioAPISoundManager.prototype = {
 			}
 		}
 	},
+
 	pause: function() {
 		this.context.suspend();
 	},
+
 	resume: function() {
 		this.context.resume();
 	}
@@ -105,9 +146,12 @@ WebAudioAPISound.prototype = {
 			this.manager.playingSounds[this.url].push(source);
 			this.startTime = new Date();
 		}
-		else {
-			setTimeout(function(){ that.play(); }, 10);
-		}
+		else if (this.manager.errors[this.url]) {
+		  this.onEnd();
+    }
+    else {
+      setTimeout(function(){ that.play(); }, 10);
+    }
 	},
 
 	pause: function() {
