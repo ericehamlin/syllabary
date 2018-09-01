@@ -26,11 +26,16 @@ export default class PoemDisplay {
 	}
 
 	setTitle(title) {
-		this.title.innerHTML = title;
+	  if(title && !/^\s*$/.exec(title)) {
+	    this.container.classList.remove('titleless');
+      this.title.innerHTML = title;
+    }
+    else {
+      this.container.classList.add('titleless');
+    }
 	}
 
 	setText(text) {
-		console.log(this);
 		this.text.innerHTML = text;
 	}
 

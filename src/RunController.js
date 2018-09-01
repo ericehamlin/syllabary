@@ -227,9 +227,6 @@ export default class RunController {
 			case this.runStates.PAUSE :
 				break;
 
-      case this.runStates.INFO:
-        break;
-
 			case this.runStates.READ :
 				this.scrollPoemText();
 				break;

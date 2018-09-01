@@ -71,12 +71,20 @@ pre {
     overflow: hidden;
 }
 
+.poem-container.titleless .poem-text-container {
+    top: 50px;
+}
+
 .poem-text {
     position: absolute;
 }
 
 .poem-title {
     font-size: 1.7em;
+}
+
+.poem-container.titleless .poem-title {
+    display: none;
 }
 
 
