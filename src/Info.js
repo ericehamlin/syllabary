@@ -49,6 +49,7 @@ export default class Info {
         }
         else {
           self.container.style.top = target + 'px';
+          callback();
           return;
         }
       }
@@ -60,34 +61,33 @@ export default class Info {
 
     touchListener.on('swipeup', (e) => {
       const top = Style.whenMediaQueryMatches({
-        TABLET_LANDSCAPE: Utils.convertVmaxToPx(-10),
+        TABLET_LANDSCAPE: Utils.convertVmaxToPx(-20),
         TABLET_PORTRAIT: Utils.convertVmaxToPx(-10),
         PHONE_LANDSCAPE: Utils.convertVmaxToPx(-10),
-        PHONE_PORTAIT: Utils.convertVmaxToPx(-10),
+        PHONE_PORTAIT: Utils.convertVmaxToPx(-25),
         DESKTOP: Utils.convertVmaxToPx(-10)
       });
       this.dispatchEvent(new CustomEvent('showinfo'));
       slide(e.overallVelocityY, top, () => {
-        console.log("hi");
         this.container.classList.add('open');
         this.container.classList.remove('closed');
-        this.container.style.top = null;
+        this.container.style.top = "";
       });
     });
 
     touchListener.on('swipedown', (e) => {
       const top = Style.whenMediaQueryMatches({
-        TABLET_LANDSCAPE: Utils.convertVmaxToPx(0),
+        TABLET_LANDSCAPE: Utils.convertVmaxToPx(50),
         TABLET_PORTRAIT: Utils.convertVmaxToPx(75),
-        PHONE_LANDSCAPE: Utils.convertVmaxToPx(600),
-        PHONE_PORTAIT: Utils.convertVmaxToPx(300),
-        DESKTOP: Utils.convertVmaxToPx(500)
+        PHONE_LANDSCAPE: Utils.convertVmaxToPx(70),
+        PHONE_PORTAIT: Utils.convertVmaxToPx(75),
+        DESKTOP: Utils.convertVmaxToPx(37)
       });
       slide(e.overallVelocityY, top, () => {
         self.dispatchEvent(new CustomEvent('hideinfo'));
         this.container.classList.add('closed');
         this.container.classList.remove('open');
-        this.container.style.top = null;
+        this.container.style.top = "";
       });
     });
 

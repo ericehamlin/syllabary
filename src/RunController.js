@@ -132,7 +132,7 @@ export default class RunController {
     };
 
     const hideInfo = (e) => {
-      this.setPaused();
+      this.setResumed();
       this.addEventListeners();
     };
 

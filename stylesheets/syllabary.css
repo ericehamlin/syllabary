@@ -87,6 +87,7 @@ pre {
     z-index: 1000;
     width: 100%;
     top: 37vmax;
+    bottom: 0vmax;
 }
 
 .control-container.open {
@@ -126,7 +127,7 @@ pre {
     top: 0;
 }
 
-@media only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: portrait) {
+@media only screen and (max-width: 1024px) and (min-width: 568px) and (orientation: portrait) {
     .control-container, .control-container.closed {
         top: 75vmax;
         text-align: center;
@@ -136,8 +137,13 @@ pre {
         top: -10vmax;
     }
 
+    .control-bar {
+        top: 10vmax;
+        padding-top: 30vmax;
+    }
+
     .control-info {
-        top: 20vmax;
+        top: 50vmax;
     }
 
     .control-display {
@@ -153,18 +159,18 @@ pre {
     }
 }
 
-@media only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: landscape) {
+@media only screen and (max-width: 1024px) and (min-width: 568px) and (orientation: landscape) {
     .control-container, .control-container.closed {
-        top: 75vmax;
+        top: 50vmax;
         text-align: center;
     }
 
     .control-container.open {
-        top: -10vmax;
+        top: -20vmax;
     }
 
     .control-info {
-        top: 20vmax;
+        top: 10vmax;
     }
 
     .control-display {
@@ -183,11 +189,16 @@ pre {
     }
 
     .control-container.open {
-        top: -10vmax;
+        top: -25vmax;
+    }
+
+    .control-bar {
+        top: 10vmax;
+        padding-top: 40vmax;
     }
 
     .control-info {
-        top: 22vmax;
+        top: 60vmax;
     }
 
     .control-display {

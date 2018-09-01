@@ -159,6 +159,11 @@ let Syllabary = {
     }
   },
 
+  getSyllableStringForXYZ(x, y, z) {
+    const {initialConsonant, vowel, finalConsonant} = Syllabary.getSyllableValuesForXYZ({x:x, y:y, z:z});
+    return `${initialConsonant}-${vowel}-${finalConsonant}`;
+  },
+
   getTotalSyllables() {
     return Syllabary.dims.initialConsonants * Syllabary.dims.vowels * Syllabary.dims.finalConsonants
   }

@@ -5,8 +5,8 @@ import Utils from 'Utils';
 
 let Style = {
   mediaQueries: {
-    TABLET_LANDSCAPE: 'only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: landscape)',
-    TABLET_PORTRAIT: 'only screen and (max-width: 1000px) and (min-width: 568px) and (orientation: portrait)',
+    TABLET_LANDSCAPE: 'only screen and (max-width: 1024px) and (min-width: 568px) and (orientation: landscape)',
+    TABLET_PORTRAIT: 'only screen and (max-width: 1024px) and (min-width: 568px) and (orientation: portrait)',
     PHONE_LANDSCAPE: 'screen and (max-height: 567px) and (orientation: landscape)',
     PHONE_PORTRAIT: 'only screen and (max-width: 567px) and (orientation: portrait)',
     DESKTOP: 'desktop'
