@@ -65,7 +65,10 @@ export default class RunController {
       if (this.readingSyllable) {
         this.readingSyllable.resume();
       }
-    }
+    };
+
+    this.lastCycleTime = new Date();
+    this.cycleDifferential = 1;
 	}
 
   /**
@@ -250,6 +253,9 @@ export default class RunController {
 				break;
 		}
 
+		const cycleTime = new Date();
+		this.cycleDifferential = cycleTime.getTime() - this.lastCycleTime.getTime();
+    this.lastCycleTime = cycleTime;
 		requestAnimationFrame(() => {this.run(); });
 	}
 
@@ -281,9 +287,10 @@ export default class RunController {
 	 *
 	 */
 	advanceAnimation() {
-		Syllabary.grid.addX(this.animateDirection.x);
-		Syllabary.grid.addY(this.animateDirection.y);
-		Syllabary.grid.addZ(this.animateDirection.z);
+	  console.log(this);
+		Syllabary.grid.addX(this.getXanimateDirection());
+		Syllabary.grid.addY(this.getYanimateDirection());
+		Syllabary.grid.addZ(this.getZanimateDirection());
 	}
 
 	/**
@@ -549,6 +556,24 @@ export default class RunController {
     let scroll = (totalScroll * percentNeedToScroll) / 100;
     Syllabary.syllabaryDisplay.poemDisplay.text.style.top = -scroll + "px";
 	}
+
+	getXanimateDirection() {
+	  let x = (this.animateDirection.x * this.cycleDifferential) / 25;
+    console.log("x", x, this.cycleDifferential);
+    return x;
+  }
+
+  getYanimateDirection() {
+    let y = (this.animateDirection.y * this.cycleDifferential) / 25;
+    console.log("y", y);
+    return y;
+  }
+
+  getZanimateDirection() {
+    let z = (this.animateDirection.z * this.cycleDifferential) / 25;
+    console.log("z", z);
+    return z;
+  }
 
 	/**
 	 *
