@@ -36,7 +36,7 @@ export default class LayerDisplay {
 		const exactZPosition = this.getExactZPosition();
 
     // TODO what exactly is this?
-    const calculated = (exactZPosition + this.numVisibleLayers + 1 - Syllabary.dims.z) * 300; // TODO: what is this number 300?
+    const calculated = (exactZPosition + this.numVisibleLayers + 1 - Syllabary.dims.z) * 150; // TODO: what is this number 150?
 
     // Displace layer on x-y axes
     const displacement = (calculated / -2) + "%";
