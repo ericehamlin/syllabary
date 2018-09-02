@@ -6,7 +6,7 @@ let Config = {
 	color1: "#000000",
 	color2: "#ffffff",
 	color3: "#aa0000",
-  animateInterval: 0.005,
+  animateInterval: 0.025,
 
 	debug: false,
 
