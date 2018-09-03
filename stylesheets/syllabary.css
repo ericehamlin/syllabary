@@ -215,6 +215,12 @@ pre {
         height: 50vmax;
         float: none;
     }
+
+    .poem-display {
+        margin-left: 5vmin;
+        margin-right: 5vmin;
+        bottom: 15vmax;
+    }
 }
 
 

@@ -70,6 +70,11 @@ WebAudioAPISoundManager.prototype = {
 		var self = this;
 
 		request.onload = function () {
+		  if (request.status != 200) {
+        console.error(`Failed to load ${url}`);
+        self.errors[url] = 'load';
+        return false;
+      }
 		  var node = {
         url: url,
         buf: request.response,
@@ -77,11 +82,6 @@ WebAudioAPISoundManager.prototype = {
         retry: 0
       };
       self.decode(node);
-		};
-
-		request.onerror = function () {
-		  console.error(`Failed to load ${url}`);
-			this.errors[url] = 'load'
 		};
 
 		request.send();
