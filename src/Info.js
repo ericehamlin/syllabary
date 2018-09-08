@@ -61,11 +61,11 @@ export default class Info {
 
     touchListener.on('swipeup', (e) => {
       const top = Style.whenMediaQueryMatches({
-        TABLET_LANDSCAPE: Utils.convertVmaxToPx(-20),
-        TABLET_PORTRAIT: Utils.convertVmaxToPx(-10),
+        TABLET_LANDSCAPE: Utils.convertPercentToPx(-22),
+        TABLET_PORTRAIT: Utils.convertPercentToPx(-20),
         PHONE_LANDSCAPE: Utils.convertVmaxToPx(-10),
-        PHONE_PORTAIT: Utils.convertVmaxToPx(-25),
-        DESKTOP: Utils.convertVmaxToPx(-10)
+        PHONE_PORTAIT: Utils.convertPercentToPx(-25),
+        DESKTOP: Utils.convertPercentToPx(-10)
       });
       this.dispatchEvent(new CustomEvent('showinfo'));
       slide(e.overallVelocityY, top, () => {
@@ -77,11 +77,11 @@ export default class Info {
 
     touchListener.on('swipedown', (e) => {
       const top = Style.whenMediaQueryMatches({
-        TABLET_LANDSCAPE: Utils.convertVmaxToPx(50),
-        TABLET_PORTRAIT: Utils.convertVmaxToPx(75),
+        TABLET_LANDSCAPE: Utils.convertPercentToPx(75),
+        TABLET_PORTRAIT: Utils.convertPercentToPx(80),
         PHONE_LANDSCAPE: Utils.convertVmaxToPx(70),
-        PHONE_PORTAIT: Utils.convertVmaxToPx(75),
-        DESKTOP: Utils.convertVmaxToPx(37)
+        PHONE_PORTAIT: Utils.convertPercentToPx(75),
+        DESKTOP: Utils.convertPercentToPx(37)
       });
       slide(e.overallVelocityY, top, () => {
         self.dispatchEvent(new CustomEvent('hideinfo'));

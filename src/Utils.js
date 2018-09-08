@@ -34,4 +34,10 @@ export default class Utils {
     const px = vmax/maxDim;
 	  return px;
   }
+
+  static convertPercentToPx(percent) {
+    const height = window.innerHeight;
+    const px = (percent * height)/100;
+    return px;
+  }
 }
