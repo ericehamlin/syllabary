@@ -60,6 +60,7 @@ export default class Info {
     touchListener.get('swipe').set({ enable: true, direction: window.Hammer.DIRECTION_VERTICAL });
 
     touchListener.on('swipeup', (e) => {
+      e.preventDefault();
       const top = Style.whenMediaQueryMatches({
         TABLET_LANDSCAPE: Utils.convertPercentToPx(-22),
         TABLET_PORTRAIT: Utils.convertPercentToPx(-20),
@@ -76,6 +77,7 @@ export default class Info {
     });
 
     touchListener.on('swipedown', (e) => {
+      e.preventDefault();
       const top = Style.whenMediaQueryMatches({
         TABLET_LANDSCAPE: Utils.convertPercentToPx(75),
         TABLET_PORTRAIT: Utils.convertPercentToPx(80),

@@ -9,9 +9,6 @@ export default class SyllableAudio {
 		this.isLoaded = false;
 	}
 
-	/**
-	 * TODO clearer understanding of when this is loaded
-	 */
 	play() {
 		if (!this.data) {
 			this.load();
@@ -34,7 +31,5 @@ export default class SyllableAudio {
 
 	load() {
 		this.data = new WebAudioAPISound(this.url);
-
-		// this.data = new Audio(this.url);
 	}
 }

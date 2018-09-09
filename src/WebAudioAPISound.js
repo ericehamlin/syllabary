@@ -1,10 +1,11 @@
 'use strict';
+import Syllabary from 'Syllabary';
 
 try {
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	window.audioContext = new window.AudioContext();
 } catch (e) {
-	console.log("No Web Audio API support");
+	console.error("No Web Audio API support");
 }
 
 /*
@@ -129,6 +130,8 @@ var WebAudioAPISound = function (url, options) {
  * WebAudioAPISound Prototype
  */
 WebAudioAPISound.prototype = {
+  paused: false,
+
 	play: function () {
 		let that = this;
 		var buffer = this.manager.bufferList[this.url];
@@ -137,14 +140,16 @@ WebAudioAPISound.prototype = {
 		if (typeof buffer !== "undefined") {
 			var source = this.makeSource(buffer);
 			source.loop = this.settings.loop;
-			source.start();
 			source.addEventListener('ended', () => {
 				that.onEnd();
 			});
 			if(!this.manager.playingSounds.hasOwnProperty(this.url))
 				this.manager.playingSounds[this.url] = [];
 			this.manager.playingSounds[this.url].push(source);
-			this.startTime = new Date();
+      if (Syllabary.runController && !Syllabary.runController.isPaused()) {
+        source.start();
+        this.startTime = new Date();
+      }
 		}
 		else if (this.manager.errors[this.url]) {
 		  this.onEnd();
@@ -156,12 +161,19 @@ WebAudioAPISound.prototype = {
 
 	pause: function() {
 	  this.pausedElapsedTime = this.getElapsedTime();
-		this.manager.pause();
+    if (this.pausedElapsedTime > 0) {
+      this.manager.pause();
+    }
 	},
 
 	resume: function() {
-	  this.startTime = new Date((new Date()).getTime() - (this.pausedElapsedTime * 1000));
-		this.manager.resume();
+    if (this.pausedElapsedTime > 0) {
+      this.startTime = new Date((new Date()).getTime() - (this.pausedElapsedTime * 1000));
+      this.manager.resume();
+    }
+    else {
+      this.play();
+    }
 	},
 
 	stop: function () {

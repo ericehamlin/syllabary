@@ -53,7 +53,7 @@ export default class GlyphLoader {
     let numGlyphsLoaded = this.getNumLoaded();
     let percentGlyphsLoaded = 100 * numGlyphsLoaded / totalGlyphs;
 
-    console.log(numGlyphsLoaded + " (" + percentGlyphsLoaded + ")%  of " + totalGlyphs + " glyphs loaded.");
+    console.info(numGlyphsLoaded + " (" + percentGlyphsLoaded + ")%  of " + totalGlyphs + " glyphs loaded.");
 
     return percentGlyphsLoaded;
   }

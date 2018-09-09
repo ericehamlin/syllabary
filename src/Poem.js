@@ -19,7 +19,9 @@ export default class Poem {
 						Syllabary.syllabaryDisplay.poemDisplay.setText(this.text);
 						Syllabary.syllabaryDisplay.poemDisplay.setTitle(this.title);
 
-						Syllabary.syllabaryDisplay.poemDisplay.show().then(()=> { resolve(true); });
+						Syllabary.syllabaryDisplay.poemDisplay.show().then(() => {
+						  resolve(true);
+						});
 
 					}
 					else {

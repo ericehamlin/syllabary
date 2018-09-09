@@ -15,7 +15,8 @@ export default class RunController {
 			DRIFT : "drift",			// user has released drag
 			ANIMATE : "animate",		// standard animation is advancing or drift has come to an end
 			MAGNETIZE : "magnetize",	// drifting has stopped and grid is moving toward closest syllable
-			PAUSE : "pause"
+			PAUSE : "pause",
+      RESUME: "resume"
 		};
 
 		this.animateInterval = Config.animateInterval;
@@ -31,21 +32,21 @@ export default class RunController {
 		 * if there's a better way, I'd like to know
 		 */
 		this.setPaused = () => {
-			if (this.isPaused()) {
-        this.setResumed();
-			}
-			else {
-				console.debug("Starting Pause");
-				this.pausedRunState = this.runState;
-				this.runState = this.runStates.PAUSE;
-        if (this.readingSyllable) {
-          this.readingSyllable.pause();
-        }
-			}
+      console.debug("Starting Pause");
+      if (!this.pausedRunState) {
+        this.pausedRunState = this.runState;
+      }
+      this.runState = this.runStates.PAUSE;
+      this.removeEventListeners();
+      if (this.readingSyllable) {
+        this.readingSyllable.pause();
+      }
 		};
 
 		this.setResumed = () => {
       console.debug("Resuming...");
+      this.runState = this.runStates.RESUME;
+
       switch(this.pausedRunState){
         case this.runStates.ANIMATE:
           this.setAnimating();
@@ -131,12 +132,12 @@ export default class RunController {
   initializeInfoListeners() {
     const showInfo = (e) => {
       this.setPaused();
-      this.removeEventListeners();
+      //this.removeEventListeners();
     };
 
     const hideInfo = (e) => {
       this.setResumed();
-      this.addEventListeners();
+      //this.addEventListeners();
     };
 
     Syllabary.syllabaryDisplay.info.addEventListener("showinfo", showInfo);
@@ -287,7 +288,6 @@ export default class RunController {
 	 *
 	 */
 	advanceAnimation() {
-	  console.log(this);
 		Syllabary.grid.addX(this.getXanimateDirection());
 		Syllabary.grid.addY(this.getYanimateDirection());
 		Syllabary.grid.addZ(this.getZanimateDirection());
@@ -423,7 +423,12 @@ export default class RunController {
 			this.readingSyllable = null;
 			Syllabary.syllabaryDisplay.poemDisplay.hide().then(() => {
 				self.setRandomAnimateDirection();
-				self.setAnimating();
+        if (self.isPaused()) {
+          self.pausedRunState = self.runStates.ANIMATE;
+        }
+        else {
+          self.setAnimating();
+        }
 			});
 
 		});
@@ -507,7 +512,7 @@ export default class RunController {
 				targetZ = Syllabary.getZ({diff: zDiff});
 
 			if (NavQueue.includes(targetX, targetY, targetZ)) {
-				console.log("Cannot return to " + targetX + "-" + targetY + "-" + targetZ);
+				console.debug("Cannot return to " + targetX + "-" + targetY + "-" + targetZ);
 			} else {
 				allowedDirection = true;
 			}
@@ -524,11 +529,7 @@ export default class RunController {
 	}
 
   /**
-   * WebAudioAPISound.js:145 Uncaught TypeError: Cannot read property 'duration' of undefined
-   at WebAudioAPISound.getDuration (WebAudioAPISound.js:145)
-   at RunController.scrollPoemText (RunController.js:468)
-   at RunController.run (RunController.js:177)
-   at RunController.js:199
+   *
    * @returns {boolean}
    */
 	scrollPoemText() {
@@ -558,21 +559,15 @@ export default class RunController {
 	}
 
 	getXanimateDirection() {
-	  let x = (this.animateDirection.x * this.cycleDifferential) / 25;
-    console.log("x", x, this.cycleDifferential);
-    return x;
+	  return (this.animateDirection.x * this.cycleDifferential) / 25;
   }
 
   getYanimateDirection() {
-    let y = (this.animateDirection.y * this.cycleDifferential) / 25;
-    console.log("y", y);
-    return y;
+    return (this.animateDirection.y * this.cycleDifferential) / 25;
   }
 
   getZanimateDirection() {
-    let z = (this.animateDirection.z * this.cycleDifferential) / 25;
-    console.log("z", z);
-    return z;
+    return (this.animateDirection.z * this.cycleDifferential) / 25;
   }
 
 	/**
@@ -587,6 +582,7 @@ export default class RunController {
 	 *
 	 */
 	setReading() {
+    if (this.isPaused()) { return false; }
 		console.debug("Starting Read");
 		this.removeEventListeners();
 		NavQueue.add(Syllabary.getX(), Syllabary.getY(), Syllabary.getZ());
@@ -605,8 +601,10 @@ export default class RunController {
 	 *
 	 */
 	setDragging() {
+    if (this.isPaused()) { return false; }
 		console.debug("Starting Drag");
 		this.removeControlEventListeners();
+    this.addTouchEventListeners();
 		this.runState = this.runStates.DRAG;
 	}
 
@@ -622,6 +620,7 @@ export default class RunController {
 	 *
 	 */
 	setDrifting() {
+    if (this.isPaused()) { return false; }
 		console.debug("Starting Drift");
 		this.addEventListeners();
 		this.runState = this.runStates.DRIFT;
@@ -639,6 +638,7 @@ export default class RunController {
 	 *
 	 */
 	setAnimating() {
+    if (this.isPaused()) { return false; }
 		console.debug("Starting Animate");
 		this.addEventListeners();
 		this.runState = this.runStates.ANIMATE;
@@ -656,6 +656,7 @@ export default class RunController {
 	 *
 	 */
 	setMagnetizing() {
+    if (this.isPaused()) { return false; }
 		console.debug("Starting Magnetize");
 		this.addEventListeners();
 		this.runState = this.runStates.MAGNETIZE;
@@ -670,8 +671,10 @@ export default class RunController {
 	}
 
 	setControlling() {
+	  if (this.isPaused()) { return false; }
 		console.debug("Starting Control");
 		this.removeTouchEventListeners();
+    this.addControlEventListeners();
 		this.runState = this.runStates.CONTROL;
 	}
 
