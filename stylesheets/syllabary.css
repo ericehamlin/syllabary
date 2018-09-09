@@ -36,6 +36,7 @@ pre {
     height: 100%;
 }
 
+
 .fade-layer {
     opacity: 0.5;
 }
@@ -95,7 +96,7 @@ pre {
     z-index: 1000;
     width: 100%;
     top: 75%;
-    bottom: 0vmax;
+    bottom: 0;
 }
 
 .control-container.open {
@@ -114,7 +115,7 @@ pre {
 .control-info {
     position: absolute;
     z-index: 1;
-    top: 30vmax;
+    top: 30min;
     left: 0;
     right: 0;
     bottom: 0;

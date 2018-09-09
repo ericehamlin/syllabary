@@ -37,7 +37,7 @@ let Style = {
     const stylesheet = document.styleSheets[0];
     stylesheet.insertRule(`html, body { color: ${Config.color1}; background-color: ${Config.color2}; }`);
     stylesheet.insertRule(`.fade-layer { background-color: ${Config.color2}; }`);
-    stylesheet.insertRule(`.center-fade { background: radial-gradient(rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0.75) 20%, rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0)); }`)
+    stylesheet.insertRule(`.center-fade { background: radial-gradient(rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b},0.75) 20%, rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b}, 0.7)); }`)
     stylesheet.insertRule(`.poem-container { background-color: rgba(${color2Rgb.r},${color2Rgb.g},${color2Rgb.b}, 0.8); }`);
     stylesheet.insertRule(`.control-bar { background-color: ${Utils.blendHexColors(Config.color2, Config.color1, 0.2)}; }`);
   }

@@ -33,6 +33,9 @@ export default class GridDisplay {
 	}
 
 	render() {
+	  let z = Math.abs(Syllabary.grid.zPosition);
+    let opacity = 1 - (z - Math.floor(z));
+	  this.centerFade.style.opacity = opacity;
 		for(let z in this.layers) {
 			this.layers[z].render();
 		}
