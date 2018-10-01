@@ -57,7 +57,10 @@ export default class LayerDisplay {
 			this.display.style.height = scale;
 
       // TODO: this is the line that's affecting the Z-fade problem
-			this.fadeLayer.style.opacity = Math.abs(exactZPosition + 1 - Syllabary.dims.z) / this.numVisibleLayers;
+			let opacity = Math.abs(exactZPosition + 1 - Syllabary.dims.z) / this.numVisibleLayers;
+      console.log(this.z, opacity, exactZPosition);
+
+      this.fadeLayer.style.opacity = opacity;
 
       // Fade closest layer out
 			if (exactZPosition > (Syllabary.dims.z - 1)) {
@@ -78,7 +81,7 @@ export default class LayerDisplay {
 	}
 
 	isDisplayed(exactZPosition) {
-    return exactZPosition > (Syllabary.dims.z - this.numVisibleLayers);
+    return exactZPosition >= (Syllabary.dims.z - this.numVisibleLayers);
   }
 
 	/**
