@@ -1,10 +1,11 @@
 /node_modules
 *.iml
 /.idea
-/svg
+/rawSvg
 /poems
 /audio
 /data
 /dist
 /benchmark
 /glyphs
+/coallatedSvg
