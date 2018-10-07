@@ -9,7 +9,7 @@ let LoadingDisplay = {
   lastPointDrawn: 0,
 
   segmentLength: 0, // set dynamically
-  segmentWidth: 1000, // known segmentWidth: 10,
+  segmentWidth: 10, // known
 
   numStrokes: 36, // known
   totalLength: 0, // set dynamically
@@ -76,6 +76,7 @@ let LoadingDisplay = {
         const point2 = LoadingDisplay.points[i];
         if (point1.stroke === point2.stroke) {
           LoadingDisplay.drawSegment(point1.stroke.num, i-1);
+          LoadingDisplay.positionSegment(i-1);
         }
       }
     });
@@ -107,7 +108,6 @@ let LoadingDisplay = {
         console.log("SKIPPING SEGMENT BETWEEN", point1, point2);
       }
       else {
-        const slope = LoadingDisplay.getSlope(point1, point2);
         //console.log("DRAWING SEGMENT BETWEEN", point1, point2, slope);
       }
     }
@@ -138,9 +138,26 @@ let LoadingDisplay = {
     segment.setAttribute('y', 0);
     segment.setAttribute('width', LoadingDisplay.segmentWidth);
     segment.setAttribute('height', LoadingDisplay.segmentLength);
-    segment.setAttribute('style', 'display:none;');
+    //segment.setAttribute('style', 'display:none;');
     const clipPath = document.getElementById(`stroke-${strokeNum}-clip-path`);
     clipPath.appendChild(segment);
+  },
+
+  positionSegment: (segmentNum) => {
+    const segment = document.getElementById(`clip-path-segment-${segmentNum}`);
+    const point1 = LoadingDisplay.points[segmentNum];
+    const point2 = LoadingDisplay.points[segmentNum+1];
+    const x = point1.point.x;
+    const y = point1.point.y;
+
+    const slope = LoadingDisplay.getSlope(point1, point2);
+    const angle = Math.atan(slope);
+    const rotate = "rotate(" + LoadingDisplay.radToDeg(angle) + "," + x + "," + y + ")";
+    const translate = "translate(0, -" + ((LoadingDisplay.segmentWidth + 10)/2) + ")";
+    segment.setAttribute("transform", rotate + " " + translate);
+
+    segment.setAttribute("x", x);
+    segment.setAttribute("y", y);
   },
 
   getDistance: (point1, point2) => {
@@ -149,6 +166,15 @@ let LoadingDisplay = {
 
   getSlope: (point1, point2) => {
 	  return (point2.point.y - point1.point.y) / (point2.point.x - point1.point.x);
+  },
+
+  /**
+   *
+   * @param {number} rad radians
+   * @returns {number} degrees
+   */
+  radToDeg: function(rad) {
+    return rad * 180 / Math.PI;
   }
 };
 
