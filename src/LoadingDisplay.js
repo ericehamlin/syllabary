@@ -9,7 +9,7 @@ let LoadingDisplay = {
   lastPointDrawn: 0,
 
   segmentLength: 0, // set dynamically
-  segmentWidth: 30, // known
+  segmentWidth: 50, // known
 
   numStrokes:   36, // known
   totalLength:  0, // set dynamically
@@ -59,7 +59,7 @@ let LoadingDisplay = {
       LoadingDisplay.segmentLength = LoadingDisplay.getDistance(LoadingDisplay.points[0], LoadingDisplay.points[1]);
 
       const defs = document.getElementsByTagName('defs')[0];
-      //const svgEl = document.getElementsByTagName('svg')[0];
+
       // create a clipPath for each stroke
       for(let i=1; i<=LoadingDisplay.numStrokes; i++) {
         const stroke = LoadingDisplay.strokes[i-1];
@@ -67,9 +67,8 @@ let LoadingDisplay = {
         const clipPath = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
         const clipPathId = `stroke-${i}-clip-path`;
         clipPath.setAttribute('id', clipPathId);
-        //svgEl.appendChild(clipPath);
         defs.appendChild(clipPath);
-        //stroke.shape.setAttribute('clip-path', `url(#${clipPathId})`)
+        stroke.shape.setAttribute('clip-path', `url(#${clipPathId})`)
       }
 
       // create a segment for each
@@ -111,6 +110,8 @@ let LoadingDisplay = {
       }
       else {
         //console.log("DRAWING SEGMENT BETWEEN", point1, point2, slope);
+        const segment = document.getElementById(`clip-path-segment-${i}`);
+        segment.setAttribute('style', 'display:block;');
       }
     }
     LoadingDisplay.lastPointDrawn = currentPoint;
@@ -141,7 +142,7 @@ let LoadingDisplay = {
     segment.setAttribute('width', LoadingDisplay.segmentWidth);
     segment.setAttribute('height', LoadingDisplay.segmentLength);
     segment.setAttribute('class', 'clip-path-segment');
-    //segment.setAttribute('style', 'display:none;');
+    segment.setAttribute('style', 'display:none;');
     const clipPath = document.getElementById(`stroke-${strokeNum}-clip-path`);
     clipPath.appendChild(segment);
   },
@@ -149,17 +150,11 @@ let LoadingDisplay = {
   positionSegment: (segmentNum) => {
     const segment = document.getElementById(`clip-path-segment-${segmentNum}`);
     const point1 = LoadingDisplay.points[segmentNum];
-    const point2 = LoadingDisplay.points[segmentNum+1];
     const x = point1.point.x;
     const y = point1.point.y;
 
-    const slope = LoadingDisplay.getSlope(point1, point2);
-    const angle = Math.atan(slope);
-    const rotate = "";
-    //const rotate = "rotate(" + LoadingDisplay.radToDeg(angle) + "," + x + "," + y + ")";
-    //-${(LoadingDisplay.segmentLength/2)}
     const translate = `translate(-${(LoadingDisplay.segmentWidth / 2)}, -${(LoadingDisplay.segmentLength / 2)})`;
-    segment.setAttribute('transform', `${translate} ${rotate}`);
+    segment.setAttribute('transform', `${translate}`);
 
     segment.setAttribute("x", x);
     segment.setAttribute("y", y);
@@ -167,10 +162,6 @@ let LoadingDisplay = {
 
   getDistance: (point1, point2) => {
     return Math.sqrt( Math.pow(point2.point.y - point1.point.y, 2) + Math.pow(point2.point.x - point1.point.x, 2));
-  },
-
-  getSlope: (point1, point2) => {
-	  return (point2.point.y - point1.point.y) / (point2.point.x - point1.point.x);
   },
 
   /**
