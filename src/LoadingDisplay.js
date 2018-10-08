@@ -105,11 +105,7 @@ let LoadingDisplay = {
       const point1 = LoadingDisplay.points[i];
       const point2 = LoadingDisplay.points[i+1];
 
-      if (point1.stroke !== point2.stroke) {
-        console.log("SKIPPING SEGMENT BETWEEN", point1, point2);
-      }
-      else {
-        //console.log("DRAWING SEGMENT BETWEEN", point1, point2, slope);
+      if (point1.stroke === point2.stroke) {
         const segment = document.getElementById(`clip-path-segment-${i}`);
         segment.setAttribute('style', 'display:block;');
       }
