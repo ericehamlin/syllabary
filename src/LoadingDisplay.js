@@ -9,22 +9,22 @@ let LoadingDisplay = {
   lastPointDrawn: 0,
 
   segmentLength: 0, // set dynamically
-  segmentWidth: 10, // known
+  segmentWidth: 30, // known
 
-  numStrokes: 36, // known
-  totalLength: 0, // set dynamically
-  points: [],
-  strokes: [],
-  svgEl: undefined,
+  numStrokes:   36, // known
+  totalLength:  0, // set dynamically
+  points:       [],
+  strokes:      [],
+  svgContainer: undefined,
 
 	create: () => {
     LoadingDisplay.display = document.createElement("div");
     LoadingDisplay.display.setAttribute("class", "loading-display");
 
     return LoadingDisplay.load().then((svg) => {
-      LoadingDisplay.svgEl = document.createElement('div');
-      LoadingDisplay.svgEl.innerHTML = svg;
-      LoadingDisplay.display.appendChild(LoadingDisplay.svgEl);
+      LoadingDisplay.svgContainer = document.createElement('div');
+      LoadingDisplay.svgContainer.innerHTML = svg;
+      LoadingDisplay.display.appendChild(LoadingDisplay.svgContainer);
       for (let i=1; i<= LoadingDisplay.numStrokes; i++) {
         const path = document.getElementById(`stroke-${i}-guide`);
         const shape = document.getElementById(`stroke-${i}`);
@@ -39,7 +39,7 @@ let LoadingDisplay = {
         LoadingDisplay.totalLength += length;
       }
 
-      const numDivisions = 1000;
+      const numDivisions = 300;
       const lengthUnit = LoadingDisplay.totalLength / numDivisions;
       let currentStroke = 1; // in the SVG, they're 1-indexed instead of 0-indexed
       for (let i=0; i<numDivisions; i++) {
@@ -59,15 +59,17 @@ let LoadingDisplay = {
       LoadingDisplay.segmentLength = LoadingDisplay.getDistance(LoadingDisplay.points[0], LoadingDisplay.points[1]);
 
       const defs = document.getElementsByTagName('defs')[0];
-
+      //const svgEl = document.getElementsByTagName('svg')[0];
       // create a clipPath for each stroke
       for(let i=1; i<=LoadingDisplay.numStrokes; i++) {
         const stroke = LoadingDisplay.strokes[i-1];
+        //const clipPath = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         const clipPath = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
         const clipPathId = `stroke-${i}-clip-path`;
         clipPath.setAttribute('id', clipPathId);
+        //svgEl.appendChild(clipPath);
         defs.appendChild(clipPath);
-        stroke.shape.setAttribute('clip-path', `url(#${clipPathId})`)
+        //stroke.shape.setAttribute('clip-path', `url(#${clipPathId})`)
       }
 
       // create a segment for each
@@ -138,6 +140,7 @@ let LoadingDisplay = {
     segment.setAttribute('y', 0);
     segment.setAttribute('width', LoadingDisplay.segmentWidth);
     segment.setAttribute('height', LoadingDisplay.segmentLength);
+    segment.setAttribute('class', 'clip-path-segment');
     //segment.setAttribute('style', 'display:none;');
     const clipPath = document.getElementById(`stroke-${strokeNum}-clip-path`);
     clipPath.appendChild(segment);
@@ -152,9 +155,11 @@ let LoadingDisplay = {
 
     const slope = LoadingDisplay.getSlope(point1, point2);
     const angle = Math.atan(slope);
-    const rotate = "rotate(" + LoadingDisplay.radToDeg(angle) + "," + x + "," + y + ")";
-    const translate = "translate(0, -" + ((LoadingDisplay.segmentWidth + 10)/2) + ")";
-    segment.setAttribute("transform", rotate + " " + translate);
+    const rotate = "";
+    //const rotate = "rotate(" + LoadingDisplay.radToDeg(angle) + "," + x + "," + y + ")";
+    //-${(LoadingDisplay.segmentLength/2)}
+    const translate = `translate(-${(LoadingDisplay.segmentWidth / 2)}, -${(LoadingDisplay.segmentLength / 2)})`;
+    segment.setAttribute('transform', `${translate} ${rotate}`);
 
     segment.setAttribute("x", x);
     segment.setAttribute("y", y);
