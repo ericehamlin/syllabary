@@ -3,6 +3,7 @@
 import Config from 'Config';
 import Syllabary from 'Syllabary';
 import FileLoader from 'FileLoader';
+import EventMixin from './EventMixin.js';
 
 let LoadingDisplay = {
 
@@ -22,9 +23,7 @@ let LoadingDisplay = {
     LoadingDisplay.display.setAttribute("class", "loading-display");
 
     return LoadingDisplay.load().then((svg) => {
-      LoadingDisplay.svgContainer = document.createElement('div');
-      LoadingDisplay.svgContainer.innerHTML = svg;
-      LoadingDisplay.display.appendChild(LoadingDisplay.svgContainer);
+      LoadingDisplay.display.innerHTML = svg;
       for (let i=1; i<= LoadingDisplay.numStrokes; i++) {
         const path = document.getElementById(`stroke-${i}-guide`);
         const shape = document.getElementById(`stroke-${i}`);
@@ -98,7 +97,7 @@ let LoadingDisplay = {
   },
 
 	render: (percentComplete) => {
-	  if (!LoadingDisplay.svgContainer) {
+	  if (!LoadingDisplay.totalLength) {
 	    return;
     }
 
@@ -118,12 +117,45 @@ let LoadingDisplay = {
     //LoadingDisplay.display.innerHTML = Math.round(percentComplete) + "% complete";
 	},
 
-	addButton: () => {
-		let button = document.createElement("button");
-		button.innerHTML = "Play";
-    LoadingDisplay.display.appendChild(button);
-		return button;
-	},
+  enableButtons: () => {
+    const topButtonHit = document.getElementById('button-top-hit');
+    const topButton = document.getElementById('button-top');
+    const middleButtonHit = document.getElementById('button-middle-hit');
+    const middleButton = document.getElementById('button-middle');
+    const bottomButtonHit = document.getElementById('button-bottom-hit');
+    const bottomButton = document.getElementById('button-bottom');
+
+    topButtonHit.onmouseover = () => {
+      topButton.setAttribute('fill', Config.color3);
+    };
+    topButtonHit.onmouseout = () => {
+      topButton.setAttribute('fill', Config.color1);
+    };
+    topButtonHit.onclick = () => {
+      topButton.setAttribute('fill', Config.color3);
+      LoadingDisplay.dispatchEvent(new CustomEvent("play"));
+    };
+
+    middleButtonHit.onmouseover = () => {
+      middleButton.setAttribute('fill', Config.color3);
+    };
+    middleButtonHit.onmouseout = () => {
+      middleButton.setAttribute('fill', Config.color1);
+    };
+    middleButtonHit.onclick = () => {
+      middleButton.setAttribute('fill', Config.color3);
+    };
+
+    bottomButtonHit.onmouseover = () => {
+      bottomButton.setAttribute('fill', Config.color3);
+    };
+    bottomButtonHit.onmouseout = () => {
+      bottomButton.setAttribute('fill', Config.color1);
+    };
+    bottomButtonHit.onclick = () => {
+      bottomButton.setAttribute('fill', Config.color3);
+    };
+  },
 
 	add: () => {
 		document.getElementById(Syllabary.containerId).appendChild(LoadingDisplay.display);
@@ -172,5 +204,7 @@ let LoadingDisplay = {
     return rad * 180 / Math.PI;
   }
 };
+
+Object.assign(LoadingDisplay, EventMixin);
 
 export default LoadingDisplay;

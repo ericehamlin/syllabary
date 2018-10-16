@@ -72,9 +72,9 @@ let Syllabary = {
       LoadingDisplay.render(loadingPercentComplete);
 
 			if (loadingPercentComplete >= 100) {
-				let button = LoadingDisplay.addButton();
+				LoadingDisplay.enableButtons();
 
-				button.addEventListener("click", function() {
+				LoadingDisplay.addEventListener('play', function() {
 					sound.play();
           LoadingDisplay.remove();
 					Syllabary.syllabaryDisplay.initialize();

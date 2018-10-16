@@ -27,7 +27,8 @@ pre {
 .fade-layer,
 .layer-display,
 .layer,
-.center-fade
+.center-fade,
+.loading-display
 {
     position: absolute;
     left:0;
@@ -127,6 +128,11 @@ pre {
     height: 20vmax;
     z-index: 2;
     float: right;
+}
+
+.button-hit {
+    cursor:pointer;
+    fill: transparent;
 }
 
 #debug-controls {
