@@ -98,6 +98,9 @@ let LoadingDisplay = {
   },
 
 	render: (percentComplete) => {
+	  if (!LoadingDisplay.svgContainer) {
+	    return;
+    }
 
 	  let currentPoint = Math.floor((percentComplete * (LoadingDisplay.points.length-1)) / 100);
 
