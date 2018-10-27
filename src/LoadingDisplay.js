@@ -144,6 +144,7 @@ let LoadingDisplay = {
     };
     middleButtonHit.onclick = () => {
       middleButton.setAttribute('fill', Config.color3);
+      document.location.href = 'exclamation.html';
     };
 
     bottomButtonHit.onmouseover = () => {
@@ -154,6 +155,7 @@ let LoadingDisplay = {
     };
     bottomButtonHit.onclick = () => {
       bottomButton.setAttribute('fill', Config.color3);
+      document.location.href = 'question.html';
     };
   },
 
