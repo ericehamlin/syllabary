@@ -3,6 +3,7 @@
 import Config from "Config";
 import Syllabary from "Syllabary";
 import NavQueue from "NavQueue";
+import Logger from "Logger";
 import * as Hammer from "hammerjs";
 
 export default class RunController {
@@ -32,7 +33,7 @@ export default class RunController {
 		 * if there's a better way, I'd like to know
 		 */
 		this.setPaused = () => {
-      console.debug("Starting Pause");
+      Logger.debug("Starting Pause");
       if (!this.pausedRunState) {
         this.pausedRunState = this.runState;
       }
@@ -44,7 +45,7 @@ export default class RunController {
 		};
 
 		this.setResumed = () => {
-      console.debug("Resuming...");
+      Logger.debug("Resuming...");
       this.runState = this.runStates.RESUME;
 
       switch(this.pausedRunState){
@@ -190,7 +191,7 @@ export default class RunController {
 		if (this.hasControlEventListeners) {
 			return false;
 		}
-		console.debug("Adding Control Event Listeners");
+		Logger.debug("Adding Control Event Listeners");
 		Syllabary.syllabaryDisplay.control.startEventListeners();
 		this.hasControlEventListeners = true;
 	}
@@ -199,7 +200,7 @@ export default class RunController {
    *
    */
 	removeControlEventListeners() {
-		console.debug("Removing Control Event Listeners");
+		Logger.debug("Removing Control Event Listeners");
 		Syllabary.syllabaryDisplay.control.pauseEventListeners();
 		this.hasControlEventListeners = false;
 	}
@@ -212,13 +213,13 @@ export default class RunController {
 		if (this.hasTouchEventListeners) {
 			return false;
 		}
-		console.debug("Adding Touch Event Listeners");
+		Logger.debug("Adding Touch Event Listeners");
 		this.gridTouchListener.set({enable: true});
 		this.hasTouchEventListeners = true;
 	}
 
 	removeTouchEventListeners() {
-		console.debug("Removing Touch Event Listeners");
+		Logger.debug("Removing Touch Event Listeners");
 		this.gridTouchListener.set({enable: false});
 		this.hasTouchEventListeners = false;
 	}
@@ -278,7 +279,7 @@ export default class RunController {
 
 			this.snapToNearestSyllable();
 
-			console.debug("Ending Animate");
+			Logger.debug("Ending Animate");
 			this.setReading();
 			this.read();
 		}
@@ -345,13 +346,12 @@ export default class RunController {
 		this.animateDirection.z = this.animateDirection.z * drag;
 
 		if (this.getAnimateVelocity() < 0.01) {
-
 			let xComponent = this.getAnimateComponent(Syllabary.grid.xPosition);
 			let yComponent = this.getAnimateComponent(Syllabary.grid.yPosition);
 			let zComponent = this.getAnimateComponent(Syllabary.grid.zPosition);
 			this.setAnimateDirection(xComponent, yComponent, zComponent);
 
-			console.debug("Ending Drift");
+			Logger.debug("Ending Drift");
 			this.setMagnetizing();
 		}
 	}
@@ -382,7 +382,7 @@ export default class RunController {
 		this.renderGrid();
 
 		if (this.getAnimateVelocity() < this.animateInterval) {
-			let acceleration = 1.01;
+			const acceleration = 1.01;
 			this.setAnimateDirection(
 				this.animateDirection.x * acceleration,
 				this.animateDirection.y * acceleration,
@@ -395,7 +395,7 @@ export default class RunController {
 			this.animationHasCrossedSyllablePosition(oldXPosition, oldYPosition, oldZPosition)
 		) {
 			this.snapToNearestSyllable();
-			console.debug("Ending Magnetize");
+			Logger.debug("Ending Magnetize");
 			this.setReading();
 			this.read();
 		}
@@ -406,9 +406,9 @@ export default class RunController {
 	 * @returns {number}
 	 */
 	getAnimateVelocity() {
-		let xSqr = this.animateDirection.x ** 2;
-		let ySqr = this.animateDirection.y ** 2;
-		let zSqr = this.animateDirection.z ** 2;
+		const xSqr = this.animateDirection.x ** 2;
+		const ySqr = this.animateDirection.y ** 2;
+		const zSqr = this.animateDirection.z ** 2;
 		return Math.sqrt(xSqr + ySqr + zSqr);
 	}
 
@@ -440,11 +440,11 @@ export default class RunController {
 	 * @returns {Syllable}
 	 */
 	getCurrentSyllable() {
-		let x = Syllabary.getX();
-		let y = Syllabary.getY();
-		let z = Syllabary.getZ();
+		const x = Syllabary.getX();
+		const y = Syllabary.getY();
+		const z = Syllabary.getZ();
 
-		let syllable = Syllabary.grid.syllables[x][y][z];
+		const syllable = Syllabary.grid.syllables[x][y][z];
 		return syllable;
 	}
 
@@ -512,7 +512,7 @@ export default class RunController {
 				targetZ = Syllabary.getZ({diff: zDiff});
 
 			if (NavQueue.includes(targetX, targetY, targetZ)) {
-				console.debug("Cannot return to " + targetX + "-" + targetY + "-" + targetZ);
+				Logger.debug("Cannot return to " + targetX + "-" + targetY + "-" + targetZ);
 			} else {
 				allowedDirection = true;
 			}
@@ -583,7 +583,7 @@ export default class RunController {
 	 */
 	setReading() {
     if (this.isPaused()) { return false; }
-		console.debug("Starting Read");
+		Logger.debug("Starting Read");
 		this.removeEventListeners();
 		NavQueue.add(Syllabary.getX(), Syllabary.getY(), Syllabary.getZ());
 		this.runState = this.runStates.READ;
@@ -602,7 +602,7 @@ export default class RunController {
 	 */
 	setDragging() {
     if (this.isPaused()) { return false; }
-		console.debug("Starting Drag");
+		Logger.debug("Starting Drag");
 		this.removeControlEventListeners();
     this.addTouchEventListeners();
 		this.runState = this.runStates.DRAG;
@@ -621,7 +621,7 @@ export default class RunController {
 	 */
 	setDrifting() {
     if (this.isPaused()) { return false; }
-		console.debug("Starting Drift");
+		Logger.debug("Starting Drift");
 		this.addEventListeners();
 		this.runState = this.runStates.DRIFT;
 	}
@@ -639,7 +639,7 @@ export default class RunController {
 	 */
 	setAnimating() {
     if (this.isPaused()) { return false; }
-		console.debug("Starting Animate");
+		Logger.debug("Starting Animate");
 		this.addEventListeners();
 		this.runState = this.runStates.ANIMATE;
 	}
@@ -657,7 +657,7 @@ export default class RunController {
 	 */
 	setMagnetizing() {
     if (this.isPaused()) { return false; }
-		console.debug("Starting Magnetize");
+		Logger.debug("Starting Magnetize");
 		this.addEventListeners();
 		this.runState = this.runStates.MAGNETIZE;
 	}
@@ -672,7 +672,7 @@ export default class RunController {
 
 	setControlling() {
 	  if (this.isPaused()) { return false; }
-		console.debug("Starting Control");
+		Logger.debug("Starting Control");
 		this.removeTouchEventListeners();
     this.addControlEventListeners();
 		this.runState = this.runStates.CONTROL;

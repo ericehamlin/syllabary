@@ -1,12 +1,15 @@
 'use strict';
+import { LogLevels } from './Logger.js';
 
-let Config = {
-	baseUrl: "/odiousenterprises/thesyllabary/",
+const Config = {
+	baseUrl: "/",
+	// baseUrl: "/odiousenterprises/thesyllabary/"
 	navQueueLength: 6,
 	color1: "#000000",
 	color2: "#ffffff",
 	color3: "#aa0000",
-  animateInterval: 0.025,
+  	animateInterval: 0.025,
+	logLevel: LogLevels.debug,
 
 	debug: false,
 

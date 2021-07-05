@@ -4,6 +4,7 @@ import Syllabary from './Syllabary';
 import Config from './Config.js';
 import Utils from './Utils.js';
 import EventMixin from './EventMixin.js';
+import Logger from './Logger.js';
 import * as Hammer from "hammerjs";
 
 export default class Control {
@@ -74,7 +75,7 @@ export default class Control {
 	 *
 	 * @param r
 	 * @param fill
-	 * @param textR
+	 * @param textRadius
 	 * @param dim
 	 * @param phonemes
 	 * @returns {Element}
@@ -181,39 +182,42 @@ export default class Control {
     syllabaryTouchListener.on('pan', e => handlePan(e) );
     syllabaryTouchListener.on('panend', e => handlePanEnd(e) );
 
+	this.outerCirclePanListener = new window.Hammer(this.outerCircleGroup);
+    this.outerCirclePanListener.get('pan').set({ enable: true });
+    this.outerCirclePanListener.on('panstart', (e) => {
+		Logger.debug('Pan outer circle');
+		this.currentlyMovingCircle = "outer";
+		startPan(e);
+	});
 
-    this.outerCircleTouchListener = new window.Hammer(this.outerCircleGroup);
-    this.outerCircleTouchListener.get('press').set({ enable: true, time: 0 });
-    this.outerCircleTouchListener.on('press', (e) => {
-			this.currentlyMovingCircle = "outer";
-			startPan(e);
-		});
 
     this.middleCircleTouchListener = new window.Hammer(this.middleCircleGroup);
-    this.middleCircleTouchListener.get('press').set({ enable: true, time: 0 });
+    this.middleCircleTouchListener.get('press').set({ enable: true,  threshold: 50, time: 1 });
     this.middleCircleTouchListener.on('press', (e) => {
-      this.currentlyMovingCircle = "middle";
-      startPan(e);
+		Logger.debug('Press middle circle');
+      	this.currentlyMovingCircle = "middle";
+    	startPan(e);
     });
 
     this.innerCircleTouchListener = new window.Hammer(this.innerCircleGroup);
-    this.innerCircleTouchListener.get('press').set({ enable: true, time: 0 });
+    this.innerCircleTouchListener.get('press').set({ enable: true, threshold: 50, time: 1 });
     this.innerCircleTouchListener.on('press', (e) => {
-      this.currentlyMovingCircle = "inner";
-      startPan(e);
+		Logger.debug('Press inner circle');
+      	this.currentlyMovingCircle = "inner";
+      	startPan(e);
     });
 	}
 
 	startEventListeners() {
-    this.outerCircleTouchListener.set({enable: true});
-    this.middleCircleTouchListener.set({enable: true});
-    this.innerCircleTouchListener.set({enable: true});
+		this.outerCirclePanListener.set({enable: true});
+		this.middleCircleTouchListener.set({enable: true});
+		this.innerCircleTouchListener.set({enable: true});
 	}
 
 	pauseEventListeners() {
-    this.outerCircleTouchListener.set({enable: false});
-    this.middleCircleTouchListener.set({enable: false});
-    this.innerCircleTouchListener.set({enable: false});
+		this.outerCirclePanListener.set({enable: false});
+		this.middleCircleTouchListener.set({enable: false});
+		this.innerCircleTouchListener.set({enable: false});
 	}
 }
 

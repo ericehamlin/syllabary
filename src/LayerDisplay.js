@@ -58,7 +58,6 @@ export default class LayerDisplay {
 
       // TODO: this is the line that's affecting the Z-fade problem
 			let opacity = Math.abs(exactZPosition + 1 - Syllabary.dims.z) / this.numVisibleLayers;
-      console.log(this.z, opacity, exactZPosition);
 
       this.fadeLayer.style.opacity = opacity;
 
