@@ -9,6 +9,7 @@ import RunController from 'RunController';
 import WebAudioAPISound from 'WebAudioAPISound';
 import DebugControls from 'DebugControls';
 import Style from 'Style';
+import Logger from 'Logger';
 
 let Syllabary = {
 
@@ -50,13 +51,26 @@ let Syllabary = {
 	},
 
 	initialize: () => {
-		console.info("Initializing Syllabary");
+		Logger.info("Initializing Syllabary");
     LoadingDisplay.create();
 		Syllabary.syllabaryDisplay = new SyllabaryDisplay();
 		if (Config.debug) { new DebugControls(); }
 		Syllabary.load();
 	},
 
+  testAutoplay: () => {
+    const audioEl = document.getElementById('test-autoplay');
+    console.log(audioEl)
+    const autoplayPromise = audioEl.play();
+    autoplayPromise.then(
+      ()=>{},
+      (rejection) => {
+        alert('not allowed');
+        Logger.error(rejection);
+      }
+    );
+    return autoplayPromise;
+  },
 
 	load: () => {
     LoadingDisplay.add();
@@ -80,18 +94,12 @@ let Syllabary = {
 					Syllabary.syllabaryDisplay.render();
 					Syllabary.syllabaryDisplay.add();
           Syllabary.runController = new RunController();
-					console.info("Running Syllabary");
-					Syllabary.run();
-				});
+					Logger.info("Running Syllabary");
+          Syllabary.testAutoplay().then(
+            () => Syllabary.run()
+          );
 
-        const testAutoplay = document.getElementById('test-autoplay');
-        console.log(testAutoplay)
-        testAutoplay.play().then(
-          (resolved)=>{ console.log(resolved)},
-          (rejection) => {
-            alert('not allowed');
-          }
-        );
+				});
 
 				return;
 			}
@@ -99,9 +107,6 @@ let Syllabary = {
 		}
 
 		checkLoading();
-
-		// when complete,
-
 	},
 
 
@@ -117,7 +122,7 @@ let Syllabary = {
 	},
 
 	complete: () => {
-		console.info("Completing Syllabary");
+		Logger.info("Completing Syllabary");
 	},
 
 	/**
