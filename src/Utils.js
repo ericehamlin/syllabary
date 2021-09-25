@@ -1,20 +1,17 @@
 'use strict';
 
-export default class Utils {
+export function convertPercentToPx(percent) {
+  const height = window.innerHeight;
+  const px = (percent * height)/100;
+  return px;
+}
 
-	static convertVmaxToPx(vmax) {
-    const maxDim = document.documentElement.clientWidth > document.documentElement.clientHeight ?
-      document.documentElement.clientWidth :
-      document.documentElement.clientHeight;
-    const px = vmax/maxDim;
-	  return px;
-  }
-
-  static convertPercentToPx(percent) {
-    const height = window.innerHeight;
-    const px = (percent * height)/100;
-    return px;
-  }
+export function convertVmaxToPx(vmax) {
+  const maxDim = document.documentElement.clientWidth > document.documentElement.clientHeight ?
+    document.documentElement.clientWidth :
+    document.documentElement.clientHeight;
+  const px = vmax/maxDim;
+  return px;
 }
 
 export function hexToRgb(hex) {
