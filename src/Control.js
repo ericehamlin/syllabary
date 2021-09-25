@@ -1,5 +1,4 @@
 'use strict';
-
 import Syllabary from './Syllabary';
 import Config from './Config.js';
 import Utils from './Utils.js';
@@ -15,7 +14,7 @@ export default class Control {
 			r2 = r1/1.3,
 			r3 = r1/1.7;
 
-		this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		this.svg = document.createElementNS(SVG_NS, "svg");
 		this.svg.setAttribute("class", "control-display");
 		this.svg.setAttribute("viewBox", `${-r1}, ${-r1}, ${r1*2}, ${r1*2}`);
 
@@ -30,10 +29,10 @@ export default class Control {
 
 		// Create Indicator
 
-		let defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
-		let clipPath = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
+		let defs = document.createElementNS(SVG_NS, "defs");
+		let clipPath = document.createElementNS(SVG_NS, "clipPath");
 		clipPath.setAttribute("id", "indicator-clip-path");
-		let circleClipPath = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+		let circleClipPath = document.createElementNS(SVG_NS, "circle");
 		circleClipPath.setAttribute("cx", "0");
 		circleClipPath.setAttribute("cy", "0");
 		circleClipPath.setAttribute("r", r1);
@@ -41,7 +40,7 @@ export default class Control {
 		defs.appendChild(clipPath);
 		this.svg.appendChild(defs);
 
-		let indicator = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+		let indicator = document.createElementNS(SVG_NS, "polygon");
 		indicator.setAttribute("points", "0,0, -30,-200, 30,-200, 0,0"); // TODO
 		indicator.setAttribute("style", "fill: " + Config.color3 + "; mix-blend-mode:  overlay;");
 		indicator.setAttribute("clip-path", "url(#indicator-clip-path)");
@@ -81,13 +80,13 @@ export default class Control {
 	 * @returns {Element}
 	 */
 	createCircle(r, fill, textRadius, dim, phonemes) {
-		let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+		let circle = document.createElementNS(SVG_NS, "circle");
 		circle.setAttribute("cx", 0);
 		circle.setAttribute("cy", 0);
 		circle.setAttribute("r", r);
 		circle.setAttribute("fill", fill);
 
-		let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+		let group = document.createElementNS(SVG_NS, "g");
 		group.appendChild(circle);
 		this.placePhonemes(group, textRadius, dim, phonemes);
 
@@ -104,7 +103,7 @@ export default class Control {
 	placePhonemes(group, r, dim, phonemes) {
 		let degreesIncrease = 360/(dim);
 		for(let i=1; i<=dim; i++) {
-			let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+			let text = document.createElementNS(SVG_NS, "text");
 			text.setAttribute("x", 0);
 			text.setAttribute("y", 0);
 			text.setAttribute("text-anchor", "middle");

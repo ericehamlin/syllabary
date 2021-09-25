@@ -5,7 +5,7 @@ import Syllabary from 'Syllabary';
 import FileLoader from 'FileLoader';
 import EventMixin from './EventMixin.js';
 
-let LoadingDisplay = {
+const LoadingDisplay = {
 
   lastPointDrawn: 0,
 

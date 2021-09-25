@@ -8,7 +8,7 @@ const Config = {
 	color1: "#000000",
 	color2: "#ffffff",
 	color3: "#aa0000",
-  	animateInterval: 0.025,
+  animateInterval: 0.025,
 	logLevel: LogLevels.debug,
 
 	debug: false,
