@@ -1,7 +1,6 @@
 'use strict';
 
 import Config from 'Config';
-import Utils from 'Utils';
 import Grid from 'Grid';
 import GlyphLoader from 'GlyphLoader';
 import LoadingDisplay from 'LoadingDisplay';
@@ -84,6 +83,15 @@ let Syllabary = {
 					console.info("Running Syllabary");
 					Syllabary.run();
 				});
+
+        const testAutoplay = document.getElementById('test-autoplay');
+        console.log(testAutoplay)
+        testAutoplay.play().then(
+          (resolved)=>{ console.log(resolved)},
+          (rejection) => {
+            alert('not allowed');
+          }
+        );
 
 				return;
 			}
