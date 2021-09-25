@@ -1,18 +1,19 @@
 'use strict';
 import Syllabary from './Syllabary';
 import Config from './Config.js';
-import Utils from './Utils.js';
+import Utils, { radiansToDegrees, blendHexColors } from './Utils.js';
 import EventMixin from './EventMixin.js';
 import Logger from './Logger.js';
 import * as Hammer from "hammerjs";
+import { SVG_NS } from 'constants';
 
 export default class Control {
 
 	constructor() {
 		/* TODO base these on font size */
-		let r1 = 150,
-			r2 = r1/1.3,
-			r3 = r1/1.7;
+		const r1 = 150;    // outer circle radius
+		const r2 = r1/1.3; // middle circle radius
+		const r3 = r1/1.7; // inner circle radius
 
 		this.svg = document.createElementNS(SVG_NS, "svg");
 		this.svg.setAttribute("class", "control-display");
@@ -20,11 +21,11 @@ export default class Control {
 
 		this.listeners = [];
 
-		this.outerCircleGroup = this.createCircle(r1, Utils.blendHexColors(Config.color2, Config.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.dims.initialConsonants, Syllabary.phonemes.initialConsonants);
+		this.outerCircleGroup = this.createCircle(r1, blendHexColors(Config.color2, Config.color1, 0.2), (((r1 + r2)/2) - 10), Syllabary.dims.initialConsonants, Syllabary.phonemes.initialConsonants);
 
-		this.middleCircleGroup = this.createCircle(r2, Utils.blendHexColors(Config.color2, Config.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.dims.vowels, Syllabary.phonemes.vowels);
+		this.middleCircleGroup = this.createCircle(r2, blendHexColors(Config.color2, Config.color1, 0.4), (((r2 + r3)/2) - 10), Syllabary.dims.vowels, Syllabary.phonemes.vowels);
 
-		this.innerCircleGroup = this.createCircle(r3, Utils.blendHexColors(Config.color2, Config.color1, 0.6), (r3 - 20), Syllabary.dims.finalConsonants, Syllabary.phonemes.finalConsonants);
+		this.innerCircleGroup = this.createCircle(r3, blendHexColors(Config.color2, Config.color1, 0.6), (r3 - 20), Syllabary.dims.finalConsonants, Syllabary.phonemes.finalConsonants);
 
 
 		// Create Indicator
@@ -54,7 +55,6 @@ export default class Control {
 		this.currentlyMovingCircle = null;
 
 		this.initializeEventListeners();
-
 	}
 
 	getAngle(x, y) {
@@ -62,12 +62,7 @@ export default class Control {
 		let centerX = (rect.left + rect.right)/2;
 		let centerY = (rect.top + rect.bottom)/2;
 		let angle = Math.atan2(x-centerX, y-centerY);
-		return -this.radiansToDegrees(angle);
-
-	}
-
-	radiansToDegrees (radians) {
-		return radians * (180 / Math.PI);
+		return -radiansToDegrees(angle);
 	}
 
 	/**
