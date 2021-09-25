@@ -1,7 +1,7 @@
 'use strict';
 
 import Config from 'Config';
-import { blendHexColors, hexToRgb } from 'Utils';
+import { blendHexColors, hexToRgb } from 'utils';
 
 let Style = {
   mediaQueries: {

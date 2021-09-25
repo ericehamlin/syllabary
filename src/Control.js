@@ -1,7 +1,7 @@
 'use strict';
 import Syllabary from './Syllabary';
 import Config from './Config.js';
-import { radiansToDegrees, blendHexColors } from './Utils.js';
+import { radiansToDegrees, blendHexColors } from 'utils';
 import EventMixin from './EventMixin.js';
 import Logger from './Logger.js';
 import * as Hammer from "hammerjs";

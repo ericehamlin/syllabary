@@ -3,7 +3,7 @@
 import EventMixin from 'EventMixin';
 import * as Hammer from "hammerjs";
 import Style from 'Style';
-import { convertVmaxToPx, convertPercentToPx } from 'Utils';
+import { convertVmaxToPx, convertPercentToPx } from 'utils';
 
 
 export default class Info {
