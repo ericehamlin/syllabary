@@ -1,9 +1,9 @@
 'use strict';
 
-import Syllabary from 'Syllabary';
 import Syllable from 'Syllable';
 import { randomInt } from 'utils';
 import { getSyllableValuesForXYZ } from 'syllabary-utils';
+import { AXIS_DIMENSIONS } from './constants';
 
 const Grid = {
   syllables: [],
@@ -17,30 +17,30 @@ const Grid = {
       this.xPosition = xPosition;
     }
     else {
-      this.xPosition = randomInt(0, Syllabary.dims.x);
+      this.xPosition = randomInt(0, AXIS_DIMENSIONS.x);
     }
 
     if (yPosition != null) {
       this.yPosition = yPosition;
     }
     else {
-      this.yPosition = randomInt(0, Syllabary.dims.y);
+      this.yPosition = randomInt(0, AXIS_DIMENSIONS.y);
     }
 
     if (zPosition != null) {
       this.zPosition = zPosition;
     }
     else {
-      this.zPosition = randomInt(0, Syllabary.dims.z);
+      this.zPosition = randomInt(0, AXIS_DIMENSIONS.z);
     }
 
-    for (let x = 1; x <= Syllabary.dims.x; x++) {
+    for (let x = 1; x <= AXIS_DIMENSIONS.x; x++) {
       this.syllables[x] = [];
 
-      for (let y = 1; y <= Syllabary.dims.y; y++) {
+      for (let y = 1; y <= AXIS_DIMENSIONS.y; y++) {
         this.syllables[x][y] = [];
 
-        for (let z = 1; z <= Syllabary.dims.z; z++) {
+        for (let z = 1; z <= AXIS_DIMENSIONS.z; z++) {
           let { initialConsonant, vowel, finalConsonant } = getSyllableValuesForXYZ({ x: x, y: y, z: z });
           this.syllables[x][y][z] = new Syllable(initialConsonant, vowel, finalConsonant, x, y, z);
         }

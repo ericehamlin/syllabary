@@ -6,45 +6,49 @@ import EventMixin from './EventMixin.js';
 import Logger from './Logger.js';
 import * as Hammer from "hammerjs";
 import {
-  SVG_NS,
   PHONEMES,
   PHONEMES_TO_AXES_MAP,
   PHONEME_DIMENSIONS,
   AXIS_DIMENSIONS
 } from './constants';
 
-export default class Control {
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+export default class ControlWheel {
 
   constructor() {
     /* TODO base these on font size */
-    const r1 = 150;    // outer circle radius
-    const r2 = r1 / 1.3; // middle circle radius
-    const r3 = r1 / 1.7; // inner circle radius
+    const outerCircleRadius = 150;
+    const middleCircleRadius = outerCircleRadius / 1.3;
+    const innerCircleRadius = outerCircleRadius / 1.7;
 
     this.svg = document.createElementNS(SVG_NS, "svg");
     this.svg.setAttribute("class", "control-display");
-    this.svg.setAttribute("viewBox", `${-r1}, ${-r1}, ${r1 * 2}, ${r1 * 2}`);
+    this.svg.setAttribute(
+      "viewBox",
+      `${-outerCircleRadius}, ${-outerCircleRadius}, ${outerCircleRadius * 2}, ${outerCircleRadius * 2}`
+    );
 
     this.listeners = [];
 
     this.outerCircleGroup = this.createCircle(
-      r1,
+      outerCircleRadius,
       blendHexColors(Config.color2, Config.color1, 0.2),
-      (((r1 + r2) / 2) - 10),
+      (((outerCircleRadius + middleCircleRadius) / 2) - 10),
       PHONEMES.initialConsonants
     );
 
     this.middleCircleGroup = this.createCircle(
-      r2,
+      middleCircleRadius,
       blendHexColors(Config.color2, Config.color1, 0.4),
-      (((r2 + r3) / 2) - 10),
+      (((middleCircleRadius + innerCircleRadius) / 2) - 10),
       PHONEMES.vowels
     );
 
     this.innerCircleGroup = this.createCircle(
-      r3,
+      innerCircleRadius,
       blendHexColors(Config.color2, Config.color1, 0.6),
-      (r3 - 20),
+      (innerCircleRadius - 20),
       PHONEMES.finalConsonants
     );
 
@@ -57,7 +61,7 @@ export default class Control {
     const circleClipPath = document.createElementNS(SVG_NS, "circle");
     circleClipPath.setAttribute("cx", "0");
     circleClipPath.setAttribute("cy", "0");
-    circleClipPath.setAttribute("r", r1);
+    circleClipPath.setAttribute("r", outerCircleRadius);
     clipPath.appendChild(circleClipPath);
     defs.appendChild(clipPath);
     this.svg.appendChild(defs);
@@ -115,7 +119,7 @@ export default class Control {
    * @param phonemes
    */
   placePhonemes(group, r, phonemes) {
-    const dim = phonemes.size -1;
+    const dim = phonemes.length -1;
     const degreesIncrease = 360 / (dim);
     for (let i = 1; i <= dim; i++) {
       const text = document.createElementNS(SVG_NS, "text");
@@ -255,4 +259,4 @@ export default class Control {
   }
 }
 
-Object.assign(Control.prototype, EventMixin);
+Object.assign(ControlWheel.prototype, EventMixin);

@@ -3,7 +3,7 @@
 import Syllabary from 'Syllabary';
 import GridDisplay from 'GridDisplay';
 import PoemDisplay from 'PoemDisplay';
-import Control from 'Control'
+import ControlWheel from 'ControlWheel'
 import Info from 'Info';
 
 const SyllabaryDisplay = {
@@ -21,7 +21,7 @@ const SyllabaryDisplay = {
     Info.init();
     this.info = Info;
 
-		this.control = new Control();
+		this.control = new ControlWheel();
 
     PoemDisplay.init();
 		this.poemDisplay = PoemDisplay;
