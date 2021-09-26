@@ -3,16 +3,16 @@
 import Grid from 'Grid';
 import LayerDisplay from 'LayerDisplay';
 import { AXIS_DIMENSIONS } from './constants';
-import { createElementWithAttributes } from './utils';
+import { createElement } from './utils';
 
 export default class GridDisplay {
 	constructor() {
-		this.display = createElementWithAttributes(
+		this.display = createElement(
       "div",
       {class: "grid-display"}
     );
 
-		this.centerFade = createElementWithAttributes(
+		this.centerFade = createElement(
       "div",
       {class: "center-fade"}
     );

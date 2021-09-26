@@ -52,7 +52,7 @@ export function randomInt(min, max) {
 
 // Element Creation
 
-export function createElementWithAttributes(tag, attributes) {
+export function createElement(tag, attributes={}) {
   const el = document.createElement(tag);
   for (const property in attributes) {
     el.setAttribute(property, attributes[property]);
@@ -60,11 +60,11 @@ export function createElementWithAttributes(tag, attributes) {
   return el;
 }
 
-export function createDivWithAttributes(attributes) {
-  return createElementWithAttributes('div', attributes);
+export function createDivWithAttributes(attributes={}) {
+  return createElement('div', attributes);
 }
 
-export function createElementNSWithAttributes(ns, tag, attributes) {
+export function createElementNS(ns, tag, attributes={}) {
   const el = document.createElementNS(ns, tag);
   for (const property in attributes) {
     el.setAttribute(property, attributes[property]);
@@ -72,16 +72,16 @@ export function createElementNSWithAttributes(ns, tag, attributes) {
   return el;
 }
 
-export function createSvgWithAttributes(attributes) {
-  return createElementNSWithAttributes(
+export function createSvg(attributes={}) {
+  return createElementNS(
     "http://www.w3.org/2000/svg",
     "svg",
     attributes
   );
 }
 
-export function createSvgElementWithAttributes(tag, attributes) {
-  return createElementNSWithAttributes(
+export function createSvgElement(tag, attributes={}) {
+  return createElementNS(
     "http://www.w3.org/2000/svg",
     tag,
     attributes

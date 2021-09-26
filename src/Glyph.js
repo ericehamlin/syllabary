@@ -2,6 +2,7 @@
 
 import Config from 'Config';
 import { AXIS_DIMENSIONS } from './constants';
+import { createSvgElement } from './Utils';
 
 export default class Glyph {
 
@@ -18,11 +19,10 @@ export default class Glyph {
 	setData(data) {
 		this.data = this.filterData(data);
 
-		let innerHTML = this.data.replace(/<g[^>]*>|<\/g>/i, "");
-		let id = this.initialConsonant + "-" + this.vowel + "-" + this.finalConsonant;
+		const innerHTML = this.data.replace(/<g[^>]*>|<\/g>/i, "");
+		const id = this.initialConsonant + "-" + this.vowel + "-" + this.finalConsonant;
 
-		let glyph = document.createElementNS("http://www.w3.org/2000/svg", "g");
-		glyph.setAttribute("id", id);
+		const glyph = createSvgElement("g", {id: id});
 		glyph.innerHTML = innerHTML;
 		glyph.children[0].style.fill = Config.color1;
 
@@ -32,10 +32,10 @@ export default class Glyph {
 	}
 
 	filterData(data) {
-		let replaceXml = /<\?[^>]*>/i;
-		let replaceWeirdCharacters = /^[^<]*/i;
-		let replaceSvg = /<svg[^>]*>/i;
-		let replaceCloseSvg = /<\/svg>/i;
+		const replaceXml = /<\?[^>]*>/i;
+		const replaceWeirdCharacters = /^[^<]*/i;
+		const replaceSvg = /<svg[^>]*>/i;
+		const replaceCloseSvg = /<\/svg>/i;
 
 		return data
 			.replace(replaceSvg, "")

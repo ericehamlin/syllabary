@@ -5,8 +5,8 @@ import {
   NUM_VISIBLE_LAYERS
 } from "./constants";
 import {
-  createElementWithAttributes,
-  createSvgWithAttributes
+  createElement,
+  createSvg
 } from "./Utils";
 import Grid from 'Grid';
 
@@ -14,19 +14,19 @@ export default class LayerDisplay {
 
 	constructor(z) {
 
-		this.display = createElementWithAttributes(
+		this.display = createElement(
       "div",
       {class: "layer"}
     );
 
-		this.svg = createSvgWithAttributes({
+		this.svg = createSvg({
       class: "layer-display",
       id: `layer-display-${z}`,
       viewBox: "-2750, -2750, 6000, 6000"
     });
 		this.display.appendChild(this.svg);
 
-		this.fadeLayer = createElementWithAttributes(
+		this.fadeLayer = createElement(
       "div",
       {
         class: "fade-layer",

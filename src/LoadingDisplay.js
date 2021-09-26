@@ -4,7 +4,7 @@ import Config from 'Config';
 import Syllabary from 'Syllabary';
 import FileLoader from 'FileLoader';
 import EventMixin from './EventMixin.js';
-import { createElementNSWithAttributes } from './Utils.js';
+import { createSvgElement } from './Utils.js';
 
 const LoadingDisplay = {
 
@@ -63,10 +63,11 @@ const LoadingDisplay = {
       // create a clipPath for each stroke
       for(let i=1; i<=LoadingDisplay.numStrokes; i++) {
         const stroke = LoadingDisplay.strokes[i-1];
-        //const clipPath = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        const clipPath = document.createElementNS('http://www.w3.org/2000/svg', 'clipPath');
         const clipPathId = `stroke-${i}-clip-path`;
-        clipPath.setAttribute('id', clipPathId);
+        const clipPath = createSvgElement(
+          'clipPath',
+          {id: clipPathId}
+        );
         defs.appendChild(clipPath);
         stroke.shape.setAttribute('clip-path', `url(#${clipPathId})`)
       }
@@ -169,8 +170,7 @@ const LoadingDisplay = {
 	},
 
   drawSegment: (strokeNum, segmentNum) => {
-    const segment = createElementNSWithAttributes(
-      'http://www.w3.org/2000/svg',
+    const segment = createSvgElement(
       'rect',
       {
         id: `clip-path-segment-${segmentNum}`,

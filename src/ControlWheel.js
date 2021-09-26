@@ -13,9 +13,8 @@ import {
   AXIS_DIMENSIONS
 } from './constants';
 import {
-  createElementNSWithAttributes,
-  createSvgElementWithAttributes,
-  createSvgWithAttributes
+  createSvgElement,
+  createSvg
 } from './utils';
 
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -28,7 +27,7 @@ export default class ControlWheel {
     const middleCircleRadius = outerCircleRadius / 1.3;
     const innerCircleRadius = outerCircleRadius / 1.7;
 
-    this.svg = createSvgWithAttributes({
+    this.svg = createSvg({
       class: "control-display",
       viewBox:
         `${-outerCircleRadius}, ${-outerCircleRadius}, ${outerCircleRadius * 2}, ${outerCircleRadius * 2}`
@@ -60,14 +59,12 @@ export default class ControlWheel {
 
     // Create Indicator
 
-    const defs = document.createElementNS(SVG_NS, "defs");
-    const clipPath = createElementNSWithAttributes(
-      SVG_NS,
+    const defs = createSvgElement("defs");
+    const clipPath = createSvgElement(
       "clipPath",
       { id: "indicator-clip-path"}
     );
-    const circleClipPath = createElementNSWithAttributes(
-      SVG_NS,
+    const circleClipPath = createSvgElement(
       "circle",
       {
         cx: 0,
@@ -79,8 +76,7 @@ export default class ControlWheel {
     defs.appendChild(clipPath);
     this.svg.appendChild(defs);
 
-    const indicator = createElementNSWithAttributes(
-      SVG_NS,
+    const indicator = createSvgElement(
       "polygon",
       {
         points: "0,0, -30,-200, 30,-200, 0,0",
@@ -116,8 +112,7 @@ export default class ControlWheel {
    * @returns {Element}
    */
   createCircle(r, fill, textRadius, phonemes) {
-    const circle = createElementNSWithAttributes(
-      SVG_NS,
+    const circle = createSvgElement(
       "circle",
       {
         cx: 0,
@@ -127,7 +122,7 @@ export default class ControlWheel {
       }
     );
 
-    const group = document.createElementNS(SVG_NS, "g");
+    const group = createSvgElement("g");
     group.appendChild(circle);
     this.placePhonemes(group, textRadius, phonemes);
 
@@ -144,7 +139,7 @@ export default class ControlWheel {
     const dim = phonemes.length -1;
     const degreesIncrease = 360 / (dim);
     for (let i = 1; i <= dim; i++) {
-      const text = createSvgElementWithAttributes(
+      const text = createSvgElement(
         "text",
         {
           x: 0,
