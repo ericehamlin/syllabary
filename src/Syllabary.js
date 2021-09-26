@@ -94,9 +94,7 @@ let Syllabary = {
 					Syllabary.syllabaryDisplay.add();
           Syllabary.runController = new RunController();
 					Logger.info("Running Syllabary");
-          Syllabary.testAutoplay().then(
-            () => Syllabary.run()
-          );
+          Syllabary.testAutoplay().then(Syllabary.run);
 
 				});
 

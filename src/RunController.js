@@ -6,19 +6,20 @@ import NavQueue from "NavQueue";
 import Logger from "Logger";
 import * as Hammer from "hammerjs";
 
+const RUN_STATES = {
+  READ : "read", 			// audio is currently playing
+  DRAG : "drag",			// user is controlling using touch gesture
+  CONTROL : "control",		// user is controlling using provided control
+  DRIFT : "drift",			// user has released drag
+  ANIMATE : "animate",		// standard animation is advancing or drift has come to an end
+  MAGNETIZE : "magnetize",	// drifting has stopped and grid is moving toward closest syllable
+  PAUSE : "pause",
+  RESUME: "resume"
+};
+
 export default class RunController {
 
 	constructor() {
-		this.runStates = {
-			READ : "read", 			// audio is currently playing
-			DRAG : "drag",			// user is controlling using touch gesture
-			CONTROL : "control",		// user is controlling using provided control
-			DRIFT : "drift",			// user has released drag
-			ANIMATE : "animate",		// standard animation is advancing or drift has come to an end
-			MAGNETIZE : "magnetize",	// drifting has stopped and grid is moving toward closest syllable
-			PAUSE : "pause",
-      RESUME: "resume"
-		};
 
 		this.animateInterval = Config.animateInterval;
 
@@ -37,7 +38,7 @@ export default class RunController {
       if (!this.pausedRunState) {
         this.pausedRunState = this.runState;
       }
-      this.runState = this.runStates.PAUSE;
+      this.runState = RUN_STATES.PAUSE;
       this.removeEventListeners();
       if (this.readingSyllable) {
         this.readingSyllable.pause();
@@ -46,20 +47,20 @@ export default class RunController {
 
 		this.setResumed = () => {
       Logger.debug("Resuming...");
-      this.runState = this.runStates.RESUME;
+      this.runState = RUN_STATES.RESUME;
 
       switch(this.pausedRunState){
-        case this.runStates.ANIMATE:
+        case RUN_STATES.ANIMATE:
           this.setAnimating();
           break;
-        case this.runStates.CONTROL:
-        case this.runStates.DRAG:
-        case this.runStates.DRIFT:
+        case RUN_STATES.CONTROL:
+        case RUN_STATES.DRAG:
+        case RUN_STATES.DRIFT:
           this.setDrifting();
           break;
-        case this.runStates.MAGNETIZE:
+        case RUN_STATES.MAGNETIZE:
           this.setMagnetizing();
-        case this.runStates.READ:
+        case RUN_STATES.READ:
           this.setReading();
           break;
       }
@@ -229,28 +230,28 @@ export default class RunController {
 	 */
 	run() {
 		switch(this.runState) {
-			case this.runStates.PAUSE :
+			case RUN_STATES.PAUSE :
 				break;
 
-			case this.runStates.READ :
+			case RUN_STATES.READ :
 				this.scrollPoemText();
 				break;
 
-			case this.runStates.DRAG :
+			case RUN_STATES.DRAG :
 				break;
 
-			case this.runStates.CONTROL :
+			case RUN_STATES.CONTROL :
 				break;
 
-			case this.runStates.DRIFT :
+			case RUN_STATES.DRIFT :
 				this.drift();
 				break;
 
-			case this.runStates.ANIMATE :
+			case RUN_STATES.ANIMATE :
 				this.animate();
 				break;
 
-			case this.runStates.MAGNETIZE :
+			case RUN_STATES.MAGNETIZE :
 				this.magnetize();
 				break;
 		}
@@ -336,7 +337,7 @@ export default class RunController {
 	 * TODO combine drift and animate so that drift goes to a glyph
 	 */
 	drift() {
-		let drag = 0.95;
+		const drag = 0.95;
 
 		this.advanceAnimation();
 		this.renderGrid();
@@ -575,7 +576,7 @@ export default class RunController {
 	 * @returns {boolean}
 	 */
 	isReading() {
-		return this.runState === this.runStates.READ;
+		return this.runState === RUN_STATES.READ;
 	}
 
 	/**
@@ -586,7 +587,7 @@ export default class RunController {
 		Logger.debug("Starting Read");
 		this.removeEventListeners();
 		NavQueue.add(Syllabary.getX(), Syllabary.getY(), Syllabary.getZ());
-		this.runState = this.runStates.READ;
+		this.runState = RUN_STATES.READ;
 	}
 
 	/**
@@ -594,7 +595,7 @@ export default class RunController {
 	 * @returns {boolean}
 	 */
 	isDragging() {
-		return this.runState === this.runStates.DRAG;
+		return this.runState === RUN_STATES.DRAG;
 	}
 
 	/**
@@ -605,7 +606,7 @@ export default class RunController {
 		Logger.debug("Starting Drag");
 		this.removeControlEventListeners();
     this.addTouchEventListeners();
-		this.runState = this.runStates.DRAG;
+		this.runState = RUN_STATES.DRAG;
 	}
 
 	/**
@@ -613,7 +614,7 @@ export default class RunController {
 	 * @returns {boolean}
 	 */
 	isDrifting() {
-		return this.runState === this.runStates.DRIFT;
+		return this.runState === RUN_STATES.DRIFT;
 	}
 
 	/**
@@ -623,7 +624,7 @@ export default class RunController {
     if (this.isPaused()) { return false; }
 		Logger.debug("Starting Drift");
 		this.addEventListeners();
-		this.runState = this.runStates.DRIFT;
+		this.runState = RUN_STATES.DRIFT;
 	}
 
 	/**
@@ -631,7 +632,7 @@ export default class RunController {
 	 * @returns {boolean}
 	 */
 	isAnimating() {
-		return this.runState === this.runStates.ANIMATE;
+		return this.runState === RUN_STATES.ANIMATE;
 	}
 
 	/**
@@ -641,7 +642,7 @@ export default class RunController {
     if (this.isPaused()) { return false; }
 		Logger.debug("Starting Animate");
 		this.addEventListeners();
-		this.runState = this.runStates.ANIMATE;
+		this.runState = RUN_STATES.ANIMATE;
 	}
 
 	/**
@@ -649,7 +650,7 @@ export default class RunController {
 	 * @returns {boolean}
 	 */
 	isMagnetizing() {
-		return this.runState === this.runStates.MAGNETIZE;
+		return this.runState === RUN_STATES.MAGNETIZE;
 	}
 
 	/**
@@ -659,7 +660,7 @@ export default class RunController {
     if (this.isPaused()) { return false; }
 		Logger.debug("Starting Magnetize");
 		this.addEventListeners();
-		this.runState = this.runStates.MAGNETIZE;
+		this.runState = RUN_STATES.MAGNETIZE;
 	}
 
 	/**
@@ -667,7 +668,7 @@ export default class RunController {
 	 * @returns {boolean}
 	 */
 	isControlling() {
-		return this.runState === this.runStates.CONTROL;
+		return this.runState === RUN_STATES.CONTROL;
 	}
 
 	setControlling() {
@@ -675,7 +676,7 @@ export default class RunController {
 		Logger.debug("Starting Control");
 		this.removeTouchEventListeners();
     this.addControlEventListeners();
-		this.runState = this.runStates.CONTROL;
+		this.runState = RUN_STATES.CONTROL;
 	}
 
 	/**
@@ -683,6 +684,6 @@ export default class RunController {
 	 * @returns {boolean}
 	 */
 	isPaused() {
-		return this.runState === this.runStates.PAUSE;
+		return this.runState === RUN_STATES.PAUSE;
 	}
 }
