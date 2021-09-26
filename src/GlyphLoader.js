@@ -21,7 +21,7 @@ const GlyphLoader = {
 
     for (let i = 1; i <= PHONEME_DIMENSIONS.initialConsonants; i++) {
       for (let j = 1; j <= PHONEME_DIMENSIONS.vowels; j++) {
-        const url = Config.baseUrl + "coallatedSvg/" + i + "-" + j + ".svg";
+        const url = "/coallatedSvg/" + i + "-" + j + ".svg";
         let promise = FileLoader.load(url);
         promise.then((data) => {
           let svgs = data.match(/<svg[\s\S]+?\/svg>/gim);

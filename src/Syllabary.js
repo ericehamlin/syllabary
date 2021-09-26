@@ -41,24 +41,11 @@ const Syllabary = {
 		Syllabary.load();
 	},
 
-  testAutoplay: () => {
-    const audioEl = document.getElementById('test-autoplay');
-    const autoplayPromise = audioEl.play();
-    autoplayPromise.then(
-      ()=>{},
-      (rejection) => {
-        alert('not allowed');
-        Logger.error(rejection);
-      }
-    );
-    return autoplayPromise;
-  },
-
 	load: () => {
     LoadingDisplay.add();
 
 		GlyphLoader.load();
-		const sound = new WebAudioAPISound(Config.baseUrl + "audio/silence.mp3");
+		const sound = new WebAudioAPISound("/audio/silence.mp3");
 
 		// check loading until complete
 		let loadingPercentComplete = 0;
@@ -77,7 +64,7 @@ const Syllabary = {
 					SyllabaryDisplay.add();
           Syllabary.runController = new RunController();
 					Logger.info("Running Syllabary");
-          Syllabary.testAutoplay().then(Syllabary.run);
+          Syllabary.run();
 
 				});
 

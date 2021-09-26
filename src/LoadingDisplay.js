@@ -85,7 +85,7 @@ const LoadingDisplay = {
 	},
 
   load() {
-    const url = Config.baseUrl + "svg/syllabary_v4_loading_screen.svg";
+    const url = "/svg/syllabary_v4_loading_screen.svg";
     let promise = FileLoader.load(url);
     return promise;
   },

@@ -2,8 +2,6 @@
 import { LogLevels } from './Logger.js';
 
 const Config = {
-	baseUrl: "/",
-	// baseUrl: "/odiousenterprises/thesyllabary/"
 	navQueueLength: 6,
 	color1: "#000000",
 	color2: "#ffffff",

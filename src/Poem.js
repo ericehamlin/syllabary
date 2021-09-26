@@ -1,6 +1,5 @@
 'use strict';
 
-import Config from 'Config';
 import FileLoader from 'FileLoader';
 import Logger from 'Logger';
 import SyllabaryDisplay from 'SyllabaryDisplay';
@@ -8,7 +7,7 @@ import SyllabaryDisplay from 'SyllabaryDisplay';
 export default class Poem {
 
 	constructor(initialConsonant, vowel, finalConsonant) {
-		this.url = Config.baseUrl + "poems/" + initialConsonant + "-" + vowel + "-" + finalConsonant + ".xml";
+		this.url = "/poems/" + initialConsonant + "-" + vowel + "-" + finalConsonant + ".xml";
 		this.isLoaded = false;
 	}
 
