@@ -12,10 +12,10 @@ import Style from 'Style';
 import Logger from 'Logger';
 import { PHONEMES } from 'constants';
 
-let Syllabary = {
+const Syllabary = {
 
 	start: (options) => {
-		let {
+		const {
       containerId,
       xPosition = null,
       yPosition = null,
@@ -75,8 +75,8 @@ let Syllabary = {
 	load: () => {
     LoadingDisplay.add();
 
-		let glyphLoader = new GlyphLoader();
-		let sound = new WebAudioAPISound(Config.baseUrl + "audio/silence.mp3");
+		const glyphLoader = new GlyphLoader();
+		const sound = new WebAudioAPISound(Config.baseUrl + "audio/silence.mp3");
 
 		// check loading until complete
 		let loadingPercentComplete = 0;
@@ -135,17 +135,17 @@ let Syllabary = {
 	},
 
 	getX: ({diff=0, actual=null} = {}) => {
-		let x = actual || Syllabary.grid.xPosition + diff;
+		const x = actual || Syllabary.grid.xPosition + diff;
 		return Syllabary.getCurrentLocation(x, Syllabary.dims.x);
 	},
 
 	getY: ({diff=0, actual=null} = {}) => {
-		let y = actual || Syllabary.grid.yPosition + diff;
+		const y = actual || Syllabary.grid.yPosition + diff;
 		return Syllabary.getCurrentLocation(y, Syllabary.dims.y);
 	},
 
 	getZ: ({diff=0, actual=null} = {}) => {
-		let z = actual || Syllabary.grid.zPosition + diff;
+		const z = actual || Syllabary.grid.zPosition + diff;
 		return Syllabary.getCurrentLocation(z, Syllabary.dims.z);
 	},
 

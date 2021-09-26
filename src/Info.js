@@ -29,8 +29,8 @@ export default class Info {
     this.container.appendChild(this.bar);
     this.container.appendChild(this.info);
 
-    let self = this;
-    function slide(velocity, target, callback=null) {
+    const self = this;
+    function slide(velocity, target, callback = null) {
       const delay = 10;
       let change = velocity * delay * 10;
       if (velocity < 0) {
@@ -56,7 +56,7 @@ export default class Info {
       setTimeout(() => slide(velocity, target, callback), delay);
     }
 
-    let touchListener = new window.Hammer(this.container);
+    const touchListener = new window.Hammer(this.container);
     touchListener.get('swipe').set({ enable: true, direction: window.Hammer.DIRECTION_VERTICAL });
 
     touchListener.on('swipeup', (e) => {
