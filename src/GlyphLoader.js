@@ -7,7 +7,10 @@ import {
   getTotalSyllables,
   getXYZForSyllableValues
 } from 'syllabary-utils';
-import { PHONEME_DIMENSIONS } from './constants';
+import {
+  AXIS_DIMENSIONS,
+  PHONEME_DIMENSIONS
+} from './constants';
 
 export default class GlyphLoader {
 
@@ -39,9 +42,9 @@ export default class GlyphLoader {
 
   getNumLoaded() {
     let numGlyphsLoaded = 0;
-    for (let x=1; x <= Syllabary.dims.x; x++) {
-      for (let y=1; y <= Syllabary.dims.y; y++) {
-        for (let z=1; z <= Syllabary.dims.z; z++) {
+    for (let x=1; x <= AXIS_DIMENSIONS.x; x++) {
+      for (let y=1; y <= AXIS_DIMENSIONS.y; y++) {
+        for (let z=1; z <= AXIS_DIMENSIONS.z; z++) {
           let syllable = Syllabary.grid.syllables[x][y][z];
           if (syllable.glyph.isLoaded) {
             numGlyphsLoaded++;

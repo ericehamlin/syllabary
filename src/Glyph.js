@@ -1,7 +1,7 @@
 'use strict';
 
-import Syllabary from 'Syllabary';
 import Config from 'Config';
+import { AXIS_DIMENSIONS } from './constants';
 
 export default class Glyph {
 
@@ -50,21 +50,21 @@ export default class Glyph {
 
 		// TODO these names suck -- not at all clear what's going on here
 		let centeredX = this.x - offsetX - 1;
-		let syllabaryOffsetX = Math.floor(centeredX/Syllabary.dims.x);
-		centeredX -= syllabaryOffsetX * Syllabary.dims.x;
-		if (centeredX > Syllabary.dims.x / 2) {
-			centeredX -= Syllabary.dims.x;
+		const syllabaryOffsetX = Math.floor(centeredX/AXIS_DIMENSIONS.x);
+		centeredX -= syllabaryOffsetX * AXIS_DIMENSIONS.x;
+		if (centeredX > AXIS_DIMENSIONS.x / 2) {
+			centeredX -= AXIS_DIMENSIONS.x;
 		}
 
-		let placeX = centeredX * interval;
+		const placeX = centeredX * interval;
 
 		let centeredY = this.y - offsetY - 1;
-		let syllabaryOffsetY = Math.floor(centeredY/Syllabary.dims.y);
-		centeredY -= syllabaryOffsetY * Syllabary.dims.y;
-		if (centeredY > Syllabary.dims.y / 2) {
-			centeredY -= Syllabary.dims.y;
+		const syllabaryOffsetY = Math.floor(centeredY/AXIS_DIMENSIONS.y);
+		centeredY -= syllabaryOffsetY * AXIS_DIMENSIONS.y;
+		if (centeredY > AXIS_DIMENSIONS.y / 2) {
+			centeredY -= AXIS_DIMENSIONS.y;
 		}
-		let placeY = centeredY * interval;
+		const placeY = centeredY * interval;
 		this.glyph.setAttribute("transform", `translate(${placeX}, ${placeY})`);
 	}
 }
