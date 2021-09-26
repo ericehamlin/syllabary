@@ -179,7 +179,19 @@ export default class Control {
         }
 
         change = Number.isNaN(change) ? 0 : change;
-        this.dispatchEvent(new CustomEvent('rotate', { detail: { change: change, dimension: dimension } }));
+
+        this.dispatchEvent(
+          new CustomEvent(
+            'rotate',
+            {
+              detail: {
+                change: change,
+                dimension: dimension
+              }
+            }
+          )
+        );
+
         this.angle = angle;
       }
     };
