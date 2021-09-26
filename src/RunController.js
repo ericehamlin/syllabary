@@ -6,6 +6,7 @@ import NavQueue from "NavQueue";
 import Logger from "Logger";
 import * as Hammer from "hammerjs";
 import SyllabaryDisplay from 'SyllabaryDisplay';
+import Grid from 'Grid';
 
 const RUN_STATES = {
   READ : "read", 			// audio is currently playing
@@ -96,8 +97,8 @@ export default class RunController {
     this.gridTouchListener.get('swipe').set({ enable: true });
     this.gridTouchListener.on('pinchin', (ev) => {
       this.setDragging();
-      let zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
-      Syllabary.grid.addZ(zAnimate);
+      const zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
+      Grid.addZ(zAnimate);
       this.setAnimateDirection(0,0,zAnimate);
       this.renderGrid();
     });
@@ -105,7 +106,7 @@ export default class RunController {
     this.gridTouchListener.on('pinchout', (ev) => {
       this.setDragging();
       let zAnimate = -Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
-      Syllabary.grid.addZ(zAnimate);
+      Grid.addZ(zAnimate);
       this.setAnimateDirection(0, 0, zAnimate);
       this.renderGrid();
     });
@@ -118,8 +119,8 @@ export default class RunController {
       this.setDragging();
       let xAnimate = -ev.deltaX * this.animateInterval * 0.1;
       let yAnimate = -ev.deltaY * this.animateInterval * 0.1;
-      Syllabary.grid.addX(xAnimate);
-      Syllabary.grid.addY(yAnimate);
+      Grid.addX(xAnimate);
+      Grid.addY(yAnimate);
       this.setAnimateDirection(xAnimate, yAnimate, 0);
       this.renderGrid();
     });
@@ -156,7 +157,7 @@ export default class RunController {
     };
 
     const controlRotate = (event) => {
-      Syllabary.grid[event.detail.dimension + "Position"] += event.detail.change;
+      Grid[event.detail.dimension + "Position"] += event.detail.change;
       this.renderGrid();
     };
 
@@ -267,9 +268,9 @@ export default class RunController {
 	 *
 	 */
 	animate() {
-		let oldXPosition = Syllabary.grid.xPosition,
-			oldYPosition = Syllabary.grid.yPosition,
-			oldZPosition = Syllabary.grid.zPosition;
+		let oldXPosition = Grid.xPosition,
+			oldYPosition = Grid.yPosition,
+			oldZPosition = Grid.zPosition;
 
 		this.advanceAnimation();
 		this.renderGrid();
@@ -291,16 +292,16 @@ export default class RunController {
 	 *
 	 */
 	advanceAnimation() {
-		Syllabary.grid.addX(this.getXanimateDirection());
-		Syllabary.grid.addY(this.getYanimateDirection());
-		Syllabary.grid.addZ(this.getZanimateDirection());
+		Grid.addX(this.getXanimateDirection());
+		Grid.addY(this.getYanimateDirection());
+		Grid.addZ(this.getZanimateDirection());
 	}
 
 	/**
 	 *
 	 */
 	snapToNearestSyllable() {
-	  Syllabary.grid.snapToNearestSyllable();
+	  Grid.snapToNearestSyllable();
 		this.renderGrid();
 	}
 
@@ -328,9 +329,9 @@ export default class RunController {
 	 */
 	animationHasCrossedSyllablePosition(oldXPosition, oldYPosition, oldZPosition) {
 		return (
-			Math.floor(oldXPosition) != Math.floor(Syllabary.grid.xPosition) ||
-			Math.floor(oldYPosition) != Math.floor(Syllabary.grid.yPosition) ||
-			Math.floor(oldZPosition) != Math.floor(Syllabary.grid.zPosition)
+			Math.floor(oldXPosition) != Math.floor(Grid.xPosition) ||
+			Math.floor(oldYPosition) != Math.floor(Grid.yPosition) ||
+			Math.floor(oldZPosition) != Math.floor(Grid.zPosition)
 		);
 	}
 
@@ -348,9 +349,9 @@ export default class RunController {
 		this.animateDirection.z = this.animateDirection.z * drag;
 
 		if (this.getAnimateVelocity() < 0.01) {
-			let xComponent = this.getAnimateComponent(Syllabary.grid.xPosition);
-			let yComponent = this.getAnimateComponent(Syllabary.grid.yPosition);
-			let zComponent = this.getAnimateComponent(Syllabary.grid.zPosition);
+			let xComponent = this.getAnimateComponent(Grid.xPosition);
+			let yComponent = this.getAnimateComponent(Grid.yPosition);
+			let zComponent = this.getAnimateComponent(Grid.zPosition);
 			this.setAnimateDirection(xComponent, yComponent, zComponent);
 
 			Logger.debug("Ending Drift");
@@ -375,9 +376,9 @@ export default class RunController {
 	 * TODO: this needs to be better
 	 */
 	magnetize() {
-		let oldXPosition = Syllabary.grid.xPosition,
-			oldYPosition = Syllabary.grid.yPosition,
-			oldZPosition = Syllabary.grid.zPosition;
+		let oldXPosition = Grid.xPosition,
+			oldYPosition = Grid.yPosition,
+			oldZPosition = Grid.zPosition;
 
 
 		this.advanceAnimation();
@@ -446,7 +447,7 @@ export default class RunController {
 		const y = Syllabary.getY();
 		const z = Syllabary.getZ();
 
-		const syllable = Syllabary.grid.syllables[x][y][z];
+		const syllable = Grid.syllables[x][y][z];
 		return syllable;
 	}
 

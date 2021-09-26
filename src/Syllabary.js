@@ -13,7 +13,6 @@ import Logger from 'Logger';
 import { AXIS_DIMENSIONS } from './constants';
 
 const Syllabary = {
-  grid: Grid,
 
 	start: (options) => {
 		const {
