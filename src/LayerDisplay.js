@@ -51,7 +51,7 @@ export default class LayerDisplay {
 		const exactZPosition = this.getExactZPosition();
 
     // TODO what exactly is this?
-    const calculated = (exactZPosition + NUM_VISIBLE_LAYERS + 1 - Syllabary.dims.z) * 150; // TODO: what is this number 150?
+    const calculated = (exactZPosition + NUM_VISIBLE_LAYERS + 1 - AXIS_DIMENSIONS.z) * 150; // TODO: what is this number 150?
 
     // Displace layer on x-y axes
     const displacement = (calculated / -2) + "%";
@@ -72,13 +72,13 @@ export default class LayerDisplay {
 			this.display.style.height = scale;
 
       // TODO: this is the line that's affecting the Z-fade problem
-			let opacity = Math.abs(exactZPosition + 1 - Syllabary.dims.z) / NUM_VISIBLE_LAYERS;
+			let opacity = Math.abs(exactZPosition + 1 - AXIS_DIMENSIONS.z) / NUM_VISIBLE_LAYERS;
 
       this.fadeLayer.style.opacity = opacity;
 
       // Fade closest layer out
-			if (exactZPosition > (Syllabary.dims.z - 1)) {
-				this.display.style.opacity = Math.pow(Syllabary.dims.z - exactZPosition, 2);
+			if (exactZPosition > (AXIS_DIMENSIONS.z - 1)) {
+				this.display.style.opacity = Math.pow(AXIS_DIMENSIONS.z - exactZPosition, 2);
 			}
 
 			// Reposition glyphs on layer according to x, y position
@@ -134,7 +134,7 @@ export default class LayerDisplay {
    * This TODO might also have something to do with Z-fade problem
 	 */
 	getZOffset() {
-    return ( Math.floor((this.getZOrder() /*- 1*/) / AXIS_DIMENSIONS.z) * Syllabary.dims.z );
+    return ( Math.floor((this.getZOrder() /*- 1*/) / AXIS_DIMENSIONS.z) * AXIS_DIMENSIONS.z );
 	}
 
   /**

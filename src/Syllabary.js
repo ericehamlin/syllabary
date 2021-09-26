@@ -10,9 +10,10 @@ import WebAudioAPISound from 'WebAudioAPISound';
 import DebugControls from 'DebugControls';
 import Style from 'Style';
 import Logger from 'Logger';
-import { PHONEMES } from 'constants';
+import { AXIS_DIMENSIONS } from './constants';
 
 const Syllabary = {
+  grid: Grid,
 
 	start: (options) => {
 		const {
@@ -26,19 +27,7 @@ const Syllabary = {
 
 		Syllabary.containerId = containerId;
 
-    Syllabary.dims = {
-      initialConsonants: PHONEMES.initialConsonants.length - 1,
-      vowels:            PHONEMES.vowels.length - 1,
-      finalConsonants:   PHONEMES.finalConsonants.length - 1
-    };
-
-    Syllabary.dims['x'] = Syllabary.dims.initialConsonants;
-    Syllabary.dims['z'] = Syllabary.dims.vowels;
-    Syllabary.dims['y'] = Syllabary.dims.finalConsonants;
-
-
 		Grid.init(xPosition, yPosition, zPosition);
-		Syllabary.grid = Grid;
 
     Style.addRules();
 
@@ -130,17 +119,17 @@ const Syllabary = {
 
 	getX: ({diff=0, actual=null} = {}) => {
 		const x = actual || Syllabary.grid.xPosition + diff;
-		return Syllabary.getCurrentLocation(x, Syllabary.dims.x);
+		return Syllabary.getCurrentLocation(x, AXIS_DIMENSIONS.x);
 	},
 
 	getY: ({diff=0, actual=null} = {}) => {
 		const y = actual || Syllabary.grid.yPosition + diff;
-		return Syllabary.getCurrentLocation(y, Syllabary.dims.y);
+		return Syllabary.getCurrentLocation(y, AXIS_DIMENSIONS.y);
 	},
 
 	getZ: ({diff=0, actual=null} = {}) => {
 		const z = actual || Syllabary.grid.zPosition + diff;
-		return Syllabary.getCurrentLocation(z, Syllabary.dims.z);
+		return Syllabary.getCurrentLocation(z, AXIS_DIMENSIONS.z);
 	},
 };
 
