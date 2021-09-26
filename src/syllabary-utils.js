@@ -1,11 +1,10 @@
 'use strict';
-import Syllabary from 'Syllabary';
-import { PHONEMES_TO_AXES_MAP } from './constants';
+import { PHONEMES_TO_AXES_MAP, PHONEME_DIMENSIONS } from './constants';
 
 export function getTotalSyllables() {
-  return Syllabary.dims.initialConsonants
-    * Syllabary.dims.vowels
-    * Syllabary.dims.finalConsonants;
+  return PHONEME_DIMENSIONS.initialConsonants
+    * PHONEME_DIMENSIONS.vowels
+    * PHONEME_DIMENSIONS.finalConsonants;
 }
 
 export function getSyllableStringForXYZ(x, y, z) {

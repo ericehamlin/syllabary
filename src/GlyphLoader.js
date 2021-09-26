@@ -7,6 +7,7 @@ import {
   getTotalSyllables,
   getXYZForSyllableValues
 } from 'syllabary-utils';
+import { PHONEME_DIMENSIONS } from './constants';
 
 export default class GlyphLoader {
 
@@ -17,8 +18,8 @@ export default class GlyphLoader {
   }
 
   load() {
-    for (let i = 1; i <= Syllabary.dims.initialConsonants; i++) {
-      for (let j = 1; j <= Syllabary.dims.vowels; j++) {
+    for (let i = 1; i <= PHONEME_DIMENSIONS.initialConsonants; i++) {
+      for (let j = 1; j <= PHONEME_DIMENSIONS.vowels; j++) {
         const url = Config.baseUrl + "coallatedSvg/" + i + "-" + j + ".svg";
         let promise = FileLoader.load(url);
         promise.then((data) => {

@@ -5,7 +5,13 @@ import { radiansToDegrees, blendHexColors } from 'utils';
 import EventMixin from './EventMixin.js';
 import Logger from './Logger.js';
 import * as Hammer from "hammerjs";
-import { SVG_NS, PHONEMES, PHONEMES_TO_AXES_MAP } from './constants';
+import {
+  SVG_NS,
+  PHONEMES,
+  PHONEMES_TO_AXES_MAP,
+  PHONEME_DIMENSIONS,
+  AXIS_DIMENSIONS
+} from './constants';
 
 export default class Control {
 
@@ -25,7 +31,6 @@ export default class Control {
       r1,
       blendHexColors(Config.color2, Config.color1, 0.2),
       (((r1 + r2) / 2) - 10),
-      Syllabary.dims.initialConsonants,
       PHONEMES.initialConsonants
     );
 
@@ -33,7 +38,6 @@ export default class Control {
       r2,
       blendHexColors(Config.color2, Config.color1, 0.4),
       (((r2 + r3) / 2) - 10),
-      Syllabary.dims.vowels,
       PHONEMES.vowels
     );
 
@@ -41,7 +45,6 @@ export default class Control {
       r3,
       blendHexColors(Config.color2, Config.color1, 0.6),
       (r3 - 20),
-      Syllabary.dims.finalConsonants,
       PHONEMES.finalConsonants
     );
 
@@ -88,11 +91,10 @@ export default class Control {
    * @param r
    * @param fill
    * @param textRadius
-   * @param dim
    * @param phonemes
    * @returns {Element}
    */
-  createCircle(r, fill, textRadius, dim, phonemes) {
+  createCircle(r, fill, textRadius, phonemes) {
     const circle = document.createElementNS(SVG_NS, "circle");
     circle.setAttribute("cx", 0);
     circle.setAttribute("cy", 0);
@@ -101,7 +103,7 @@ export default class Control {
 
     const group = document.createElementNS(SVG_NS, "g");
     group.appendChild(circle);
-    this.placePhonemes(group, textRadius, dim, phonemes);
+    this.placePhonemes(group, textRadius, phonemes);
 
     return group;
   }
@@ -110,10 +112,10 @@ export default class Control {
    *
    * @param group
    * @param r
-   * @param dim
    * @param phonemes
    */
-  placePhonemes(group, r, dim, phonemes) {
+  placePhonemes(group, r, phonemes) {
+    const dim = phonemes.size -1;
     const degreesIncrease = 360 / (dim);
     for (let i = 1; i <= dim; i++) {
       const text = document.createElementNS(SVG_NS, "text");
@@ -137,14 +139,23 @@ export default class Control {
     const z = Syllabary.getZ();
 
     const deg = {
-      x: (360 * (x - 1)) / Syllabary.dims.x,
-      y: (360 * (y - 1)) / Syllabary.dims.y,
-      z: (360 * (z - 1)) / Syllabary.dims.z
+      x: (360 * (x - 1)) / AXIS_DIMENSIONS.x,
+      y: (360 * (y - 1)) / AXIS_DIMENSIONS.y,
+      z: (360 * (z - 1)) / AXIS_DIMENSIONS.z
     };
 
-    this.outerCircleGroup.setAttribute("transform", "rotate(" + -deg[PHONEMES_TO_AXES_MAP.initialConsonants] + ")");
-    this.middleCircleGroup.setAttribute("transform", "rotate(" + -deg[PHONEMES_TO_AXES_MAP.vowels] + ")");
-    this.innerCircleGroup.setAttribute("transform", "rotate(" + -deg[PHONEMES_TO_AXES_MAP.finalConsonants] + ")");
+    this.outerCircleGroup.setAttribute(
+      "transform",
+      `rotate( ${-deg[PHONEMES_TO_AXES_MAP.initialConsonants]} )`
+    );
+    this.middleCircleGroup.setAttribute(
+      "transform",
+      `rotate( ${-deg[PHONEMES_TO_AXES_MAP.vowels]} )`
+    );
+    this.innerCircleGroup.setAttribute(
+      "transform",
+      `rotate( ${-deg[PHONEMES_TO_AXES_MAP.finalConsonants]} )`
+    );
   }
 
   // TODO: cancel control when no pan
@@ -166,15 +177,15 @@ export default class Control {
         switch (this.currentlyMovingCircle) {
           case "outer":
             dimension = PHONEMES_TO_AXES_MAP.initialConsonants;
-            change = (angleChange * Syllabary.dims.initialConsonants / 360);
+            change = (angleChange * PHONEME_DIMENSIONS.initialConsonants / 360);
             break;
           case "middle":
             dimension = PHONEMES_TO_AXES_MAP.vowels;
-            change = (angleChange * Syllabary.dims.vowels / 360);
+            change = (angleChange * PHONEME_DIMENSIONS.vowels / 360);
             break;
           case "inner":
             dimension = PHONEMES_TO_AXES_MAP.finalConsonants;
-            change = (angleChange * Syllabary.dims.finalConsonants / 360);
+            change = (angleChange * PHONEME_DIMENSIONS.finalConsonants / 360);
             break;
         }
 
