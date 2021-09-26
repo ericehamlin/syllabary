@@ -105,31 +105,6 @@ const Syllabary = {
 		Logger.info("Completing Syllabary");
 	},
 
-	/**
-	 * TODO not a good name
-	 *
-	 * @param position
-	 * @param dim
-	 * @returns {number}
-	 */
-	getCurrentLocation: (position, dim) => {
-		return position - (Math.floor(position/dim) * dim) + 1;
-	},
-
-	getX: ({diff=0, actual=null} = {}) => {
-		const x = actual || Grid.xPosition + diff;
-		return Syllabary.getCurrentLocation(x, AXIS_DIMENSIONS.x);
-	},
-
-	getY: ({diff=0, actual=null} = {}) => {
-		const y = actual || Grid.yPosition + diff;
-		return Syllabary.getCurrentLocation(y, AXIS_DIMENSIONS.y);
-	},
-
-	getZ: ({diff=0, actual=null} = {}) => {
-		const z = actual || Grid.zPosition + diff;
-		return Syllabary.getCurrentLocation(z, AXIS_DIMENSIONS.z);
-	},
 };
 
 export default Syllabary;

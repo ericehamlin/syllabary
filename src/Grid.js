@@ -92,7 +92,33 @@ const Grid = {
     this.setX(Math.round(this.xPosition));
     this.setY(Math.round(this.yPosition));
     this.setZ(Math.round(this.zPosition));
-  }
+  },
+
+  getCalculatedX: function(diff=0){
+		const x = this.xPosition + diff;
+		return this.getCurrentLocation(x, AXIS_DIMENSIONS.x);
+	},
+
+  getCalculatedY: function(diff=0){
+		const y = Grid.yPosition + diff;
+		return this.getCurrentLocation(y, AXIS_DIMENSIONS.y);
+	},
+
+  getCalculatedZ: function(diff=0) {
+		const z = Grid.zPosition + diff;
+		return this.getCurrentLocation(z, AXIS_DIMENSIONS.z);
+	},
+
+  	/**
+	 * TODO not a good name
+	 *
+	 * @param position
+	 * @param dim
+	 * @returns {number}
+	 */
+	getCurrentLocation: (position, dim) => {
+		return position - (Math.floor(position/dim) * dim) + 1;
+	},
 };
 
 export default Grid;

@@ -1,7 +1,6 @@
 'use strict';
 
 import Config from "Config";
-import Syllabary from "Syllabary";
 import NavQueue from "NavQueue";
 import Logger from "Logger";
 import * as Hammer from "hammerjs";
@@ -443,11 +442,11 @@ export default class RunController {
 	 * @returns {Syllable}
 	 */
 	getCurrentSyllable() {
-		const x = Syllabary.getX();
-		const y = Syllabary.getY();
-		const z = Syllabary.getZ();
+		const x = Grid.getCalculatedX();
+		const y = Grid.getCalculatedY();
+		const z = Grid.getCalculatedZ();
 
-		const syllable = Grid.syllables[x][y][z];
+		const syllable = Grid.getSyllable(x,y,z);
 		return syllable;
 	}
 
@@ -510,9 +509,9 @@ export default class RunController {
 					break;
 			}
 
-			let targetX = Syllabary.getX({diff: xDiff}),
-				targetY = Syllabary.getY({diff: yDiff}),
-				targetZ = Syllabary.getZ({diff: zDiff});
+			const targetX = Grid.getCalculatedX(xDiff);
+			const targetY = Grid.getCalculatedY(yDiff);
+			const targetZ = Grid.getCalculatedZ(zDiff);
 
 			if (NavQueue.includes(targetX, targetY, targetZ)) {
 				Logger.debug("Cannot return to " + targetX + "-" + targetY + "-" + targetZ);
@@ -581,7 +580,7 @@ export default class RunController {
     if (this.isPaused()) { return false; }
 		Logger.debug("Starting Read");
 		this.removeEventListeners();
-		NavQueue.add(Syllabary.getX(), Syllabary.getY(), Syllabary.getZ());
+		NavQueue.add(Grid.getCalculatedX(), Grid.getCalculatedY(), Grid.getCalculatedZ());
 		this.runState = RUN_STATES.READ;
 	}
 

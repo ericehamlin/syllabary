@@ -1,5 +1,6 @@
 'use strict';
 import Syllabary from './Syllabary';
+import Grid from 'Grid';
 import Config from './Config.js';
 import { radiansToDegrees, blendHexColors } from 'utils';
 import EventMixin from './EventMixin.js';
@@ -165,9 +166,9 @@ export default class ControlWheel {
    *
    */
   render() {
-    const x = Syllabary.getX();
-    const y = Syllabary.getY();
-    const z = Syllabary.getZ();
+    const x = Grid.getCalculatedX();
+    const y = Grid.getCalculatedY();
+    const z = Grid.getCalculatedZ();
 
     const deg = {
       x: (360 * (x - 1)) / AXIS_DIMENSIONS.x,
