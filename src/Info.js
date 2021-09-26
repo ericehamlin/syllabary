@@ -4,6 +4,7 @@ import EventMixin from 'EventMixin';
 import * as Hammer from "hammerjs";
 import Style from 'Style';
 import { convertVmaxToPx, convertPercentToPx } from 'utils';
+import { createDivWithAttributes } from './Utils';
 
 const Info = {
   listeners: [],
@@ -14,21 +15,25 @@ const Info = {
 
   init: function() {
 
-    this.bar = document.createElement("div");
-    this.bar.setAttribute("class", "control-bar");
+    this.bar = createDivWithAttributes({
+      class: "control-bar"
+    });
 
-    this.title = document.createElement("div");
-    this.title.setAttribute("id", "syllabary-title");
+    this.title = createDivWithAttributes({
+      id: "syllabary-title"
+    });
     this.title.innerHTML = "the Syllabary";
 
     this.bar.appendChild(this.title);
 
-    this.info = document.createElement("div");
-    this.info.setAttribute("class", "control-info");
+    this.info = createDivWithAttributes({
+      class: "control-info"
+    });
     this.info.innerHTML = "Info about the Syllabary";
 
-    this.container = document.createElement("div");
-    this.container.setAttribute("class", "control-container");
+    this.container = createDivWithAttributes({
+      class: "control-container"
+    });
 
     this.container.appendChild(this.bar);
     this.container.appendChild(this.info);

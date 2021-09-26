@@ -4,6 +4,7 @@ import Config from 'Config';
 import Syllabary from 'Syllabary';
 import FileLoader from 'FileLoader';
 import EventMixin from './EventMixin.js';
+import { createElementNSWithAttributes } from './Utils.js';
 
 const LoadingDisplay = {
 
@@ -168,14 +169,20 @@ const LoadingDisplay = {
 	},
 
   drawSegment: (strokeNum, segmentNum) => {
-    const segment = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    segment.setAttribute('id', `clip-path-segment-${segmentNum}`);
-    segment.setAttribute('x', 0);
-    segment.setAttribute('y', 0);
-    segment.setAttribute('width', LoadingDisplay.segmentWidth);
-    segment.setAttribute('height', LoadingDisplay.segmentLength);
-    segment.setAttribute('class', 'clip-path-segment');
-    segment.setAttribute('style', 'display:none;');
+    const segment = createElementNSWithAttributes(
+      'http://www.w3.org/2000/svg',
+      'rect',
+      {
+        id: `clip-path-segment-${segmentNum}`,
+        x: 0,
+        y: 0,
+        width: LoadingDisplay.segmentWidth,
+        height: LoadingDisplay.segmentLength,
+        class: 'clip-path-segment',
+        style: 'display:none;'
+      }
+    );
+
     const clipPath = document.getElementById(`stroke-${strokeNum}-clip-path`);
     clipPath.appendChild(segment);
   },
@@ -194,7 +201,9 @@ const LoadingDisplay = {
   },
 
   getDistance: (point1, point2) => {
-    return Math.sqrt( Math.pow(point2.point.y - point1.point.y, 2) + Math.pow(point2.point.x - point1.point.x, 2));
+    return Math.sqrt(
+      Math.pow(point2.point.y - point1.point.y, 2) + Math.pow(point2.point.x - point1.point.x, 2)
+    );
   },
 
   /**

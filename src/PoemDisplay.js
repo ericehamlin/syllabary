@@ -1,5 +1,7 @@
 'use strict';
 
+import { createDivWithAttributes } from "./Utils";
+
 const PoemDisplay = {
   display: undefined,
   title: undefined,
@@ -8,24 +10,19 @@ const PoemDisplay = {
   container: undefined,
 
 	init: function() {
-		this.display = document.createElement("div");
-		this.display.setAttribute("class", "poem-display");
+		this.display = createDivWithAttributes({class: "poem-display"});
 
-		this.title = document.createElement("div");
-		this.title.setAttribute("class", "poem-title");
+		this.title = createDivWithAttributes({class: "poem-title"});
 
-		this.textContainer = document.createElement("div");
-		this.textContainer.setAttribute("class", "poem-text-container");
+		this.textContainer = createDivWithAttributes({class: "poem-text-container"});
 
-		this.text = document.createElement("div");
-		this.text.setAttribute("class", "poem-text");
+		this.text = createDivWithAttributes({class: "poem-text"});
 
 		this.textContainer.appendChild(this.text);
 		this.display.appendChild(this.title);
 		this.display.appendChild(this.textContainer);
 
-		this.container = document.createElement("div");
-		this.container.setAttribute("class", "poem-container");
+		this.container = createDivWithAttributes({class: "poem-container"});
 
 		this.container.appendChild(this.display);
 	},

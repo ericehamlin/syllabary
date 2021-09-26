@@ -58,6 +58,10 @@ export function createElementWithAttributes(tag, attributes) {
   return el;
 }
 
+export function createDivWithAttributes(attributes) {
+  return createElementWithAttributes('div', attributes);
+}
+
 export function createElementNSWithAttributes(ns, tag, attributes) {
   const el = document.createElementNS(ns, tag);
   for (const property in attributes) {

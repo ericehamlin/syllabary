@@ -111,11 +111,16 @@ export default class ControlWheel {
    * @returns {Element}
    */
   createCircle(r, fill, textRadius, phonemes) {
-    const circle = document.createElementNS(SVG_NS, "circle");
-    circle.setAttribute("cx", 0);
-    circle.setAttribute("cy", 0);
-    circle.setAttribute("r", r);
-    circle.setAttribute("fill", fill);
+    const circle = createElementNSWithAttributes(
+      SVG_NS,
+      "circle",
+      {
+        cx: 0,
+        cy: 0,
+        r: r,
+        fill: fill
+      }
+    );
 
     const group = document.createElementNS(SVG_NS, "g");
     group.appendChild(circle);
