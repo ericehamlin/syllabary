@@ -3,11 +3,15 @@
 import Config from 'Config';
 import Syllabary from 'Syllabary';
 import FileLoader from 'FileLoader';
+import {
+  getTotalSyllables,
+  getXYZForSyllableValues
+} from 'syllabary-utils';
 
 export default class GlyphLoader {
 
   constructor() {
-    this.numGlyphsTotal = Syllabary.getTotalSyllables();
+    this.numGlyphsTotal = getTotalSyllables();
 
     this.load();
   }
@@ -24,7 +28,7 @@ export default class GlyphLoader {
             const initialConsonant = match[1],
               vowel = match[2],
               finalConsonant = match[3];
-            let {x, y, z} = Syllabary.getXYZForSyllableValues(initialConsonant, vowel, finalConsonant);
+            let {x, y, z} = getXYZForSyllableValues(initialConsonant, vowel, finalConsonant);
             Syllabary.grid.syllables[x][y][z].setGlyphData(svg);
           });
         });

@@ -148,36 +148,6 @@ const Syllabary = {
 		const z = actual || Syllabary.grid.zPosition + diff;
 		return Syllabary.getCurrentLocation(z, Syllabary.dims.z);
 	},
-
-
-  getXYZForSyllable(syllable) {
-    return Syllabary.getXYZForSyllableValues(syllable.initialConsonant, syllable.vowel, syllable.finalConsonant);
-  },
-
-  getXYZForSyllableValues(initialConsonant, vowel, finalConsonant) {
-    return     {
-      [Syllabary.soundsToDimensionsMap.initialConsonants]: initialConsonant,
-      [Syllabary.soundsToDimensionsMap.vowels]: vowel,
-      [Syllabary.soundsToDimensionsMap.finalConsonants]: finalConsonant
-    };
-  },
-
-  getSyllableValuesForXYZ(args) {
-    return {
-      initialConsonant: args[Syllabary.soundsToDimensionsMap.initialConsonants],
-      vowel: args[Syllabary.soundsToDimensionsMap.vowels],
-      finalConsonant: args[Syllabary.soundsToDimensionsMap.finalConsonants]
-    }
-  },
-
-  getSyllableStringForXYZ(x, y, z) {
-    const {initialConsonant, vowel, finalConsonant} = Syllabary.getSyllableValuesForXYZ({x:x, y:y, z:z});
-    return `${initialConsonant}-${vowel}-${finalConsonant}`;
-  },
-
-  getTotalSyllables() {
-    return Syllabary.dims.initialConsonants * Syllabary.dims.vowels * Syllabary.dims.finalConsonants
-  }
 };
 
 export default Syllabary;

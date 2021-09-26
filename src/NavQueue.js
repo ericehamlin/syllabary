@@ -1,14 +1,14 @@
 'use strict';
 
-import Syllabary from 'Syllabary';
 import Config from 'Config';
 import Logger from 'Logger';
+import { getSyllableStringForXYZ } from 'syllabary-utils';
 
 let NavQueue = {
 
 	queue: [],
 	add: (x, y, z) => {
-		NavQueue.queue.unshift({[x+"-"+y+"-"+z]: Syllabary.getSyllableStringForXYZ(x,y,z)});
+		NavQueue.queue.unshift({[x+"-"+y+"-"+z]: getSyllableStringForXYZ(x,y,z)});
 		if (NavQueue.queue.length > Config.navQueueLength) {
 			NavQueue.queue.pop();
 		}

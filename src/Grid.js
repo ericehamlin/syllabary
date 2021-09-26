@@ -3,6 +3,7 @@
 import Syllabary from 'Syllabary';
 import Syllable from 'Syllable';
 import { randomInt } from 'utils';
+import { getSyllableValuesForXYZ } from 'syllabary-utils';
 
 export default class Grid {
 
@@ -37,7 +38,7 @@ export default class Grid {
         this.syllables[x][y] = [];
 
         for (let z = 1; z <= Syllabary.dims.z; z++) {
-          let { initialConsonant, vowel, finalConsonant } = Syllabary.getSyllableValuesForXYZ({ x: x, y: y, z: z });
+          let { initialConsonant, vowel, finalConsonant } = getSyllableValuesForXYZ({ x: x, y: y, z: z });
           this.syllables[x][y][z] = new Syllable(initialConsonant, vowel, finalConsonant, x, y, z);
         }
       }
