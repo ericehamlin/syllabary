@@ -10,36 +10,37 @@ import WebAudioAPISound from 'WebAudioAPISound';
 import DebugControls from 'DebugControls';
 import Style from 'Style';
 import Logger from 'Logger';
+import { PHONEMES } from 'constants';
 
 let Syllabary = {
 
 	start: (options) => {
-		let { containerId, xPosition = null, yPosition = null, zPosition = null } = options;
+		let {
+      containerId,
+      xPosition = null,
+      yPosition = null,
+      zPosition = null
+    } = options;
 
 		Config.set(options);
 
 		Syllabary.containerId = containerId;
 
-		/** A phoneme (from the Greek:  phonema, "a sound uttered") is the smallest linguistically distinctive unit of sound. */
-		Syllabary.phonemes = {};
-		/** initial consonants */
-		Syllabary.phonemes.initialConsonants = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'S', 'Tj', 'Sh', 'R', 'Y', 'G', 'K', 'H', 'W', 'L'];
-		/** vowels */
-		Syllabary.phonemes.vowels = [null, "U", "O", "o", "u", "a", "i", "e", "A", "E", "I"];
-		/** final consonants */
-		Syllabary.phonemes.finalConsonants = [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'];
-
     Syllabary.dims = {
-      initialConsonants: Syllabary.phonemes.initialConsonants.length - 1,
-      vowels:            Syllabary.phonemes.vowels.length - 1,
-      finalConsonants:   Syllabary.phonemes.finalConsonants.length - 1
+      initialConsonants: PHONEMES.initialConsonants.length - 1,
+      vowels:            PHONEMES.vowels.length - 1,
+      finalConsonants:   PHONEMES.finalConsonants.length - 1
     };
 
-    Syllabary.soundsToDimensionsMap = {initialConsonants: 'x', vowels: 'z', finalConsonants: 'y'};
+    Syllabary.soundsToDimensionsMap = {
+      initialConsonants: 'x',
+      vowels: 'z',
+      finalConsonants: 'y'
+    };
 
-    Syllabary.dims[Syllabary.soundsToDimensionsMap.initialConsonants] = Syllabary.dims.initialConsonants;
-    Syllabary.dims[Syllabary.soundsToDimensionsMap.vowels] = Syllabary.dims.vowels;
-    Syllabary.dims[Syllabary.soundsToDimensionsMap.finalConsonants] = Syllabary.dims.finalConsonants;
+    Syllabary.dims['x'] = Syllabary.dims.initialConsonants;
+    Syllabary.dims['z'] = Syllabary.dims.vowels;
+    Syllabary.dims['y'] = Syllabary.dims.finalConsonants;
 
 
 		/** this probably shouldn't be a class variable, but it needs to be globally available */

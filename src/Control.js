@@ -5,7 +5,7 @@ import { radiansToDegrees, blendHexColors } from 'utils';
 import EventMixin from './EventMixin.js';
 import Logger from './Logger.js';
 import * as Hammer from "hammerjs";
-import { SVG_NS } from 'constants';
+import { SVG_NS, PHONEMES } from 'constants';
 
 export default class Control {
 
@@ -21,11 +21,29 @@ export default class Control {
 
     this.listeners = [];
 
-    this.outerCircleGroup = this.createCircle(r1, blendHexColors(Config.color2, Config.color1, 0.2), (((r1 + r2) / 2) - 10), Syllabary.dims.initialConsonants, Syllabary.phonemes.initialConsonants);
+    this.outerCircleGroup = this.createCircle(
+      r1,
+      blendHexColors(Config.color2, Config.color1, 0.2),
+      (((r1 + r2) / 2) - 10),
+      Syllabary.dims.initialConsonants,
+      PHONEMES.initialConsonants
+    );
 
-    this.middleCircleGroup = this.createCircle(r2, blendHexColors(Config.color2, Config.color1, 0.4), (((r2 + r3) / 2) - 10), Syllabary.dims.vowels, Syllabary.phonemes.vowels);
+    this.middleCircleGroup = this.createCircle(
+      r2,
+      blendHexColors(Config.color2, Config.color1, 0.4),
+      (((r2 + r3) / 2) - 10),
+      Syllabary.dims.vowels,
+      PHONEMES.vowels
+    );
 
-    this.innerCircleGroup = this.createCircle(r3, blendHexColors(Config.color2, Config.color1, 0.6), (r3 - 20), Syllabary.dims.finalConsonants, Syllabary.phonemes.finalConsonants);
+    this.innerCircleGroup = this.createCircle(
+      r3,
+      blendHexColors(Config.color2, Config.color1, 0.6),
+      (r3 - 20),
+      Syllabary.dims.finalConsonants,
+      PHONEMES.finalConsonants
+    );
 
 
     // Create Indicator
