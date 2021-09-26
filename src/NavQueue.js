@@ -2,6 +2,7 @@
 
 import Syllabary from 'Syllabary';
 import Config from 'Config';
+import Logger from 'Logger';
 
 let NavQueue = {
 
@@ -11,7 +12,7 @@ let NavQueue = {
 		if (NavQueue.queue.length > Config.navQueueLength) {
 			NavQueue.queue.pop();
 		}
-		console.debug("Current NavQueue", NavQueue.queue);
+		Logger.debug("Current NavQueue", NavQueue.queue);
 	},
 	includes: (x, y, z) => {
 	  for (let i in NavQueue.queue) {

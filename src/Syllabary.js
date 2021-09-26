@@ -60,7 +60,6 @@ let Syllabary = {
 
   testAutoplay: () => {
     const audioEl = document.getElementById('test-autoplay');
-    console.log(audioEl)
     const autoplayPromise = audioEl.play();
     autoplayPromise.then(
       ()=>{},

@@ -2,6 +2,7 @@
 
 import Config from 'Config';
 import FileLoader from 'FileLoader';
+import Logger from 'Logger';
 
 export default class Poem {
 
@@ -72,7 +73,7 @@ export default class Poem {
 		})
 		.catch((e) => {
 			if (e === 404) {
-				console.warn("Poem file " + that.url + " not found. Assuming poem does not exist.");
+				Logger.warn("Poem file " + that.url + " not found. Assuming poem does not exist.");
 				this.isLoaded = true;
 			}
 			// else retry?
