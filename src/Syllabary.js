@@ -54,7 +54,6 @@ const Syllabary = {
 	initialize: () => {
 		Logger.info("Initializing Syllabary");
     LoadingDisplay.create();
-		Syllabary.syllabaryDisplay = SyllabaryDisplay;
     SyllabaryDisplay.init();
 		if (Config.debug) { new DebugControls(); }
 		Syllabary.load();
@@ -91,9 +90,9 @@ const Syllabary = {
 				LoadingDisplay.addEventListener('play', function() {
 					sound.play();
           LoadingDisplay.remove();
-					Syllabary.syllabaryDisplay.initGrid();
-					Syllabary.syllabaryDisplay.render();
-					Syllabary.syllabaryDisplay.add();
+					SyllabaryDisplay.initGrid();
+					SyllabaryDisplay.render();
+					SyllabaryDisplay.add();
           Syllabary.runController = new RunController();
 					Logger.info("Running Syllabary");
           Syllabary.testAutoplay().then(Syllabary.run);

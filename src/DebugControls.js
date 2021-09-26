@@ -1,6 +1,7 @@
 'use strict';
 
 import Syllabary from "./Syllabary.js";
+import SyllabaryDisplay from 'SyllabaryDisplay';
 
 export default class DebugControls {
 	constructor() {
@@ -15,6 +16,6 @@ export default class DebugControls {
 
 		debugControls.appendChild(pauseButton);
 
-		Syllabary.syllabaryDisplay.display.appendChild(debugControls);
+		SyllabaryDisplay.display.appendChild(debugControls);
 	}
 }

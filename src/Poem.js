@@ -3,6 +3,7 @@
 import Config from 'Config';
 import FileLoader from 'FileLoader';
 import Logger from 'Logger';
+import SyllabaryDisplay from 'SyllabaryDisplay';
 
 export default class Poem {
 
@@ -17,10 +18,10 @@ export default class Poem {
 				let loadPromise = this.load();
 				loadPromise.then((data) => {
 					if (this.text) {
-						Syllabary.syllabaryDisplay.poemDisplay.setText(this.text);
-						Syllabary.syllabaryDisplay.poemDisplay.setTitle(this.title);
+						SyllabaryDisplay.poemDisplay.setText(this.text);
+						SyllabaryDisplay.poemDisplay.setTitle(this.title);
 
-						Syllabary.syllabaryDisplay.poemDisplay.show().then(() => {
+						SyllabaryDisplay.poemDisplay.show().then(() => {
 						  resolve(true);
 						});
 
@@ -35,9 +36,9 @@ export default class Poem {
 			}
 			else {
 				if (this.text) {
-					Syllabary.syllabaryDisplay.poemDisplay.setText(this.text);
-					Syllabary.syllabaryDisplay.poemDisplay.setTitle(this.title);
-					Syllabary.syllabaryDisplay.poemDisplay.show().then(() => { resolve(true); });
+					SyllabaryDisplay.poemDisplay.setText(this.text);
+					SyllabaryDisplay.poemDisplay.setTitle(this.title);
+					SyllabaryDisplay.poemDisplay.show().then(() => { resolve(true); });
 				}
 				else {
 					resolve(false);

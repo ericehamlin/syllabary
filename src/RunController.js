@@ -5,6 +5,7 @@ import Syllabary from "Syllabary";
 import NavQueue from "NavQueue";
 import Logger from "Logger";
 import * as Hammer from "hammerjs";
+import SyllabaryDisplay from 'SyllabaryDisplay';
 
 const RUN_STATES = {
   READ : "read", 			// audio is currently playing
@@ -142,8 +143,8 @@ export default class RunController {
       //this.addEventListeners();
     };
 
-    Syllabary.syllabaryDisplay.info.addEventListener("showinfo", showInfo);
-    Syllabary.syllabaryDisplay.info.addEventListener("hideinfo", hideInfo);
+    SyllabaryDisplay.info.addEventListener("showinfo", showInfo);
+    SyllabaryDisplay.info.addEventListener("hideinfo", hideInfo);
   }
 
   /**
@@ -163,9 +164,9 @@ export default class RunController {
       this.setMagnetizing();
     };
 
-    Syllabary.syllabaryDisplay.control.addEventListener("startrotate", controlStartRotate);
-    Syllabary.syllabaryDisplay.control.addEventListener("rotate", controlRotate);
-    Syllabary.syllabaryDisplay.control.addEventListener("endrotate", controlEndRotate);
+    SyllabaryDisplay.control.addEventListener("startrotate", controlStartRotate);
+    SyllabaryDisplay.control.addEventListener("rotate", controlRotate);
+    SyllabaryDisplay.control.addEventListener("endrotate", controlEndRotate);
   }
 
   /**
@@ -193,7 +194,7 @@ export default class RunController {
 			return false;
 		}
 		Logger.debug("Adding Control Event Listeners");
-		Syllabary.syllabaryDisplay.control.startEventListeners();
+		SyllabaryDisplay.control.startEventListeners();
 		this.hasControlEventListeners = true;
 	}
 
@@ -202,7 +203,7 @@ export default class RunController {
    */
 	removeControlEventListeners() {
 		Logger.debug("Removing Control Event Listeners");
-		Syllabary.syllabaryDisplay.control.pauseEventListeners();
+		SyllabaryDisplay.control.pauseEventListeners();
 		this.hasControlEventListeners = false;
 	}
 
@@ -422,7 +423,7 @@ export default class RunController {
 		let promise = this.readingSyllable.play();
 		promise.then(() => {
 			this.readingSyllable = null;
-			Syllabary.syllabaryDisplay.poemDisplay.hide().then(() => {
+			SyllabaryDisplay.poemDisplay.hide().then(() => {
 				self.setRandomAnimateDirection();
         if (self.isPaused()) {
           self.pausedRunState = self.runStates.ANIMATE;
@@ -526,7 +527,7 @@ export default class RunController {
 	 *
 	 */
 	renderGrid() {
-		Syllabary.syllabaryDisplay.render();
+		SyllabaryDisplay.render();
 	}
 
   /**
@@ -539,8 +540,8 @@ export default class RunController {
       return false;
     }
 
-    const textHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextHeight(),
-      textContainerHeight = Syllabary.syllabaryDisplay.poemDisplay.getTextContainerHeight(),
+    const textHeight = SyllabaryDisplay.poemDisplay.getTextHeight(),
+      textContainerHeight = SyllabaryDisplay.poemDisplay.getTextContainerHeight(),
       // audioDuration = syllable.audio.data.getDuration(),
       audioElapsed = syllable.audio.data.getElapsedTime();
 
@@ -556,7 +557,7 @@ export default class RunController {
     }
 
     let scroll = (totalScroll * percentNeedToScroll) / 100;
-    Syllabary.syllabaryDisplay.poemDisplay.text.style.top = -scroll + "px";
+    SyllabaryDisplay.poemDisplay.text.style.top = -scroll + "px";
 	}
 
 	getXanimateDirection() {
