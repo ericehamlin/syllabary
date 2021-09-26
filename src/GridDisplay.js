@@ -17,7 +17,7 @@ export default class GridDisplay {
 		this.layers = [];
 		for (let z=1; z <= Syllabary.dims.z; z++) {
 
-			let layer = new LayerDisplay(z);
+			const layer = new LayerDisplay(z);
 
 			this.display.appendChild(layer.display);
 
@@ -33,8 +33,8 @@ export default class GridDisplay {
 	}
 
 	render() {
-	  let z = Math.abs(Syllabary.grid.zPosition);
-    let opacity = 1 - (z - Math.floor(z));
+	  const zPos = Math.abs(Syllabary.grid.zPosition);
+    const opacity = 1 - (zPos - Math.floor(zPos));
 	  this.centerFade.style.opacity = opacity;
 		for(let z in this.layers) {
 			this.layers[z].render();
