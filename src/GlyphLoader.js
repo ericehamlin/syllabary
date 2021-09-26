@@ -3,6 +3,7 @@
 import Config from 'Config';
 import Syllabary from 'Syllabary';
 import FileLoader from 'FileLoader';
+import Logger from 'Logger';
 import {
   getTotalSyllables,
   getXYZForSyllableValues
@@ -12,15 +13,12 @@ import {
   PHONEME_DIMENSIONS
 } from './constants';
 
-export default class GlyphLoader {
+const GlyphLoader = {
+  numGlyphsTotal: 0,
 
-  constructor() {
+  load: function() {
     this.numGlyphsTotal = getTotalSyllables();
 
-    this.load();
-  }
-
-  load() {
     for (let i = 1; i <= PHONEME_DIMENSIONS.initialConsonants; i++) {
       for (let j = 1; j <= PHONEME_DIMENSIONS.vowels; j++) {
         const url = Config.baseUrl + "coallatedSvg/" + i + "-" + j + ".svg";
@@ -38,9 +36,9 @@ export default class GlyphLoader {
         });
       }
     }
-  }
+  },
 
-  getNumLoaded() {
+  getNumLoaded: function() {
     let numGlyphsLoaded = 0;
     for (let x=1; x <= AXIS_DIMENSIONS.x; x++) {
       for (let y=1; y <= AXIS_DIMENSIONS.y; y++) {
@@ -54,15 +52,17 @@ export default class GlyphLoader {
     }
 
     return numGlyphsLoaded;
-  }
+  },
 
-  getPercentLoaded() {
+  getPercentLoaded: function() {
     let totalGlyphs = this.numGlyphsTotal;
-    let numGlyphsLoaded = this.getNumLoaded();
-    let percentGlyphsLoaded = 100 * numGlyphsLoaded / totalGlyphs;
+    const numGlyphsLoaded = this.getNumLoaded();
+    const percentGlyphsLoaded = 100 * numGlyphsLoaded / totalGlyphs;
 
-    console.info(numGlyphsLoaded + " (" + percentGlyphsLoaded + ")%  of " + totalGlyphs + " glyphs loaded.");
+    Logger.info(numGlyphsLoaded + " (" + percentGlyphsLoaded + ")%  of " + totalGlyphs + " glyphs loaded.");
 
     return percentGlyphsLoaded;
   }
-}
+};
+
+export default GlyphLoader;

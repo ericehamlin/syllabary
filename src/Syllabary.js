@@ -69,13 +69,13 @@ const Syllabary = {
 	load: () => {
     LoadingDisplay.add();
 
-		const glyphLoader = new GlyphLoader();
+		GlyphLoader.load();
 		const sound = new WebAudioAPISound(Config.baseUrl + "audio/silence.mp3");
 
 		// check loading until complete
 		let loadingPercentComplete = 0;
 		function checkLoading() {
-			loadingPercentComplete = glyphLoader.getPercentLoaded();
+			loadingPercentComplete = GlyphLoader.getPercentLoaded();
       LoadingDisplay.render(loadingPercentComplete);
 
 			if (loadingPercentComplete >= 100) {
