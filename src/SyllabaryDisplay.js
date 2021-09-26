@@ -6,9 +6,14 @@ import PoemDisplay from 'PoemDisplay';
 import Control from 'Control'
 import Info from 'Info';
 
-export default class SyllabaryDisplay {
+const SyllabaryDisplay = {
+  display: null,
+  gridDisplay: null,
+  poemDisplay: null,
+  control: null,
+  info: null,
 
-	constructor() {
+	init: function() {
 		this.display = document.createElement("div");
 		this.display.setAttribute("class", "syllabary-display");
 		this.gridDisplay = new GridDisplay();
@@ -22,26 +27,28 @@ export default class SyllabaryDisplay {
 
 		this.insert(this.gridDisplay);
 
-	}
+	},
 
-	initialize() {
+	initGrid: function() {
 		this.gridDisplay.initialize();
-	}
+	},
 
-	render() {
+	render: function() {
 		this.gridDisplay.render();
 		this.control.render();
-	}
+	},
 
-	insert(display) {
+	insert: function(display) {
 		this.display.appendChild(display.display);
-	}
+	},
 
-	add() {
+	add: function() {
 		document.getElementById(Syllabary.containerId).appendChild(this.display);
-	}
+	},
 
-	remove() {
+	remove: function() {
 		this.display.parentNode.removeChild(this.display);
 	}
-}
+};
+
+export default SyllabaryDisplay;
