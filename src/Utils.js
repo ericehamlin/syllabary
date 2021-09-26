@@ -43,3 +43,9 @@ export function blendHexColors(firstHexColor, secondHexColor, percent/* TODO not
 export function radiansToDegrees(radians) {
   return radians * (180 / Math.PI);
 }
+
+export function randomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
