@@ -234,12 +234,11 @@ export default class ControlWheel {
 
     const syllabaryTouchListener = new window.Hammer(document.getElementById(Syllabary.containerId));
     syllabaryTouchListener.on('pan', e => handlePan(e));
-    const handlePanEnd = (e) => {
+    syllabaryTouchListener.on('panend', (e) => {
       this.currentlyMovingCircle = null;
       syllabaryTouchListener.set({ enable: false });
       this.dispatchEvent(new CustomEvent('endrotate'));
-    };
-    syllabaryTouchListener.on('panend', e => handlePanEnd(e));
+    });
 
     this.outerCirclePanListener = new window.Hammer(this.outerCircleGroup);
     this.outerCirclePanListener.get('pan').set({ enable: true });
