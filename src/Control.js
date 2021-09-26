@@ -5,7 +5,7 @@ import { radiansToDegrees, blendHexColors } from 'utils';
 import EventMixin from './EventMixin.js';
 import Logger from './Logger.js';
 import * as Hammer from "hammerjs";
-import { SVG_NS, PHONEMES } from 'constants';
+import { SVG_NS, PHONEMES, PHONEMES_TO_AXES_MAP } from './constants';
 
 export default class Control {
 
@@ -142,9 +142,9 @@ export default class Control {
       z: (360 * (z - 1)) / Syllabary.dims.z
     };
 
-    this.outerCircleGroup.setAttribute("transform", "rotate(" + -deg[Syllabary.soundsToDimensionsMap.initialConsonants] + ")");
-    this.middleCircleGroup.setAttribute("transform", "rotate(" + -deg[Syllabary.soundsToDimensionsMap.vowels] + ")");
-    this.innerCircleGroup.setAttribute("transform", "rotate(" + -deg[Syllabary.soundsToDimensionsMap.finalConsonants] + ")");
+    this.outerCircleGroup.setAttribute("transform", "rotate(" + -deg[PHONEMES_TO_AXES_MAP.initialConsonants] + ")");
+    this.middleCircleGroup.setAttribute("transform", "rotate(" + -deg[PHONEMES_TO_AXES_MAP.vowels] + ")");
+    this.innerCircleGroup.setAttribute("transform", "rotate(" + -deg[PHONEMES_TO_AXES_MAP.finalConsonants] + ")");
   }
 
   // TODO: cancel control when no pan
@@ -165,15 +165,15 @@ export default class Control {
 
         switch (this.currentlyMovingCircle) {
           case "outer":
-            dimension = Syllabary.soundsToDimensionsMap.initialConsonants;
+            dimension = PHONEMES_TO_AXES_MAP.initialConsonants;
             change = (angleChange * Syllabary.dims.initialConsonants / 360);
             break;
           case "middle":
-            dimension = Syllabary.soundsToDimensionsMap.vowels;
+            dimension = PHONEMES_TO_AXES_MAP.vowels;
             change = (angleChange * Syllabary.dims.vowels / 360);
             break;
           case "inner":
-            dimension = Syllabary.soundsToDimensionsMap.finalConsonants;
+            dimension = PHONEMES_TO_AXES_MAP.finalConsonants;
             change = (angleChange * Syllabary.dims.finalConsonants / 360);
             break;
         }

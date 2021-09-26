@@ -5,9 +5,13 @@ import Syllable from 'Syllable';
 import { randomInt } from 'utils';
 import { getSyllableValuesForXYZ } from 'syllabary-utils';
 
-export default class Grid {
+const Grid = {
+  syllables: [],
+  xPosition: undefined,
+  yPosition: undefined,
+  zPosition: undefined,
 
-  constructor(xPosition = null, yPosition = null, zPosition = null) {
+  init: function(xPosition = null, yPosition = null, zPosition = null) {
     // is this actually 0- or 1- indexed?
     if (xPosition != null) {
       this.xPosition = xPosition;
@@ -30,7 +34,6 @@ export default class Grid {
       this.zPosition = randomInt(0, Syllabary.dims.z);
     }
 
-    this.syllables = [];
     for (let x = 1; x <= Syllabary.dims.x; x++) {
       this.syllables[x] = [];
 
@@ -43,47 +46,49 @@ export default class Grid {
         }
       }
     }
-  }
+  },
 
-  setX(x) {
+  setX: function(x) {
     this.xPosition = x;
-  }
+  },
 
-  addX(add) {
+  addX: function(add) {
     this.xPosition += add;
-  }
+  },
 
-  setY(y) {
+  setY: function(y) {
     this.yPosition = y;
-  }
+  },
 
-  addY(add) {
+  addY: function(add) {
     this.yPosition += add;
-  }
+  },
 
-  setZ(z) {
+  setZ: function(z) {
     this.zPosition = z;
-  }
+  },
 
-  addZ(add) {
+  addZ: function(add) {
     this.zPosition += add;
-  }
+  },
 
-  setXYZ(x, y, z) {
+  setXYZ: function(x, y, z) {
     this.setX(x);
     this.setY(y);
     this.setZ(z);
-  }
+  },
 
-  addXYZ(x, y, z) {
+  addXYZ: function(x, y, z) {
     this.addX(x);
     this.addY(y);
     this.addZ(z);
-  }
+  },
 
-  snapToNearestSyllable() {
+  snapToNearestSyllable: function() {
     this.setX(Math.round(this.xPosition));
     this.setY(Math.round(this.yPosition));
     this.setZ(Math.round(this.zPosition));
   }
-}
+};
+
+export default Grid;

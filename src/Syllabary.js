@@ -32,19 +32,13 @@ const Syllabary = {
       finalConsonants:   PHONEMES.finalConsonants.length - 1
     };
 
-    Syllabary.soundsToDimensionsMap = {
-      initialConsonants: 'x',
-      vowels: 'z',
-      finalConsonants: 'y'
-    };
-
     Syllabary.dims['x'] = Syllabary.dims.initialConsonants;
     Syllabary.dims['z'] = Syllabary.dims.vowels;
     Syllabary.dims['y'] = Syllabary.dims.finalConsonants;
 
 
-		/** this probably shouldn't be a class variable, but it needs to be globally available */
-		Syllabary.grid = new Grid(xPosition, yPosition, zPosition);
+		Grid.init(xPosition, yPosition, zPosition);
+		Syllabary.grid = Grid;
 
     Style.addRules();
 

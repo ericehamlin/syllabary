@@ -1,5 +1,6 @@
 'use strict';
-import Syllabary from 'Syllabary'
+import Syllabary from 'Syllabary';
+import { PHONEMES_TO_AXES_MAP } from './constants';
 
 export function getTotalSyllables() {
   return Syllabary.dims.initialConsonants
@@ -18,9 +19,9 @@ export function getSyllableStringForXYZ(x, y, z) {
 
 export function getSyllableValuesForXYZ(args) {
   return {
-    initialConsonant: args[Syllabary.soundsToDimensionsMap.initialConsonants],
-    vowel: args[Syllabary.soundsToDimensionsMap.vowels],
-    finalConsonant: args[Syllabary.soundsToDimensionsMap.finalConsonants]
+    initialConsonant: args[PHONEMES_TO_AXES_MAP.initialConsonants],
+    vowel: args[PHONEMES_TO_AXES_MAP.vowels],
+    finalConsonant: args[PHONEMES_TO_AXES_MAP.finalConsonants]
   }
 }
 
@@ -34,8 +35,8 @@ export function getXYZForSyllable(syllable) {
 
 export function getXYZForSyllableValues(initialConsonant, vowel, finalConsonant) {
   return     {
-    [Syllabary.soundsToDimensionsMap.initialConsonants]: initialConsonant,
-    [Syllabary.soundsToDimensionsMap.vowels]: vowel,
-    [Syllabary.soundsToDimensionsMap.finalConsonants]: finalConsonant
+    [PHONEMES_TO_AXES_MAP.initialConsonants]: initialConsonant,
+    [PHONEMES_TO_AXES_MAP.vowels]: vowel,
+    [PHONEMES_TO_AXES_MAP.finalConsonants]: finalConsonant
   };
 }

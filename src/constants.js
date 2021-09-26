@@ -9,4 +9,25 @@ export const PHONEMES = {
   finalConsonants: [null, '-', 'B', 'P', 'M', 'V', 'F', 'Th', 'N', 'T', 'D', 'Z', 'S', 'Tj', 'Sh', 'R', 'G', 'K', 'L'],
 };
 
+export const PHONEMES_TO_AXES_MAP = {
+  initialConsonants: 'x',
+  vowels: 'z',
+  finalConsonants: 'y'
+};
+
+export const PHONEME_DIMENSIONS = {
+  initialConsonants: PHONEMES.initialConsonants.length - 1,
+  vowels:            PHONEMES.vowels.length - 1,
+  finalConsonants:   PHONEMES.finalConsonants.length - 1
+};
+
+export const AXIS_DIMENSIONS = {
+  [PHONEMES_TO_AXES_MAP.initialConsonants]:
+    PHONEME_DIMENSIONS.initialConsonants,
+  [PHONEMES_TO_AXES_MAP.vowels]:
+    PHONEME_DIMENSIONS.vowels,
+  [PHONEMES_TO_AXES_MAP.finalConsonants]:
+    PHONEME_DIMENSIONS.finalConsonants,
+};
+
 export const SVG_NS = "http://www.w3.org/2000/svg";
