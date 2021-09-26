@@ -18,8 +18,11 @@ const SyllabaryDisplay = {
 		this.display.setAttribute("class", "syllabary-display");
 		this.gridDisplay = new GridDisplay();
 
-    this.info = new Info();
+    Info.init();
+    this.info = Info;
+
 		this.control = new Control();
+
     PoemDisplay.init();
 		this.poemDisplay = PoemDisplay;
 
@@ -50,6 +53,8 @@ const SyllabaryDisplay = {
 	remove: function() {
 		this.display.parentNode.removeChild(this.display);
 	},
+
+  // Poem Functions
 
   showPoem: function() {
     return PoemDisplay.show();

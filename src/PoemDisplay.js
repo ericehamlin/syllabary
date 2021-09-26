@@ -46,7 +46,7 @@ const PoemDisplay = {
 
 	show: function() {
 		const self = this;
-		let container = document.getElementsByClassName('syllabary-display')[0];
+		const container = document.getElementsByClassName('syllabary-display')[0];
 		this.container.style.opacity = 0;
 		container.appendChild(this.container);
 

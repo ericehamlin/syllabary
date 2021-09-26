@@ -4,7 +4,7 @@ import Config from 'Config';
 import Logger from 'Logger';
 import { getSyllableStringForXYZ } from 'syllabary-utils';
 
-let NavQueue = {
+const NavQueue = {
 
 	queue: [],
 	add: (x, y, z) => {

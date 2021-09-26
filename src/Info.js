@@ -5,10 +5,14 @@ import * as Hammer from "hammerjs";
 import Style from 'Style';
 import { convertVmaxToPx, convertPercentToPx } from 'utils';
 
+const Info = {
+  listeners: [],
+  bar: undefined,
+  title: undefined,
+  info: undefined,
+  container: undefined,
 
-export default class Info {
-  constructor() {
-    this.listeners = [];
+  init: function() {
 
     this.bar = document.createElement("div");
     this.bar.setAttribute("class", "control-bar");
@@ -92,8 +96,9 @@ export default class Info {
         this.container.style.top = "";
       });
     });
-
   }
 }
 
-Object.assign(Info.prototype, EventMixin);
+Object.assign(Info, EventMixin);
+
+export default Info;
