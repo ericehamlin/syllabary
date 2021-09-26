@@ -1,7 +1,7 @@
 'use strict';
 
 import Config from 'Config';
-import Syllabary from 'Syllabary';
+import Grid from 'Grid';
 import FileLoader from 'FileLoader';
 import Logger from 'Logger';
 import {
@@ -30,8 +30,8 @@ const GlyphLoader = {
             const initialConsonant = match[1],
               vowel = match[2],
               finalConsonant = match[3];
-            let {x, y, z} = getXYZForSyllableValues(initialConsonant, vowel, finalConsonant);
-            Syllabary.grid.syllables[x][y][z].setGlyphData(svg);
+            const {x, y, z} = getXYZForSyllableValues(initialConsonant, vowel, finalConsonant);
+            Grid.getSyllable(x,y,z).setGlyphData(svg);
           });
         });
       }
@@ -43,7 +43,7 @@ const GlyphLoader = {
     for (let x=1; x <= AXIS_DIMENSIONS.x; x++) {
       for (let y=1; y <= AXIS_DIMENSIONS.y; y++) {
         for (let z=1; z <= AXIS_DIMENSIONS.z; z++) {
-          let syllable = Syllabary.grid.syllables[x][y][z];
+          const syllable = Grid.getSyllable(x,y,z);
           if (syllable.glyph.isLoaded) {
             numGlyphsLoaded++;
           }
@@ -55,7 +55,7 @@ const GlyphLoader = {
   },
 
   getPercentLoaded: function() {
-    let totalGlyphs = this.numGlyphsTotal;
+    const totalGlyphs = this.numGlyphsTotal;
     const numGlyphsLoaded = this.getNumLoaded();
     const percentGlyphsLoaded = 100 * numGlyphsLoaded / totalGlyphs;
 

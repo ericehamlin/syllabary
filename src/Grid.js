@@ -48,6 +48,10 @@ const Grid = {
     }
   },
 
+  getSyllable: function(x,y,z) {
+    return this.syllables[x][y][z];
+  },
+
   setX: function(x) {
     this.xPosition = x;
   },

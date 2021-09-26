@@ -118,17 +118,17 @@ const Syllabary = {
 	},
 
 	getX: ({diff=0, actual=null} = {}) => {
-		const x = actual || Syllabary.grid.xPosition + diff;
+		const x = actual || Grid.xPosition + diff;
 		return Syllabary.getCurrentLocation(x, AXIS_DIMENSIONS.x);
 	},
 
 	getY: ({diff=0, actual=null} = {}) => {
-		const y = actual || Syllabary.grid.yPosition + diff;
+		const y = actual || Grid.yPosition + diff;
 		return Syllabary.getCurrentLocation(y, AXIS_DIMENSIONS.y);
 	},
 
 	getZ: ({diff=0, actual=null} = {}) => {
-		const z = actual || Syllabary.grid.zPosition + diff;
+		const z = actual || Grid.zPosition + diff;
 		return Syllabary.getCurrentLocation(z, AXIS_DIMENSIONS.z);
 	},
 };

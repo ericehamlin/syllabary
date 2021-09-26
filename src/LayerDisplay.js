@@ -8,6 +8,7 @@ import {
   createElementWithAttributes,
   createSvgWithAttributes
 } from "./Utils";
+import Grid from 'Grid';
 
 export default class LayerDisplay {
 
@@ -39,9 +40,9 @@ export default class LayerDisplay {
 	}
 
 	initialize() {
-		for (let x in Syllabary.grid.syllables) {
-			for (let y in Syllabary.grid.syllables[x]) {
-				let syllable = Syllabary.grid.syllables[x][y][this.z];
+		for (let x in Grid.syllables) {
+			for (let y in Grid.syllables[x]) {
+				const syllable = Grid.getSyllable(x, y, this.z);
 				this.svg.appendChild(syllable.glyph.glyph);
 			}
 		}
@@ -82,10 +83,10 @@ export default class LayerDisplay {
 			}
 
 			// Reposition glyphs on layer according to x, y position
-			for (let x in Syllabary.grid.syllables) {
-				for (let y in Syllabary.grid.syllables[x]) {
-					let syllable = Syllabary.grid.syllables[x][y][this.z];
-					syllable.glyph.place(Syllabary.grid.xPosition, Syllabary.grid.yPosition);
+			for (let x in Grid.syllables) {
+				for (let y in Grid.syllables[x]) {
+					const syllable = Grid.getSyllable(x, y, this.z);
+					syllable.glyph.place(Grid.xPosition, Grid.yPosition);
 				}
 			}
 		}
@@ -104,12 +105,12 @@ export default class LayerDisplay {
 	 */
 	getZIndex() {
 		let zIndex;
-		let zOffset = this.getZOffset();
-		if (Syllabary.grid.zPosition >= 0) {
-			zIndex = (AXIS_DIMENSIONS.z - Math.floor(this.z - Syllabary.grid.zPosition) - zOffset);
+		const zOffset = this.getZOffset();
+		if (Grid.zPosition >= 0) {
+			zIndex = (AXIS_DIMENSIONS.z - Math.floor(this.z - Grid.zPosition) - zOffset);
 		}
 		else {
-			zIndex = (AXIS_DIMENSIONS.z - Math.ceil(this.z - Syllabary.grid.zPosition) - zOffset);
+			zIndex = (AXIS_DIMENSIONS.z - Math.ceil(this.z - Grid.zPosition) - zOffset);
 		}
 		return zIndex * 2;
 	}
@@ -147,6 +148,6 @@ export default class LayerDisplay {
    *
    */
 	getZOrder() {
-	  return AXIS_DIMENSIONS.z - this.z + Syllabary.grid.zPosition;
+	  return AXIS_DIMENSIONS.z - this.z + Grid.zPosition;
   }
 }

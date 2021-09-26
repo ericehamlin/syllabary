@@ -1,6 +1,6 @@
 'use strict';
 
-import Syllabary from 'Syllabary';
+import Grid from 'Grid';
 import LayerDisplay from 'LayerDisplay';
 import { AXIS_DIMENSIONS } from './constants';
 import { createElementWithAttributes } from './utils';
@@ -39,7 +39,7 @@ export default class GridDisplay {
 	}
 
 	render() {
-	  const zPos = Math.abs(Syllabary.grid.zPosition);
+	  const zPos = Math.abs(Grid.zPosition);
     const opacity = 1 - (zPos - Math.floor(zPos));
 	  this.centerFade.style.opacity = opacity;
 		for(let z in this.layers) {
