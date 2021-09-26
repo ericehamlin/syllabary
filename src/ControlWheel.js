@@ -11,6 +11,10 @@ import {
   PHONEME_DIMENSIONS,
   AXIS_DIMENSIONS
 } from './constants';
+import {
+  createElementNSWithAttributes,
+  createSvgWithAttributes
+} from './utils';
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
@@ -22,12 +26,11 @@ export default class ControlWheel {
     const middleCircleRadius = outerCircleRadius / 1.3;
     const innerCircleRadius = outerCircleRadius / 1.7;
 
-    this.svg = document.createElementNS(SVG_NS, "svg");
-    this.svg.setAttribute("class", "control-display");
-    this.svg.setAttribute(
-      "viewBox",
-      `${-outerCircleRadius}, ${-outerCircleRadius}, ${outerCircleRadius * 2}, ${outerCircleRadius * 2}`
-    );
+    this.svg = createSvgWithAttributes({
+      class: "control-display",
+      viewBox:
+        `${-outerCircleRadius}, ${-outerCircleRadius}, ${outerCircleRadius * 2}, ${outerCircleRadius * 2}`
+    });
 
     this.listeners = [];
 
@@ -58,19 +61,28 @@ export default class ControlWheel {
     const defs = document.createElementNS(SVG_NS, "defs");
     const clipPath = document.createElementNS(SVG_NS, "clipPath");
     clipPath.setAttribute("id", "indicator-clip-path");
-    const circleClipPath = document.createElementNS(SVG_NS, "circle");
-    circleClipPath.setAttribute("cx", "0");
-    circleClipPath.setAttribute("cy", "0");
-    circleClipPath.setAttribute("r", outerCircleRadius);
+    const circleClipPath = createElementNSWithAttributes(
+      SVG_NS,
+      "circle",
+      {
+        cx: 0,
+        cy: 0,
+        r: outerCircleRadius
+      }
+    );
     clipPath.appendChild(circleClipPath);
     defs.appendChild(clipPath);
     this.svg.appendChild(defs);
 
-    const indicator = document.createElementNS(SVG_NS, "polygon");
-    indicator.setAttribute("points", "0,0, -30,-200, 30,-200, 0,0"); // TODO
-    indicator.setAttribute("style", "fill: " + Config.color3 + "; mix-blend-mode:  overlay;");
-    indicator.setAttribute("clip-path", "url(#indicator-clip-path)");
-
+    const indicator = createElementNSWithAttributes(
+      SVG_NS,
+      "polygon",
+      {
+        points: "0,0, -30,-200, 30,-200, 0,0",
+        style: `fill: ${Config.color3}; mix-blend-mode:  overlay;`,
+        "clip-path": "url(#indicator-clip-path)"
+      }
+    );
 
     this.svg.appendChild(this.outerCircleGroup);
     this.svg.appendChild(this.middleCircleGroup);

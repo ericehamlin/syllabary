@@ -49,3 +49,27 @@ export function randomInt(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
+
+export function createElementWithAttributes(tag, attributes) {
+  const el = document.createElement(tag);
+  for (const property in attributes) {
+    el.setAttribute(property, attributes[property]);
+  }
+  return el;
+}
+
+export function createElementNSWithAttributes(ns, tag, attributes) {
+  const el = document.createElementNS(ns, tag);
+  for (const property in attributes) {
+    el.setAttribute(property, attributes[property]);
+  }
+  return el;
+}
+
+export function createSvgWithAttributes(attributes) {
+  return createElementNSWithAttributes(
+    "http://www.w3.org/2000/svg",
+    "svg",
+    attributes
+  );
+}

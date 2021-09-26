@@ -1,22 +1,37 @@
 'use strict';
+import Syllabary from "./Syllabary";
+import {
+  AXIS_DIMENSIONS,
+  NUM_VISIBLE_LAYERS
+} from "./constants";
+import {
+  createElementWithAttributes,
+  createSvgWithAttributes
+} from "./Utils";
 
 export default class LayerDisplay {
 
 	constructor(z) {
-	  this.numVisibleLayers = 4;
 
-		this.display = document.createElement("div");
-		this.display.setAttribute("class", "layer");
+		this.display = createElementWithAttributes(
+      "div",
+      {class: "layer"}
+    );
 
-		this.svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-		this.svg.setAttribute("class", "layer-display");
-		this.svg.setAttribute("id", "layer-display-"+z);
-		this.svg.setAttribute("viewBox", "-2750, -2750, 6000, 6000");
+		this.svg = createSvgWithAttributes({
+      class: "layer-display",
+      id: `layer-display-${z}`,
+      viewBox: "-2750, -2750, 6000, 6000"
+    });
 		this.display.appendChild(this.svg);
 
-		this.fadeLayer = document.createElement("div");
-		this.fadeLayer.setAttribute("class", "fade-layer");
-		this.fadeLayer.setAttribute("id", "fade-layer-" + (z-1));
+		this.fadeLayer = createElementWithAttributes(
+      "div",
+      {
+        class: "fade-layer",
+        id: `fade-layer-${z-1}`
+      }
+    );
 		this.fadeLayer.style.zIndex = 2;
 		this.display.appendChild(this.fadeLayer);
 
@@ -36,7 +51,7 @@ export default class LayerDisplay {
 		const exactZPosition = this.getExactZPosition();
 
     // TODO what exactly is this?
-    const calculated = (exactZPosition + this.numVisibleLayers + 1 - Syllabary.dims.z) * 150; // TODO: what is this number 150?
+    const calculated = (exactZPosition + NUM_VISIBLE_LAYERS + 1 - Syllabary.dims.z) * 150; // TODO: what is this number 150?
 
     // Displace layer on x-y axes
     const displacement = (calculated / -2) + "%";
@@ -57,7 +72,7 @@ export default class LayerDisplay {
 			this.display.style.height = scale;
 
       // TODO: this is the line that's affecting the Z-fade problem
-			let opacity = Math.abs(exactZPosition + 1 - Syllabary.dims.z) / this.numVisibleLayers;
+			let opacity = Math.abs(exactZPosition + 1 - Syllabary.dims.z) / NUM_VISIBLE_LAYERS;
 
       this.fadeLayer.style.opacity = opacity;
 
@@ -80,7 +95,7 @@ export default class LayerDisplay {
 	}
 
 	isDisplayed(exactZPosition) {
-    return exactZPosition >= (Syllabary.dims.z - this.numVisibleLayers);
+    return exactZPosition >= (AXIS_DIMENSIONS.z - NUM_VISIBLE_LAYERS);
   }
 
 	/**
@@ -91,10 +106,10 @@ export default class LayerDisplay {
 		let zIndex;
 		let zOffset = this.getZOffset();
 		if (Syllabary.grid.zPosition >= 0) {
-			zIndex = (Syllabary.dims.z - Math.floor(this.z - Syllabary.grid.zPosition) - zOffset);
+			zIndex = (AXIS_DIMENSIONS.z - Math.floor(this.z - Syllabary.grid.zPosition) - zOffset);
 		}
 		else {
-			zIndex = (Syllabary.dims.z - Math.ceil(this.z - Syllabary.grid.zPosition) - zOffset);
+			zIndex = (AXIS_DIMENSIONS.z - Math.ceil(this.z - Syllabary.grid.zPosition) - zOffset);
 		}
 		return zIndex * 2;
 	}
@@ -119,7 +134,7 @@ export default class LayerDisplay {
    * This TODO might also have something to do with Z-fade problem
 	 */
 	getZOffset() {
-    return ( Math.floor((this.getZOrder() /*- 1*/) / Syllabary.dims.z) * Syllabary.dims.z );
+    return ( Math.floor((this.getZOrder() /*- 1*/) / AXIS_DIMENSIONS.z) * Syllabary.dims.z );
 	}
 
   /**
@@ -132,6 +147,6 @@ export default class LayerDisplay {
    *
    */
 	getZOrder() {
-	  return Syllabary.dims.z - this.z + Syllabary.grid.zPosition;
+	  return AXIS_DIMENSIONS.z - this.z + Syllabary.grid.zPosition;
   }
 }

@@ -3,14 +3,19 @@
 import Syllabary from 'Syllabary';
 import LayerDisplay from 'LayerDisplay';
 import { AXIS_DIMENSIONS } from './constants';
+import { createElementWithAttributes } from './utils';
 
 export default class GridDisplay {
 	constructor() {
-		this.display = document.createElement("div");
-		this.display.setAttribute("class", "grid-display");
+		this.display = createElementWithAttributes(
+      "div",
+      {class: "grid-display"}
+    );
 
-		this.centerFade = document.createElement("div");
-		this.centerFade.setAttribute("class", "center-fade");
+		this.centerFade = createElementWithAttributes(
+      "div",
+      {class: "center-fade"}
+    );
 		this.centerFade.style.zIndex = (AXIS_DIMENSIONS.z * 2 ) - 3;
 
 		this.display.appendChild(this.centerFade);

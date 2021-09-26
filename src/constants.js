@@ -30,3 +30,4 @@ export const AXIS_DIMENSIONS = {
     PHONEME_DIMENSIONS.finalConsonants,
 };
 
+export const NUM_VISIBLE_LAYERS = 4;
