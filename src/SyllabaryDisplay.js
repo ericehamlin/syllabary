@@ -20,7 +20,8 @@ const SyllabaryDisplay = {
 
     this.info = new Info();
 		this.control = new Control();
-		this.poemDisplay = new PoemDisplay();
+    PoemDisplay.init();
+		this.poemDisplay = PoemDisplay;
 
     this.info.container.appendChild(this.control.svg);
 		this.display.appendChild(this.info.container);
@@ -48,7 +49,23 @@ const SyllabaryDisplay = {
 
 	remove: function() {
 		this.display.parentNode.removeChild(this.display);
-	}
+	},
+
+  showPoem: function() {
+    return PoemDisplay.show();
+  },
+
+  hidePoem: function() {
+    return PoemDisplay.hide();
+  },
+
+  setPoemText: function(text) {
+    PoemDisplay.setText(text);
+  },
+
+  setPoemTitle: function(title) {
+    PoemDisplay.setTitle(title);
+  }
 };
 
 export default SyllabaryDisplay;

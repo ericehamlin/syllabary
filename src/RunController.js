@@ -423,7 +423,7 @@ export default class RunController {
 		let promise = this.readingSyllable.play();
 		promise.then(() => {
 			this.readingSyllable = null;
-			SyllabaryDisplay.poemDisplay.hide().then(() => {
+			SyllabaryDisplay.hidePoem().then(() => {
 				self.setRandomAnimateDirection();
         if (self.isPaused()) {
           self.pausedRunState = self.runStates.ANIMATE;
@@ -540,24 +540,17 @@ export default class RunController {
       return false;
     }
 
-    const textHeight = SyllabaryDisplay.poemDisplay.getTextHeight(),
-      textContainerHeight = SyllabaryDisplay.poemDisplay.getTextContainerHeight(),
-      // audioDuration = syllable.audio.data.getDuration(),
-      audioElapsed = syllable.audio.data.getElapsedTime();
+    const textHeight = SyllabaryDisplay.poemDisplay.getTextHeight();
+    const textContainerHeight = SyllabaryDisplay.poemDisplay.getTextContainerHeight();
 
-    const topOffset = 0.5 * textContainerHeight,
-      bottomOffset = 0.1 * textContainerHeight;
-
-    // let textToAudioRatio = textHeight / audioDuration;
-
-    let percentNeedToScroll = syllable.audio.data.getPercentCompleted();
-    let totalScroll = textHeight - textContainerHeight;
+    const percentNeedToScroll = syllable.audio.data.getPercentCompleted();
+    const totalScroll = textHeight - textContainerHeight;
     if (totalScroll <= 0) {
       return false;
     }
 
-    let scroll = (totalScroll * percentNeedToScroll) / 100;
-    SyllabaryDisplay.poemDisplay.text.style.top = -scroll + "px";
+    const scrollTo = (totalScroll * percentNeedToScroll) / 100;
+    SyllabaryDisplay.poemDisplay.text.style.top = -scrollTo + "px";
 	}
 
 	getXanimateDirection() {

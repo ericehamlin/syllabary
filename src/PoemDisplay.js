@@ -1,8 +1,13 @@
 'use strict';
 
-export default class PoemDisplay {
+const PoemDisplay = {
+  display: undefined,
+  title: undefined,
+  textContainer: undefined,
+  text: undefined,
+  container: undefined,
 
-	constructor() {
+	init: function() {
 		this.display = document.createElement("div");
 		this.display.setAttribute("class", "poem-display");
 
@@ -23,9 +28,9 @@ export default class PoemDisplay {
 		this.container.setAttribute("class", "poem-container");
 
 		this.container.appendChild(this.display);
-	}
+	},
 
-	setTitle(title) {
+	setTitle: function(title) {
 	  if(title && !/^\s*$/.exec(title)) {
 	    this.container.classList.remove('titleless');
       this.title.innerHTML = title;
@@ -33,14 +38,14 @@ export default class PoemDisplay {
     else {
       this.container.classList.add('titleless');
     }
-	}
+	},
 
-	setText(text) {
+	setText: function (text) {
 		this.text.innerHTML = text;
-	}
+	},
 
-	show() {
-		let self = this;
+	show: function() {
+		const self = this;
 		let container = document.getElementsByClassName('syllabary-display')[0];
 		this.container.style.opacity = 0;
 		container.appendChild(this.container);
@@ -59,10 +64,10 @@ export default class PoemDisplay {
 			}
 			fadeIn();
 		});
-	}
+	},
 
-	hide() {
-		let self = this;
+	hide: function() {
+		const self = this;
     const fadeIncrement = 0.02;
 		window.removeEventListener("resize", self.resize);
 		return new Promise((resolve, reject) => {
@@ -81,13 +86,15 @@ export default class PoemDisplay {
 			}
 			fadeOut();
 		});
-	}
+	},
 
-	getTextHeight() {
+	getTextHeight: function() {
 		return parseInt(window.getComputedStyle(this.text).height);
-	}
+	},
 
-	getTextContainerHeight() {
+	getTextContainerHeight: function() {
 		return parseInt(window.getComputedStyle(this.textContainer).height);
 	}
 }
+
+export default PoemDisplay;

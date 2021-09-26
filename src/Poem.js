@@ -18,10 +18,10 @@ export default class Poem {
 				let loadPromise = this.load();
 				loadPromise.then((data) => {
 					if (this.text) {
-						SyllabaryDisplay.poemDisplay.setText(this.text);
-						SyllabaryDisplay.poemDisplay.setTitle(this.title);
+						SyllabaryDisplay.setPoemText(this.text);
+						SyllabaryDisplay.setPoemTitle(this.title);
 
-						SyllabaryDisplay.poemDisplay.show().then(() => {
+						SyllabaryDisplay.showPoem().then(() => {
 						  resolve(true);
 						});
 
@@ -36,9 +36,9 @@ export default class Poem {
 			}
 			else {
 				if (this.text) {
-					SyllabaryDisplay.poemDisplay.setText(this.text);
-					SyllabaryDisplay.poemDisplay.setTitle(this.title);
-					SyllabaryDisplay.poemDisplay.show().then(() => { resolve(true); });
+					SyllabaryDisplay.setPoemText(this.text);
+					SyllabaryDisplay.setPoemTitle(this.title);
+					SyllabaryDisplay.showPoem().then(() => { resolve(true); });
 				}
 				else {
 					resolve(false);
