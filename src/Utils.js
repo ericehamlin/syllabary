@@ -50,6 +50,8 @@ export function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+// Element Creation
+
 export function createElementWithAttributes(tag, attributes) {
   const el = document.createElement(tag);
   for (const property in attributes) {
@@ -74,6 +76,14 @@ export function createSvgWithAttributes(attributes) {
   return createElementNSWithAttributes(
     "http://www.w3.org/2000/svg",
     "svg",
+    attributes
+  );
+}
+
+export function createSvgElementWithAttributes(tag, attributes) {
+  return createElementNSWithAttributes(
+    "http://www.w3.org/2000/svg",
+    tag,
     attributes
   );
 }

@@ -13,6 +13,7 @@ import {
 } from './constants';
 import {
   createElementNSWithAttributes,
+  createSvgElementWithAttributes,
   createSvgWithAttributes
 } from './utils';
 
@@ -59,8 +60,11 @@ export default class ControlWheel {
     // Create Indicator
 
     const defs = document.createElementNS(SVG_NS, "defs");
-    const clipPath = document.createElementNS(SVG_NS, "clipPath");
-    clipPath.setAttribute("id", "indicator-clip-path");
+    const clipPath = createElementNSWithAttributes(
+      SVG_NS,
+      "clipPath",
+      { id: "indicator-clip-path"}
+    );
     const circleClipPath = createElementNSWithAttributes(
       SVG_NS,
       "circle",
@@ -139,12 +143,18 @@ export default class ControlWheel {
     const dim = phonemes.length -1;
     const degreesIncrease = 360 / (dim);
     for (let i = 1; i <= dim; i++) {
-      const text = document.createElementNS(SVG_NS, "text");
-      text.setAttribute("x", 0);
-      text.setAttribute("y", 0);
-      text.setAttribute("text-anchor", "middle");
-      text.setAttribute("fill", Config.color1);
-      text.setAttribute("transform", "rotate(" + ((i - 1) * degreesIncrease) + ") translate(0, " + (-r) + ")");
+      const text = createSvgElementWithAttributes(
+        "text",
+        {
+          x: 0,
+          y: 0,
+          "text-anchor": "middle",
+          fill: Config.color1,
+          transform:
+            `rotate( ${((i - 1) * degreesIncrease)} ) translate(0, ${-r} )`
+        }
+      );
+
       const actualText = document.createTextNode(phonemes[i]);
       text.appendChild(actualText);
       group.appendChild(text);
