@@ -228,10 +228,10 @@ export default class RunController {
 
   beginRun() {
     var video = document.querySelector('video');
-    video.play().then(()=>
-      console.log('playing')
-    ).catch(e => {
-      console.log("couldn't play")
+    video.play().then(()=> {
+      Logger.info("Autoplay enabled");
+    }).catch(e => {
+      alert("Please enable audio autoplay for this site.");
     });
 
     this.run();
