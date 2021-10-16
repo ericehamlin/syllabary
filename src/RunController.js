@@ -226,6 +226,17 @@ export default class RunController {
 		this.hasTouchEventListeners = false;
 	}
 
+  beginRun() {
+    var video = document.querySelector('video');
+    video.play().then(()=>
+      console.log('playing')
+    ).catch(e => {
+      console.log("couldn't play")
+    });
+
+    this.run();
+  }
+
 	/**
 	 * Main Loop
 	 */
@@ -261,6 +272,7 @@ export default class RunController {
 		this.cycleDifferential = cycleTime.getTime() - this.lastCycleTime.getTime();
     this.lastCycleTime = cycleTime;
 		requestAnimationFrame(() => {this.run(); });
+
 	}
 
 	/**

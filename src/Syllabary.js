@@ -22,6 +22,7 @@ const Syllabary = {
       zPosition = null
     } = options;
 
+
 		Config.set(options);
 
 		Syllabary.containerId = containerId;
@@ -54,6 +55,7 @@ const Syllabary = {
       LoadingDisplay.render(loadingPercentComplete);
 
 			if (loadingPercentComplete >= 100) {
+
 				LoadingDisplay.enableButtons();
 
 				LoadingDisplay.addEventListener('play', function() {
@@ -81,7 +83,7 @@ const Syllabary = {
 	 * TODO move all this stuff to a controller
 	 */
 	run: () => {
-		Syllabary.runController.run();
+		Syllabary.runController.beginRun();
 
 		// continue regularly until some unforseen event takes place, in which case,
 		// this.complete()
