@@ -79,8 +79,11 @@ export default class LayerDisplay {
 
       // Fade closest layer out
 			if (exactZPosition > (AXIS_DIMENSIONS.z - 1)) {
-				this.display.style.opacity = Math.pow(AXIS_DIMENSIONS.z - exactZPosition, 2);
-			}
+        const thisOpacity = Math.pow(AXIS_DIMENSIONS.z - exactZPosition, 2);
+				this.display.style.opacity = thisOpacity;
+			} else {
+        this.display.style.opacity = 1;
+      }
 
 			// Reposition glyphs on layer according to x, y position
 			for (let x in Grid.syllables) {
@@ -120,7 +123,9 @@ export default class LayerDisplay {
 	 * for sizing
 	 */
 	getExactZPosition() {
-		return this.getZOrder() - this.getZOffset();
+    const zOrder = this.getZOrder();
+    const zOffset = this.getZOffset();
+		return zOrder - zOffset;
 	}
 
 	/**
