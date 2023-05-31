@@ -187,12 +187,13 @@ export default class ControlWheel {
   initializeEventListeners() {
 
     const startPan = (e) => {
-      syllabaryTouchListener.set({ enable: true });
+      // this.syllabaryTouchListener.set({ enable: true });
       this.angle = this.getAngle(e.center.x, e.center.y);
       this.dispatchEvent(new CustomEvent('startrotate'));
     };
 
     const handlePan = (e) => {
+      Logger.debug('panning');
       if (this.currentlyMovingCircle) {
         const angle = this.getAngle(e.center.x, e.center.y);
         const angleChange = this.angle - angle;
@@ -232,13 +233,19 @@ export default class ControlWheel {
       }
     };
 
-    const syllabaryTouchListener = new window.Hammer(document.getElementById(Syllabary.containerId));
-    syllabaryTouchListener.on('pan', e => handlePan(e));
-    syllabaryTouchListener.on('panend', (e) => {
+
+    this.syllabaryTouchListener = new window.Hammer(document.getElementById(Syllabary.containerId));
+    this.syllabaryTouchListener.get('pan').set({ enable:true });
+
+    // TODO: This is not firing consistently
+    this.syllabaryTouchListener.on('pan', e => handlePan(e));
+
+    this.syllabaryTouchListener.on('panend', (e) => {
+      Logger.debug('End pan');
       this.currentlyMovingCircle = null;
-      syllabaryTouchListener.set({ enable: false });
       this.dispatchEvent(new CustomEvent('endrotate'));
     });
+
 
     this.outerCirclePanListener = new window.Hammer(this.outerCircleGroup);
     this.outerCirclePanListener.get('pan').set({ enable: true });
@@ -248,34 +255,35 @@ export default class ControlWheel {
       startPan(e);
     });
 
-
-    this.middleCircleTouchListener = new window.Hammer(this.middleCircleGroup);
-    this.middleCircleTouchListener.get('press').set({ enable: true, threshold: 50, time: 1 });
-    this.middleCircleTouchListener.on('press', (e) => {
-      Logger.debug('Press middle circle');
+    this.middleCirclePanListener = new window.Hammer(this.middleCircleGroup);
+    this.middleCirclePanListener.get('pan').set({ enable: true});
+    this.middleCirclePanListener.on('panstart', (e) => {
+      Logger.debug('Pan middle circle');
       this.currentlyMovingCircle = "middle";
       startPan(e);
     });
 
-    this.innerCircleTouchListener = new window.Hammer(this.innerCircleGroup);
-    this.innerCircleTouchListener.get('press').set({ enable: true, threshold: 50, time: 1 });
-    this.innerCircleTouchListener.on('press', (e) => {
-      Logger.debug('Press inner circle');
+    this.innerCirclePanListener = new window.Hammer(this.innerCircleGroup);
+    this.innerCirclePanListener.get('pan').set({ enable: true });
+    this.innerCirclePanListener.on('panstart', (e) => {
+      Logger.debug('Pan inner circle');
       this.currentlyMovingCircle = "inner";
       startPan(e);
     });
   }
 
   startEventListeners() {
+    this.syllabaryTouchListener.set({ enable: true });
     this.outerCirclePanListener.set({ enable: true });
-    this.middleCircleTouchListener.set({ enable: true });
-    this.innerCircleTouchListener.set({ enable: true });
+    this.middleCirclePanListener.set({ enable: true });
+    this.innerCirclePanListener.set({ enable: true });
   }
 
   pauseEventListeners() {
+    this.syllabaryTouchListener.set({ enable: false });
     this.outerCirclePanListener.set({ enable: false });
-    this.middleCircleTouchListener.set({ enable: false });
-    this.innerCircleTouchListener.set({ enable: false });
+    this.middleCirclePanListener.set({ enable: false });
+    this.innerCirclePanListener.set({ enable: false });
   }
 }
 
