@@ -54,6 +54,22 @@ export default class ControlWheel {
       PHONEMES.finalConsonants
     );
 
+    this.stopButton = createSvgElement(
+      "rect",
+      {
+        width: 50,
+        height: 50,
+        x: -25,
+        y: -25,
+        visibility: "visible"
+      }
+    );
+
+    this.playButton = createSvgElement("polygon", {
+      points: "-20,-25 30,0, -20,25",
+      visibility: "hidden"
+    });
+
 
     // Create Indicator
 
@@ -83,10 +99,23 @@ export default class ControlWheel {
       }
     );
 
+    const indicatorCover = createSvgElement(
+      "circle",
+      {
+        cx: 0,
+        cy: 0,
+        r: 40,
+        fill: blendHexColors(Config.color2, Config.color1, 0.6)
+      }
+    )
+
     this.svg.appendChild(this.outerCircleGroup);
     this.svg.appendChild(this.middleCircleGroup);
     this.svg.appendChild(this.innerCircleGroup);
     this.svg.appendChild(indicator);
+    this.svg.appendChild(indicatorCover);
+    this.svg.appendChild(this.stopButton);
+    this.svg.appendChild(this.playButton);
 
     this.currentlyMovingCircle = null;
 
@@ -246,6 +275,21 @@ export default class ControlWheel {
       this.dispatchEvent(new CustomEvent('endrotate'));
     });
 
+    this.stopListener = new window.Hammer(this.stopButton);
+    this.stopListener.get('press').set({time: 10})
+    this.stopListener.on('press', e => {
+      this.dispatchEvent(new CustomEvent('stopautoplay'));
+      this.stopButton.setAttribute("visibility", "hidden");
+      this.playButton.setAttribute("visibility", "visible");
+    });
+
+    this.playListener = new window.Hammer(this.playButton);
+    this.playListener.get('press').set({time: 10})
+    this.playListener.on('press', e => {
+      this.dispatchEvent(new CustomEvent('startautoplay'));
+      this.stopButton.setAttribute("visibility", "visible");
+      this.playButton.setAttribute("visibility", "hidden");
+    });
 
     this.outerCirclePanListener = new window.Hammer(this.outerCircleGroup);
     this.outerCirclePanListener.get('pan').set({ enable: true });

@@ -17,10 +17,11 @@ const RUN_STATES = {
   PAUSE : "pause",
   RESUME: "resume"
 };
-
 export default class RunController {
 
 	constructor() {
+
+    this.autoplay = true;
 
 		this.animateInterval = Config.animateInterval;
 
@@ -167,6 +168,8 @@ export default class RunController {
     SyllabaryDisplay.control.addEventListener("startrotate", controlStartRotate);
     SyllabaryDisplay.control.addEventListener("rotate", controlRotate);
     SyllabaryDisplay.control.addEventListener("endrotate", controlEndRotate);
+    SyllabaryDisplay.control.addEventListener("stopautoplay", () => this.stopAutoplay());
+    SyllabaryDisplay.control.addEventListener("startautoplay", () => this.startAutoplay());
   }
 
   /**
@@ -279,6 +282,8 @@ export default class RunController {
 	 *
 	 */
 	animate() {
+    if (!this.autoplay) return;
+
 		let oldXPosition = Grid.xPosition,
 			oldYPosition = Grid.yPosition,
 			oldZPosition = Grid.zPosition;
@@ -350,6 +355,8 @@ export default class RunController {
 	 * TODO combine drift and animate so that drift goes to a glyph
 	 */
 	drift() {
+    if (!this.autoplay) return;
+
 		const drag = 0.95;
 
 		this.advanceAnimation();
@@ -387,6 +394,9 @@ export default class RunController {
 	 * TODO: this needs to be better
 	 */
 	magnetize() {
+    if (!this.autoplay) return;
+
+    console.log("mag");
 		let oldXPosition = Grid.xPosition,
 			oldYPosition = Grid.yPosition,
 			oldZPosition = Grid.zPosition;
@@ -575,6 +585,22 @@ export default class RunController {
 
   getZanimateDirection() {
     return (this.animateDirection.z * this.cycleDifferential) / 25;
+  }
+
+  /**
+   *
+   */
+  stopAutoplay() {
+    this.autoplay = false;
+    // this.setDrifting();
+  }
+
+  /**
+   *
+   */
+  startAutoplay() {
+    this.autoplay = true;
+    // this.setAnimating();
   }
 
 	/**
