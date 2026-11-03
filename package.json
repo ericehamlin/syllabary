@@ -1,8 +1,12 @@
 {
   "name": "syllabary",
   "version": "4.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Interactive web edition of The Syllabary by Peter McCarey",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "dependencies": {
     "hammerjs": "^2.0.8"
   },
@@ -16,7 +20,6 @@
     "babel-preset-latest": "^6.24.1",
     "babel-register": "^6.26.0",
     "babelify": "^7.3.0",
-    "hammerjs": "^2.0.8",
     "mocha": "^5.2.0",
     "mockery": "^2.1.0",
     "rollup": "^0.43.0",
@@ -30,5 +33,5 @@
     "build": "rollup -c rollup.config.js"
   },
   "author": "Eric Hamlin",
-  "license": ""
+  "license": "UNLICENSED"
 }
