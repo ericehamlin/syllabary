@@ -1,8 +1,8 @@
 'use strict';
 
-import Config from 'Config';
-import { AXIS_DIMENSIONS } from './constants';
-import { createSvgElement } from './Utils';
+import Config from './Config.js';
+import { AXIS_DIMENSIONS } from './constants.js';
+import { createSvgElement } from './Utils.js';
 
 export default class Glyph {
 

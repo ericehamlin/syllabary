@@ -1,5 +1,5 @@
 'use strict';
-import Syllabary from 'Syllabary';
+import Syllabary from './Syllabary.js';
 
 try {
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;

@@ -1,17 +1,17 @@
 'use strict';
 
-import Config from 'Config';
-import Grid from 'Grid';
-import FileLoader from 'FileLoader';
-import Logger from 'Logger';
+import Config from './Config.js';
+import Grid from './Grid.js';
+import FileLoader from './FileLoader.js';
+import Logger from './Logger.js';
 import {
   getTotalSyllables,
   getXYZForSyllableValues
-} from 'syllabary-utils';
+} from './syllabary-utils.js';
 import {
   AXIS_DIMENSIONS,
   PHONEME_DIMENSIONS
-} from './constants';
+} from './constants.js';
 
 const GlyphLoader = {
   numGlyphsTotal: 0,

@@ -1,5 +1,5 @@
 'use strict';
-import { PHONEMES_TO_AXES_MAP, PHONEME_DIMENSIONS } from './constants';
+import { PHONEMES_TO_AXES_MAP, PHONEME_DIMENSIONS } from './constants.js';
 
 export function getTotalSyllables() {
   return PHONEME_DIMENSIONS.initialConsonants

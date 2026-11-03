@@ -1,131 +1,89 @@
-# syllabary
+# the Syllabary
 
--- check loading on mobile devices
-too many glyphs cause iPad to choke while downloading
+Interactive web edition of The Syllabary by Peter McCarey. Built with [Vite](https://vite.dev); tests run with [Vitest](https://vitest.dev).
 
-iPad viewing window resizes to encompass all glyphs
+## Requirements
 
+- Node 22.22.0 (see `.nvmrc`; Vite needs 22.12 or newer). With nvm, run `nvm use`.
 
+```sh
+npm install
+```
 
--- use ES5
+## Assets
 
--- animate within 1 big SVG or individual SVGs?  Performance? Research
-https://css-tricks.com/weighing-svg-animation-techniques-benchmarks/
-https://greensock.com/
-getAnimationFrame?
+The app loads its glyphs, poems and audio from folders at the project root. They are too big for git (about 465 MB) and are not part of the build. Put them next to `index.html`:
 
--- use app cache?
-Probably not
-https://www.html5rocks.com/en/tutorials/appcache/beginner/
+| Folder | Contents | In git? |
+|---|---|---|
+| `coallatedSvg/` | Glyphs, one file per x-y pair (`1-1.svg` to `20-10.svg`, 200 files) | No |
+| `poems/` | Poem text, XML files named by syllable | No |
+| `audio/` | Audio, one MP3 per syllable, plus `silence.mp3` and `test-autoplay.mp3` | No |
+| `svg/` | `syllabary_v4_loading_screen.svg` (tracked), plus the numbered source glyphs `1-1-1.svg` to `20-10-18.svg` (not tracked) | Partly |
 
--- important to reduce # of requests?
+`question.html` and `exclamation.html` also live at the root and are not part of the build.
 
--- gzip for download?
+`coallatedSvg/` is generated from the numbered files in `svg/`:
 
+```sh
+npm run coallateSvg
+```
 
+This empties `coallatedSvg/` first, then rewrites all 200 files.
 
--- touch library
-zingtouch
-interact.js
-alloyfinger
-hammer.js
+The code requests these folders by absolute URL (`/audio/...`, `/poems/...`, `/coallatedSvg/...`, `/svg/...`), so the site must be served from the root of a domain.
 
--- get font
+## Develop
 
--------------------------------------------------
-Use cases:
+```sh
+npm run dev
+```
 
-User attempts to drag screen while poem is playing
+Opens a dev server (http://localhost:5173) that serves the app and the asset folders straight from the project root, with hot reload.
 
-User attempts to drag wheel while poem is playing
+To try it on a phone or tablet on the same network:
 
-User attempts to drag screen while sound w/o poem is playing
+```sh
+npm run dev -- --host
+```
 
-User attempts to drag wheel while sound w/o poem is playing
+Then open the network address it prints.
 
-User drags screen while auto-animation is playing
+URL parameters are passed to the app. `debug=true` shows the debug controls. `xPosition`, `yPosition` and `zPosition` set the starting position (random when omitted). Any other option that exists in `src/Config.js` can be set the same way, for example `?navQueueLength=4`.
 
-User drags wheel while auto-animation is playing
+## Test
 
-User drags screen while momentum scrolling is happening
+```sh
+npm test            # run once
+npm run test:watch  # re-run on change
+```
 
-User drags wheel while momentum scrolling is happening
+Tests are in `test/*.test.js`.
 
-Momentum scrolling comes to a stop not on top of a glyph
+## Build
 
-Momentum scrolling comes to a stop on top of a glyph
+```sh
+npm run build
+```
 
-User tries to scroll wheel and screen at same time
+Writes the site to `dist/`:
 
-User tries to scroll screen in more than one direction at a time (pinch and scroll, for example)
+- `index.html`
+- `assets/`: the JavaScript bundle, CSS and font, with content hashes in their names
 
--------------------------------------------------
+The build targets Chrome and Firefox 100, and Safari and iOS 15 (`vite.config.js`), so older iPads keep working.
 
-Other possibilities:
+`npm run preview` serves `dist/` locally, but it does not have the asset folders, so glyphs and sound will not load. Use `npm run dev` for anything that needs them.
 
-Separate and contract
+## Deploy
 
-Rotate XY
+The server directory that is the web root holds the asset folders, `question.html` and `exclamation.html`. Deploying means copying the **contents of `dist/`** into that directory.
 
-Reverse pinch and zoom
+1. `npm run build`
+2. Upload `dist/assets/` first.
+3. Upload `dist/index.html` last, so visitors never get a page that points at files that are not there yet.
+4. Open the site and check that the loading screen finishes and sound plays.
 
--------------------------------------------------
-Remember:
+Do not delete the asset folders, and do not upload `dist/` as a subfolder.
 
-File structure must conform to v.2 standards
-
-
--------------------------------------------------
-
-OK, how to structure this:
-
-class Syllabary
-    characters arrays
-
-    class Device
-        screensize
-        browser
-
-    class Controller
-
-    class LoadingController?
-
-    class LoadingScreen
-
-    class GlyphLoader // download bundles of glyphs maybe 1 row at a time so that we can indicate progress -- other ways to indicate progress
-
-    class (controller/Wheel/)
-
-    Class Grid
-        contains reference 3-d array of Syllables
-        positionX
-        positionY
-        positionZ
-        rotationXY?Easter Egg
-
-            class Syllable
-
-                class SyllableAudio
-
-                class Glyph
-                    class GlyphShape
-
-
-                class Poem
-                    class PoemText
-                    class PoemAudio
-
-                        class AudioLoader
-
-                        class AudioPlayer
-
-                        class TextLoader
-                            class TextDisplayer (really?)
-
-                            class FileLoader
-                            class FileRenderer (come on!)(but you're gonna need it)
-
-                                class Glyphrenderer
-
-                                    class SvgRenderer
-
+Each build gives the bundle new file names, so old files accumulate in `assets/`. Once the new version works, delete any files in `assets/` that the new `index.html` does not reference.

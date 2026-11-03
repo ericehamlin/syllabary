@@ -1,16 +1,16 @@
 'use strict';
 
-import Config from 'Config';
-import Grid from 'Grid';
-import GlyphLoader from 'GlyphLoader';
-import LoadingDisplay from 'LoadingDisplay';
-import SyllabaryDisplay from 'SyllabaryDisplay';
-import RunController from 'RunController';
-import WebAudioAPISound from 'WebAudioAPISound';
-import DebugControls from 'DebugControls';
-import Style from 'Style';
-import Logger from 'Logger';
-import { AXIS_DIMENSIONS } from './constants';
+import Config from './Config.js';
+import Grid from './Grid.js';
+import GlyphLoader from './GlyphLoader.js';
+import LoadingDisplay from './LoadingDisplay.js';
+import SyllabaryDisplay from './SyllabaryDisplay.js';
+import RunController from './RunController.js';
+import WebAudioAPISound from './WebAudioAPISound.js';
+import DebugControls from './DebugControls.js';
+import Style from './Style.js';
+import Logger from './Logger.js';
+import { AXIS_DIMENSIONS } from './constants.js';
 
 const Syllabary = {
 

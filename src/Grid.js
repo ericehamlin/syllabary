@@ -1,9 +1,9 @@
 'use strict';
 
-import Syllable from 'Syllable';
-import { randomInt } from 'utils';
-import { getSyllableValuesForXYZ } from 'syllabary-utils';
-import { AXIS_DIMENSIONS } from './constants';
+import Syllable from './Syllable.js';
+import { randomInt } from './Utils.js';
+import { getSyllableValuesForXYZ } from './syllabary-utils.js';
+import { AXIS_DIMENSIONS } from './constants.js';
 
 const Grid = {
   syllables: [],

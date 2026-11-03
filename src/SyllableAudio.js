@@ -1,7 +1,7 @@
 'use strict';
 
-import Config from 'Config';
-import WebAudioAPISound from 'WebAudioAPISound';
+import Config from './Config.js';
+import WebAudioAPISound from './WebAudioAPISound.js';
 
 export default class SyllableAudio {
 	constructor(initialConsonant, vowel, finalConsonant) {
