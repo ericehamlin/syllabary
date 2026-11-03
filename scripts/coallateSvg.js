@@ -2,8 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 
-// Delete existing files
+// Create the output folder if needed, then delete any existing files
 const directory = 'coallatedSvg';
+fs.mkdirSync(directory, { recursive: true });
 let files = fs.readdirSync(directory);
 for (let i in files) {
   fs.unlinkSync(path.join(directory, files[i]));

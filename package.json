@@ -15,9 +15,12 @@
     "vitest": "^5.1.0"
   },
   "scripts": {
-    "coallateSvg": "node ./scripts/coallateSvg.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coallateSvg": "node ./scripts/coallateSvg.js"
   },
   "author": "Eric Hamlin",
   "license": "UNLICENSED"
