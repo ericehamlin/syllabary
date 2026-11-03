@@ -1,8 +1,8 @@
 'use strict';
 
-import FileLoader from 'FileLoader';
-import Logger from 'Logger';
-import SyllabaryDisplay from 'SyllabaryDisplay';
+import FileLoader from './FileLoader.js';
+import Logger from './Logger.js';
+import SyllabaryDisplay from './SyllabaryDisplay.js';
 
 export default class Poem {
 

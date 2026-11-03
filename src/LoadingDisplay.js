@@ -1,8 +1,8 @@
 'use strict';
 
-import Config from 'Config';
-import Syllabary from 'Syllabary';
-import FileLoader from 'FileLoader';
+import Config from './Config.js';
+import Syllabary from './Syllabary.js';
+import FileLoader from './FileLoader.js';
 import EventMixin from './EventMixin.js';
 import { createSvgElement } from './Utils.js';
 

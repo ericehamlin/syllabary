@@ -1,6 +1,6 @@
 'use strict';
 
-import { createDivWithAttributes } from "./Utils";
+import { createDivWithAttributes } from "./Utils.js";
 
 const PoemDisplay = {
   display: undefined,

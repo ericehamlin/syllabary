@@ -1,8 +1,8 @@
 'use strict';
 
-import Config from 'Config';
-import Logger from 'Logger';
-import { getSyllableStringForXYZ } from 'syllabary-utils';
+import Config from './Config.js';
+import Logger from './Logger.js';
+import { getSyllableStringForXYZ } from './syllabary-utils.js';
 
 const NavQueue = {
 

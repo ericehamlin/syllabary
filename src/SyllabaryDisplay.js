@@ -1,10 +1,10 @@
 'use strict';
 
-import Syllabary from 'Syllabary';
-import GridDisplay from 'GridDisplay';
-import PoemDisplay from 'PoemDisplay';
-import ControlWheel from 'ControlWheel'
-import Info from 'Info';
+import Syllabary from './Syllabary.js';
+import GridDisplay from './GridDisplay.js';
+import PoemDisplay from './PoemDisplay.js';
+import ControlWheel from './ControlWheel.js'
+import Info from './Info.js';
 
 const SyllabaryDisplay = {
   display: null,

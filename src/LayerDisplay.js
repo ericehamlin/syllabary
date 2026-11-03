@@ -1,14 +1,14 @@
 'use strict';
-import Syllabary from "./Syllabary";
+import Syllabary from "./Syllabary.js";
 import {
   AXIS_DIMENSIONS,
   NUM_VISIBLE_LAYERS
-} from "./constants";
+} from "./constants.js";
 import {
   createElement,
   createSvg
-} from "./Utils";
-import Grid from 'Grid';
+} from "./Utils.js";
+import Grid from './Grid.js';
 
 export default class LayerDisplay {
 

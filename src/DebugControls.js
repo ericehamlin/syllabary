@@ -1,7 +1,7 @@
 'use strict';
 
 import Syllabary from "./Syllabary.js";
-import SyllabaryDisplay from 'SyllabaryDisplay';
+import SyllabaryDisplay from './SyllabaryDisplay.js';
 
 export default class DebugControls {
 	constructor() {

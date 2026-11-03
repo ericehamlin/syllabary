@@ -1,8 +1,8 @@
 'use strict';
-import Syllabary from './Syllabary';
-import Grid from 'Grid';
+import Syllabary from './Syllabary.js';
+import Grid from './Grid.js';
 import Config from './Config.js';
-import { radiansToDegrees, blendHexColors } from 'utils';
+import { radiansToDegrees, blendHexColors } from './Utils.js';
 import EventMixin from './EventMixin.js';
 import Logger from './Logger.js';
 import * as Hammer from "hammerjs";
@@ -11,11 +11,11 @@ import {
   PHONEMES_TO_AXES_MAP,
   PHONEME_DIMENSIONS,
   AXIS_DIMENSIONS
-} from './constants';
+} from './constants.js';
 import {
   createSvgElement,
   createSvg
-} from './utils';
+} from './Utils.js';
 
 export default class ControlWheel {
 

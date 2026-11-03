@@ -1,11 +1,11 @@
 'use strict';
 
-import Config from "Config";
-import NavQueue from "NavQueue";
-import Logger from "Logger";
+import Config from "./Config.js";
+import NavQueue from "./NavQueue.js";
+import Logger from "./Logger.js";
 import * as Hammer from "hammerjs";
-import SyllabaryDisplay from 'SyllabaryDisplay';
-import Grid from 'Grid';
+import SyllabaryDisplay from './SyllabaryDisplay.js';
+import Grid from './Grid.js';
 
 const RUN_STATES = {
   READ : "read", 			// audio is currently playing

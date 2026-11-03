@@ -1,10 +1,10 @@
 'use strict';
 
-import EventMixin from 'EventMixin';
+import EventMixin from './EventMixin.js';
 import * as Hammer from "hammerjs";
-import Style from 'Style';
-import { convertVmaxToPx, convertPercentToPx } from 'utils';
-import { createDivWithAttributes } from './Utils';
+import Style from './Style.js';
+import { convertVmaxToPx, convertPercentToPx } from './Utils.js';
+import { createDivWithAttributes } from './Utils.js';
 
 const Info = {
   listeners: [],

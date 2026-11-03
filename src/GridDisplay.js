@@ -1,9 +1,9 @@
 'use strict';
 
-import Grid from 'Grid';
-import LayerDisplay from 'LayerDisplay';
-import { AXIS_DIMENSIONS } from './constants';
-import { createElement } from './utils';
+import Grid from './Grid.js';
+import LayerDisplay from './LayerDisplay.js';
+import { AXIS_DIMENSIONS } from './constants.js';
+import { createElement } from './Utils.js';
 
 export default class GridDisplay {
 	constructor() {
