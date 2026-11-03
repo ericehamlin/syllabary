@@ -6,14 +6,22 @@
 </head>
 <body>
 <div id="syllabary-container"></div>
-<script src="dist/syllabary.js"></script>
-<script>
-    var options = {containerId: 'syllabary-container'};
-    var params = window.location.search.replace('?', '').split('&');
-    for(param in params) {
-        var pair = param.split('=');
-        options[pair[0]] = pair[1];
+<script type="module">
+    import Syllabary from './src/Syllabary.js';
+
+    // URL query values arrive as strings; turn them into the types the app expects.
+    const coerce = (value) => {
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        return value !== '' && !isNaN(value) ? Number(value) : value;
+    };
+
+    const options = {};
+    for (const [key, value] of new URLSearchParams(window.location.search)) {
+        options[key] = coerce(value);
     }
+    options.containerId = 'syllabary-container';
+
     Syllabary.start(options);
 </script>
 <video src='audio/test-autoplay.mp3' />
