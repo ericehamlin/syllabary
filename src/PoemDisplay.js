@@ -28,6 +28,19 @@ const PoemDisplay = {
 		this.container = createDivWithAttributes({class: "poem-container"});
 
 		this.container.appendChild(this.display);
+
+		this.onResize = () => this.layout();
+	},
+
+	// A long title wraps onto several lines. Start the reading area below it, so the
+	// text never overlaps the title. Without a title the stylesheet decides.
+	layout: function() {
+		if (this.container.classList.contains('titleless')) {
+			this.textContainer.style.top = '';
+			return;
+		}
+		const gap = 20;
+		this.textContainer.style.top = (this.title.offsetTop + this.title.offsetHeight + gap) + 'px';
 	},
 
 	setTitle: function(title) {
@@ -50,6 +63,8 @@ const PoemDisplay = {
 		const container = document.getElementsByClassName('syllabary-display')[0];
 		this.container.style.opacity = 0;
 		container.appendChild(this.container);
+		this.layout();
+		window.addEventListener("resize", this.onResize);
 
     this.text.style.top = 0;
 
@@ -72,7 +87,7 @@ const PoemDisplay = {
 		const self = this;
 		const fadeId = ++this.fadeId;
     const fadeIncrement = 0.02;
-		window.removeEventListener("resize", self.resize);
+		window.removeEventListener("resize", self.onResize);
 		return new Promise((resolve, reject) => {
 			function fadeOut() {
 				if (fadeId !== self.fadeId) { resolve(false); return; }

@@ -183,6 +183,8 @@ pre {
     .poem-display {
         margin-left: 10vmin;
         margin-right: 10vmin;
+        /* end above the wheel, which starts at 80% - 10px */
+        bottom: calc(20% + 22px);
     }
 }
 
@@ -211,6 +213,11 @@ pre {
         width: 50vmin;
         height: 50vmin;
         float: none;
+    }
+
+    .poem-display {
+        /* end above the wheel, which starts at 75% - 10px */
+        bottom: calc(25% + 22px);
     }
 
 }
@@ -244,7 +251,8 @@ pre {
     .poem-display {
         margin-left: 5vmin;
         margin-right: 5vmin;
-        bottom: 15vmax;
+        /* end above the wheel, which starts at 75% - 10px */
+        bottom: calc(25% + 22px);
     }
 }
 
