@@ -11,6 +11,7 @@ const Info = {
   bar: undefined,
   title: undefined,
   info: undefined,
+  version: undefined,
   container: undefined,
 
   init: function() {
@@ -30,6 +31,12 @@ const Info = {
       class: "control-info"
     });
     this.info.innerHTML = "Structure, verse and glyphs copyright &copy; Peter McCarey, 1997-";
+
+    this.version = createDivWithAttributes({
+      class: "control-version"
+    });
+    this.version.textContent = typeof __APP_VERSION__ === 'undefined' ? '' : `v${__APP_VERSION__}`;
+    this.info.appendChild(this.version);
 
     this.container = createDivWithAttributes({
       class: "control-container"
