@@ -29,7 +29,7 @@ const Info = {
     this.info = createDivWithAttributes({
       class: "control-info"
     });
-    this.info.innerHTML = "Info about the Syllabary";
+    this.info.innerHTML = "Structure, verse and glyphs copyright &copy; Peter McCarey, 1997-";
 
     this.container = createDivWithAttributes({
       class: "control-container"

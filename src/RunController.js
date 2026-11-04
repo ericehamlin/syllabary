@@ -48,6 +48,9 @@ export default class RunController {
 		};
 
 		this.setResumed = () => {
+      // Nothing to resume unless paused, for example when the info sheet is
+      // swiped down while already closed.
+      if (!this.isPaused()) { return; }
       Logger.debug("Resuming...");
       this.runState = RUN_STATES.RESUME;
 
@@ -92,40 +95,86 @@ export default class RunController {
 	initializeGridTouchListeners() {
     const gridContainer = document.getElementsByClassName('grid-display')[0];
 
+    // The Hammer manager is never disabled, because a disabled manager drops the
+    // touchend of a gesture in progress and is left thinking the finger is still
+    // down. Instead each gesture is only acted on if it started while touch
+    // control was allowed (hasTouchEventListeners).
     this.gridTouchListener = new window.Hammer(gridContainer);
     this.gridTouchListener.get('pinch').set({ enable: true });
     this.gridTouchListener.get('swipe').set({ enable: true });
-    this.gridTouchListener.on('pinchin', (ev) => {
+
+    let panActive = false;
+    let pinchActive = false;
+
+    // Hammer's scale is the finger spread relative to the start of the gesture, so
+    // only the change since the previous event may be applied to the grid.
+    let lastScale = 1;
+    let lastPinchTime = 0;
+
+    this.gridTouchListener.on('pinchstart', (ev) => {
+      pinchActive = this.hasTouchEventListeners;
+      lastScale = ev.scale;
+      lastPinchTime = ev.deltaTime;
+    });
+
+    this.gridTouchListener.on('pinch', (ev) => {
+      if (!pinchActive || !this.hasTouchEventListeners) return;
       this.setDragging();
-      const zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
-      Grid.addZ(zAnimate);
-      this.setAnimateDirection(0,0,zAnimate);
+      const sensitivity = Config.pinchSensitivity;
+      // Spreading the fingers zooms out, which is negative z.
+      const zChange = -(ev.scale - lastScale) * sensitivity;
+      const elapsed = ev.deltaTime - lastPinchTime;
+      Grid.addZ(zChange);
+      // The animate direction is grid units per 25ms, so a released pinch keeps
+      // drifting at the speed of the fingers. A pan may be reporting at the same
+      // time, so leave its x and y alone.
+      if (elapsed > 0) {
+        const { x, y } = this.animateDirection;
+        this.setAnimateDirection(x, y, zChange / elapsed * 25);
+      }
+      lastScale = ev.scale;
+      lastPinchTime = ev.deltaTime;
       this.renderGrid();
     });
 
-    this.gridTouchListener.on('pinchout', (ev) => {
-      this.setDragging();
-      let zAnimate = -Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
-      Grid.addZ(zAnimate);
-      this.setAnimateDirection(0, 0, zAnimate);
-      this.renderGrid();
-    });
-
-    this.gridTouchListener.on('pinchend', (ev) => {
+    this.gridTouchListener.on('pinchend pinchcancel', () => {
+      if (!pinchActive) return;
+      pinchActive = false;
       this.setDrifting();
     });
 
+    // Hammer's deltaX/deltaY are the distance since the gesture began, so only the
+    // change since the previous event may be applied to the grid.
+    let lastDeltaX = 0;
+    let lastDeltaY = 0;
+
+    this.gridTouchListener.on('panstart', () => {
+      panActive = this.hasTouchEventListeners;
+      lastDeltaX = 0;
+      lastDeltaY = 0;
+    });
+
     this.gridTouchListener.on('pan', (ev) => {
+      if (!panActive || !this.hasTouchEventListeners) return;
       this.setDragging();
-      let xAnimate = -ev.deltaX * this.animateInterval * 0.1;
-      let yAnimate = -ev.deltaY * this.animateInterval * 0.1;
-      Grid.addX(xAnimate);
-      Grid.addY(yAnimate);
-      this.setAnimateDirection(xAnimate, yAnimate, 0);
+      const sensitivity = Config.panSensitivity;
+      Grid.addX(-(ev.deltaX - lastDeltaX) * sensitivity);
+      Grid.addY(-(ev.deltaY - lastDeltaY) * sensitivity);
+      lastDeltaX = ev.deltaX;
+      lastDeltaY = ev.deltaY;
+      // Hammer velocity is px/ms. The animate direction is grid units per 25ms,
+      // so a released drag keeps drifting at the speed of the finger.
+      this.setAnimateDirection(
+        -ev.velocityX * sensitivity * 25,
+        -ev.velocityY * sensitivity * 25,
+        pinchActive ? this.animateDirection.z : 0
+      );
       this.renderGrid();
     });
 
-    this.gridTouchListener.on('panend', (ev) => {
+    this.gridTouchListener.on('panend pancancel', () => {
+      if (!panActive) return;
+      panActive = false;
       this.setDrifting();
     });
   }
@@ -219,13 +268,11 @@ export default class RunController {
 			return false;
 		}
 		Logger.debug("Adding Touch Event Listeners");
-		this.gridTouchListener.set({enable: true});
 		this.hasTouchEventListeners = true;
 	}
 
 	removeTouchEventListeners() {
 		Logger.debug("Removing Touch Event Listeners");
-		this.gridTouchListener.set({enable: false});
 		this.hasTouchEventListeners = false;
 	}
 

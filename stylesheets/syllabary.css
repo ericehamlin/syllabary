@@ -111,15 +111,17 @@ pre {
     left: 0;
     right: 0;
     bottom: 0;
+    padding-left: 10px;
 }
 
 .control-info {
     position: absolute;
     z-index: 1;
-    top: 30min;
+    top: 30vh;
     left: 0;
     right: 0;
     bottom: 0;
+    padding-left: 10px;
 }
 
 .control-display {
@@ -144,7 +146,7 @@ pre {
 
 @media only screen and (max-width: 1024px) and (min-width: 568px) and (orientation: portrait) {
     .control-container, .control-container.closed {
-        top: 80%;
+        top: calc(80% - 10px);
         text-align: center;
     }
 
@@ -176,7 +178,7 @@ pre {
 
 @media only screen and (max-width: 1024px) and (min-width: 568px) and (orientation: landscape) {
     .control-container, .control-container.closed {
-        top: 75%;
+        top: calc(75% - 10px);
         text-align: center;
     }
 
@@ -205,7 +207,7 @@ pre {
 
 @media only screen and (max-width: 567px) and (orientation: portrait) {
     .control-container, .control-container.closed {
-        top: 75%;
+        top: calc(75% - 10px);
         text-align: center;
     }
 
@@ -261,3 +263,15 @@ pre {
     }
 }
 
+/*
+ * On phones and tablets the wheel sits half off the bottom of the screen, so its
+ * centre, where the stop/play button is, is cut off and under the system gesture
+ * area. Lift the button onto the visible half (units are the wheel's viewBox units).
+ */
+@media only screen and (max-width: 1024px) and (min-width: 568px),
+       only screen and (max-width: 567px) and (orientation: portrait),
+       only screen and (max-height: 567px) and (orientation: landscape) {
+    .wheel-button {
+        transform: translate(0, -33px);
+    }
+}
