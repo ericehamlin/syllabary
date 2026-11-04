@@ -21,6 +21,12 @@ export default class SyllableAudio {
 		});
 	}
 
+	cancel() {
+		if (this.data) {
+			this.data.cancel();
+		}
+	}
+
 	pause() {
 		this.data.pause();
 	}

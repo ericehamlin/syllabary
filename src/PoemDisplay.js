@@ -8,6 +8,9 @@ const PoemDisplay = {
   textContainer: undefined,
   text: undefined,
   container: undefined,
+  // Changes each time the poem starts to fade in or out, so a fade that has been
+  // superseded stops instead of fighting the new one over the opacity.
+  fadeId: 0,
 
 	init: function() {
 		this.display = createDivWithAttributes({class: "poem-display"});
@@ -43,6 +46,7 @@ const PoemDisplay = {
 
 	show: function() {
 		const self = this;
+		const fadeId = ++this.fadeId;
 		const container = document.getElementsByClassName('syllabary-display')[0];
 		this.container.style.opacity = 0;
 		container.appendChild(this.container);
@@ -51,6 +55,7 @@ const PoemDisplay = {
 
 		return new Promise((resolve, reject) => {
 			function fadeIn() {
+				if (fadeId !== self.fadeId) { resolve(false); return; }
 				self.container.style.opacity = parseFloat(self.container.style.opacity) + 0.02;
 				if (parseFloat(self.container.style.opacity) < 0.8) {
 					setTimeout(()=>{ fadeIn(); }, 10);
@@ -65,10 +70,12 @@ const PoemDisplay = {
 
 	hide: function() {
 		const self = this;
+		const fadeId = ++this.fadeId;
     const fadeIncrement = 0.02;
 		window.removeEventListener("resize", self.resize);
 		return new Promise((resolve, reject) => {
 			function fadeOut() {
+				if (fadeId !== self.fadeId) { resolve(false); return; }
 				self.container.style.opacity = parseFloat(self.container.style.opacity) - fadeIncrement;
 				if (parseFloat(self.container.style.opacity) > fadeIncrement) {
 					setTimeout(()=>{ fadeOut(); }, 10);

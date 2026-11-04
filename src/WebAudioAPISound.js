@@ -115,7 +115,7 @@ WebAudioAPISoundManager.prototype = {
 		if(this.playingSounds.hasOwnProperty(url)){
 			for(var i in this.playingSounds[url]){
 				if(this.playingSounds[url].hasOwnProperty(i))
-					this.playingSounds[url][i].noteOff(0);
+					this.playingSounds[url][i].stop(0);
 			}
 		}
 	},
@@ -172,6 +172,7 @@ var WebAudioAPISound = function (url, options) {
 	}
 
 	this.url = url;
+	this.active = [];
 	this.manager = getSoundManager();
 	this.manager.addSound(this.url);
 };
@@ -198,12 +199,24 @@ WebAudioAPISound.prototype = {
 			source.loop = this.settings.loop;
 			var finished = false;
 			var watchdog = null;
+			var active = null;
 			var finish = () => {
 				if (finished) { return; }
 				finished = true;
 				clearInterval(watchdog);
+				that.active = that.active.filter((a) => a !== active);
 				if (typeof that.onEnd === 'function') { that.onEnd(); }
 			};
+			// What cancel() needs to undo: stop the source without it reporting an end.
+			active = {
+				stop: () => {
+					finished = true;
+					clearInterval(watchdog);
+					source.removeEventListener('ended', finish);
+					try { source.stop(); } catch (e) {}
+				}
+			};
+			this.active.push(active);
 			source.addEventListener('ended', finish);
 			if(!this.manager.playingSounds.hasOwnProperty(this.url))
 				this.manager.playingSounds[this.url] = [];
@@ -248,8 +261,20 @@ WebAudioAPISound.prototype = {
         return;
       }
       this.polling = true;
-      setTimeout(function(){ that.play(true); }, 10);
+      this.pollTimer = setTimeout(function(){ that.play(true); }, 10);
     }
+	},
+
+	// Stop at once and forget it was playing, without reporting an end. Also stops
+	// waiting for the sound to load, so it doesn't start later.
+	cancel: function() {
+		clearTimeout(this.pollTimer);
+		this.polling = false;
+		this.waitingSince = null;
+		this.active.forEach((a) => a.stop());
+		this.active = [];
+		this.startTime = null;
+		this.pausedElapsedTime = 0;
 	},
 
 	pause: function() {

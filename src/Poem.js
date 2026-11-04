@@ -11,12 +11,17 @@ export default class Poem {
 		this.isLoaded = false;
 	}
 
-	display() {
+	// shouldContinue is asked again after the poem has loaded, so a poem that is
+	// no longer wanted by then isn't shown.
+	display(shouldContinue = () => true) {
 		let poemPromise = new Promise((resolve, reject) => {
 			if (!this.isLoaded) {
 				let loadPromise = this.load();
 				loadPromise.then((data) => {
-					if (this.text) {
+					if (!shouldContinue()) {
+						resolve(false);
+					}
+					else if (this.text) {
 						SyllabaryDisplay.setPoemText(this.text);
 						SyllabaryDisplay.setPoemTitle(this.title);
 
@@ -34,7 +39,10 @@ export default class Poem {
 				});
 			}
 			else {
-				if (this.text) {
+				if (!shouldContinue()) {
+					resolve(false);
+				}
+				else if (this.text) {
 					SyllabaryDisplay.setPoemText(this.text);
 					SyllabaryDisplay.setPoemTitle(this.title);
 					SyllabaryDisplay.showPoem().then(() => { resolve(true); });

@@ -50,6 +50,8 @@ pre {
     bottom: 0px;
     z-index: 500;
     z-index: 500;
+    /* Let touches through to the grid, so dragging it interrupts a reading. */
+    pointer-events: none;
 }
 
 .poem-display {
