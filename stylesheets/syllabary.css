@@ -111,15 +111,17 @@ pre {
     left: 0;
     right: 0;
     bottom: 0;
+    padding-left: 10px;
 }
 
 .control-info {
     position: absolute;
     z-index: 1;
-    top: 30min;
+    top: 30vh;
     left: 0;
     right: 0;
     bottom: 0;
+    padding-left: 10px;
 }
 
 .control-display {
