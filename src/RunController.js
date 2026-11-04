@@ -131,18 +131,32 @@ export default class RunController {
       this.setDrifting();
     });
 
+    // Hammer's deltaX/deltaY are the distance since the gesture began, so only the
+    // change since the previous event may be applied to the grid.
+    let lastDeltaX = 0;
+    let lastDeltaY = 0;
+
     this.gridTouchListener.on('panstart', () => {
       panActive = this.hasTouchEventListeners;
+      lastDeltaX = 0;
+      lastDeltaY = 0;
     });
 
     this.gridTouchListener.on('pan', (ev) => {
       if (!panActive || !this.hasTouchEventListeners) return;
       this.setDragging();
-      let xAnimate = -ev.deltaX * this.animateInterval * 0.1;
-      let yAnimate = -ev.deltaY * this.animateInterval * 0.1;
-      Grid.addX(xAnimate);
-      Grid.addY(yAnimate);
-      this.setAnimateDirection(xAnimate, yAnimate, 0);
+      const sensitivity = Config.panSensitivity;
+      Grid.addX(-(ev.deltaX - lastDeltaX) * sensitivity);
+      Grid.addY(-(ev.deltaY - lastDeltaY) * sensitivity);
+      lastDeltaX = ev.deltaX;
+      lastDeltaY = ev.deltaY;
+      // Hammer velocity is px/ms. The animate direction is grid units per 25ms,
+      // so a released drag keeps drifting at the speed of the finger.
+      this.setAnimateDirection(
+        -ev.velocityX * sensitivity * 25,
+        -ev.velocityY * sensitivity * 25,
+        0
+      );
       this.renderGrid();
     });
 

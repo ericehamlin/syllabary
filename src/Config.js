@@ -7,6 +7,7 @@ const Config = {
 	color2: "#ffffff",
 	color3: "#aa0000",
   animateInterval: 0.025,
+  panSensitivity: 0.01, // grid units per pixel dragged
 	logLevel: LogLevels.debug,
 
 	debug: false,
