@@ -128,7 +128,7 @@ pre {
 
 .control-version {
     position: absolute;
-    right: 10px;
+    left: 10px;
     bottom: 6px;
     font-size: 0.6em;
     opacity: 0.6;
