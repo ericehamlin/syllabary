@@ -58,16 +58,18 @@ export default class ControlWheel {
     this.stopButton = createSvgElement(
       "rect",
       {
-        width: 50,
-        height: 50,
-        x: -25,
-        y: -25,
+        class: "wheel-button",
+        width: 32,
+        height: 32,
+        x: -16,
+        y: -16,
         visibility: "visible"
       }
     );
 
     this.playButton = createSvgElement("polygon", {
-      points: "-20,-25 30,0, -20,25",
+      class: "wheel-button",
+      points: "-9,-16 19,0, -9,16",
       visibility: "hidden"
     });
 
@@ -94,7 +96,8 @@ export default class ControlWheel {
     const indicator = createSvgElement(
       "polygon",
       {
-        points: "0,0, -30,-200, 30,-200, 0,0",
+        // the wedge starts just inside the innermost ring of letters (radius 62)
+        points: "-12.4,-62, -40,-200, 40,-200, 12.4,-62",
         style: `fill: ${Config.color3}; mix-blend-mode:  overlay;`,
         "clip-path": "url(#indicator-clip-path)"
       }
