@@ -32,6 +32,7 @@ export default class ControlWheel {
     });
 
     this.listeners = [];
+    this.listening = false;
 
     this.outerCircleGroup = this.createCircle(
       outerCircleRadius,
@@ -269,8 +270,11 @@ export default class ControlWheel {
     // TODO: This is not firing consistently
     this.syllabaryTouchListener.on('pan', e => handlePan(e));
 
-    this.syllabaryTouchListener.on('panend', (e) => {
+    this.syllabaryTouchListener.on('panend pancancel', (e) => {
       Logger.debug('End pan');
+      // Only a pan that started on the wheel is a rotation. Other pans on the
+      // container (for example dragging the grid) are none of the wheel's business.
+      if (!this.currentlyMovingCircle) return;
       this.currentlyMovingCircle = null;
       this.dispatchEvent(new CustomEvent('endrotate'));
     });
@@ -294,6 +298,7 @@ export default class ControlWheel {
     this.outerCirclePanListener = new window.Hammer(this.outerCircleGroup);
     this.outerCirclePanListener.get('pan').set({ enable: true });
     this.outerCirclePanListener.on('panstart', (e) => {
+      if (!this.listening) return;
       Logger.debug('Pan outer circle');
       this.currentlyMovingCircle = "outer";
       startPan(e);
@@ -302,6 +307,7 @@ export default class ControlWheel {
     this.middleCirclePanListener = new window.Hammer(this.middleCircleGroup);
     this.middleCirclePanListener.get('pan').set({ enable: true});
     this.middleCirclePanListener.on('panstart', (e) => {
+      if (!this.listening) return;
       Logger.debug('Pan middle circle');
       this.currentlyMovingCircle = "middle";
       startPan(e);
@@ -310,24 +316,22 @@ export default class ControlWheel {
     this.innerCirclePanListener = new window.Hammer(this.innerCircleGroup);
     this.innerCirclePanListener.get('pan').set({ enable: true });
     this.innerCirclePanListener.on('panstart', (e) => {
+      if (!this.listening) return;
       Logger.debug('Pan inner circle');
       this.currentlyMovingCircle = "inner";
       startPan(e);
     });
   }
 
+  // The Hammer managers are never disabled. A disabled manager drops the touchend
+  // of a gesture in progress and is left thinking the finger is still down. So
+  // these only switch the flag that decides whether a new rotation may start.
   startEventListeners() {
-    this.syllabaryTouchListener.set({ enable: true });
-    this.outerCirclePanListener.set({ enable: true });
-    this.middleCirclePanListener.set({ enable: true });
-    this.innerCirclePanListener.set({ enable: true });
+    this.listening = true;
   }
 
   pauseEventListeners() {
-    this.syllabaryTouchListener.set({ enable: false });
-    this.outerCirclePanListener.set({ enable: false });
-    this.middleCirclePanListener.set({ enable: false });
-    this.innerCirclePanListener.set({ enable: false });
+    this.listening = false;
   }
 }
 

@@ -92,10 +92,23 @@ export default class RunController {
 	initializeGridTouchListeners() {
     const gridContainer = document.getElementsByClassName('grid-display')[0];
 
+    // The Hammer manager is never disabled, because a disabled manager drops the
+    // touchend of a gesture in progress and is left thinking the finger is still
+    // down. Instead each gesture is only acted on if it started while touch
+    // control was allowed (hasTouchEventListeners).
     this.gridTouchListener = new window.Hammer(gridContainer);
     this.gridTouchListener.get('pinch').set({ enable: true });
     this.gridTouchListener.get('swipe').set({ enable: true });
+
+    let panActive = false;
+    let pinchActive = false;
+
+    this.gridTouchListener.on('pinchstart', () => {
+      pinchActive = this.hasTouchEventListeners;
+    });
+
     this.gridTouchListener.on('pinchin', (ev) => {
+      if (!pinchActive || !this.hasTouchEventListeners) return;
       this.setDragging();
       const zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
       Grid.addZ(zAnimate);
@@ -104,6 +117,7 @@ export default class RunController {
     });
 
     this.gridTouchListener.on('pinchout', (ev) => {
+      if (!pinchActive || !this.hasTouchEventListeners) return;
       this.setDragging();
       let zAnimate = -Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
       Grid.addZ(zAnimate);
@@ -111,11 +125,18 @@ export default class RunController {
       this.renderGrid();
     });
 
-    this.gridTouchListener.on('pinchend', (ev) => {
+    this.gridTouchListener.on('pinchend pinchcancel', () => {
+      if (!pinchActive) return;
+      pinchActive = false;
       this.setDrifting();
     });
 
+    this.gridTouchListener.on('panstart', () => {
+      panActive = this.hasTouchEventListeners;
+    });
+
     this.gridTouchListener.on('pan', (ev) => {
+      if (!panActive || !this.hasTouchEventListeners) return;
       this.setDragging();
       let xAnimate = -ev.deltaX * this.animateInterval * 0.1;
       let yAnimate = -ev.deltaY * this.animateInterval * 0.1;
@@ -125,7 +146,9 @@ export default class RunController {
       this.renderGrid();
     });
 
-    this.gridTouchListener.on('panend', (ev) => {
+    this.gridTouchListener.on('panend pancancel', () => {
+      if (!panActive) return;
+      panActive = false;
       this.setDrifting();
     });
   }
@@ -219,13 +242,11 @@ export default class RunController {
 			return false;
 		}
 		Logger.debug("Adding Touch Event Listeners");
-		this.gridTouchListener.set({enable: true});
 		this.hasTouchEventListeners = true;
 	}
 
 	removeTouchEventListeners() {
 		Logger.debug("Removing Touch Event Listeners");
-		this.gridTouchListener.set({enable: false});
 		this.hasTouchEventListeners = false;
 	}
 
