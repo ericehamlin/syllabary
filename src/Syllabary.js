@@ -59,6 +59,8 @@ const Syllabary = {
 				LoadingDisplay.enableButtons();
 
 				LoadingDisplay.addEventListener('play', function() {
+					// This is the tap that lets iOS start audio.
+					WebAudioAPISound.unlock();
 					sound.play();
           LoadingDisplay.remove();
 					SyllabaryDisplay.initGrid();

@@ -9,6 +9,7 @@ const Config = {
   animateInterval: 0.025,
   panSensitivity: 0.01, // grid units per pixel dragged
   pinchSensitivity: 5, // grid units zoomed when the finger spread doubles
+  audioLoadTimeout: 15000, // ms to wait for a syllable's audio before moving on
 	logLevel: LogLevels.debug,
 
 	debug: false,

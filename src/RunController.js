@@ -48,6 +48,9 @@ export default class RunController {
 		};
 
 		this.setResumed = () => {
+      // Nothing to resume unless paused, for example when the info sheet is
+      // swiped down while already closed.
+      if (!this.isPaused()) { return; }
       Logger.debug("Resuming...");
       this.runState = RUN_STATES.RESUME;
 
