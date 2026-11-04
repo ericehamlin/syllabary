@@ -103,25 +103,34 @@ export default class RunController {
     let panActive = false;
     let pinchActive = false;
 
-    this.gridTouchListener.on('pinchstart', () => {
+    // Hammer's scale is the finger spread relative to the start of the gesture, so
+    // only the change since the previous event may be applied to the grid.
+    let lastScale = 1;
+    let lastPinchTime = 0;
+
+    this.gridTouchListener.on('pinchstart', (ev) => {
       pinchActive = this.hasTouchEventListeners;
+      lastScale = ev.scale;
+      lastPinchTime = ev.deltaTime;
     });
 
-    this.gridTouchListener.on('pinchin', (ev) => {
+    this.gridTouchListener.on('pinch', (ev) => {
       if (!pinchActive || !this.hasTouchEventListeners) return;
       this.setDragging();
-      const zAnimate = Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
-      Grid.addZ(zAnimate);
-      this.setAnimateDirection(0,0,zAnimate);
-      this.renderGrid();
-    });
-
-    this.gridTouchListener.on('pinchout', (ev) => {
-      if (!pinchActive || !this.hasTouchEventListeners) return;
-      this.setDragging();
-      let zAnimate = -Math.sqrt(Math.pow(ev.deltaX, 2) + Math.pow(ev.deltaY, 2)) * this.animateInterval;
-      Grid.addZ(zAnimate);
-      this.setAnimateDirection(0, 0, zAnimate);
+      const sensitivity = Config.pinchSensitivity;
+      // Spreading the fingers zooms out, which is negative z.
+      const zChange = -(ev.scale - lastScale) * sensitivity;
+      const elapsed = ev.deltaTime - lastPinchTime;
+      Grid.addZ(zChange);
+      // The animate direction is grid units per 25ms, so a released pinch keeps
+      // drifting at the speed of the fingers. A pan may be reporting at the same
+      // time, so leave its x and y alone.
+      if (elapsed > 0) {
+        const { x, y } = this.animateDirection;
+        this.setAnimateDirection(x, y, zChange / elapsed * 25);
+      }
+      lastScale = ev.scale;
+      lastPinchTime = ev.deltaTime;
       this.renderGrid();
     });
 
@@ -155,7 +164,7 @@ export default class RunController {
       this.setAnimateDirection(
         -ev.velocityX * sensitivity * 25,
         -ev.velocityY * sensitivity * 25,
-        0
+        pinchActive ? this.animateDirection.z : 0
       );
       this.renderGrid();
     });
