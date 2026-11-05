@@ -1,6 +1,6 @@
 {
   "name": "syllabary",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Interactive web edition of The Syllabary by Peter McCarey",
   "private": true,
   "type": "module",

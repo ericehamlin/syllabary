@@ -50,6 +50,8 @@ pre {
     bottom: 0px;
     z-index: 500;
     z-index: 500;
+    /* Let touches through to the grid, so dragging it interrupts a reading. */
+    pointer-events: none;
 }
 
 .poem-display {
@@ -126,7 +128,7 @@ pre {
 
 .control-version {
     position: absolute;
-    right: 10px;
+    left: 10px;
     bottom: 6px;
     font-size: 0.6em;
     opacity: 0.6;
@@ -181,6 +183,8 @@ pre {
     .poem-display {
         margin-left: 10vmin;
         margin-right: 10vmin;
+        /* end above the wheel, which starts at 80% - 10px */
+        bottom: calc(20% + 22px);
     }
 }
 
@@ -209,6 +213,11 @@ pre {
         width: 50vmin;
         height: 50vmin;
         float: none;
+    }
+
+    .poem-display {
+        /* end above the wheel, which starts at 75% - 10px */
+        bottom: calc(25% + 22px);
     }
 
 }
@@ -242,7 +251,8 @@ pre {
     .poem-display {
         margin-left: 5vmin;
         margin-right: 5vmin;
-        bottom: 15vmax;
+        /* end above the wheel, which starts at 75% - 10px */
+        bottom: calc(25% + 22px);
     }
 }
 

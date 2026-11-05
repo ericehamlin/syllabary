@@ -23,6 +23,10 @@ export default class RunController {
 
     this.autoplay = true;
 
+    // Identifies the current read, so a read that was interrupted can tell it no
+    // longer counts when its audio promise settles.
+    this.readToken = 0;
+
 		this.animateInterval = Config.animateInterval;
 
 		this.setRandomAnimateDirection();
@@ -488,9 +492,11 @@ export default class RunController {
 	 */
 	read() {
 		let self = this;
+		const token = ++this.readToken;
 		this.readingSyllable = this.getCurrentSyllable();
 		let promise = this.readingSyllable.play();
 		promise.then(() => {
+			if (token !== this.readToken) { return; } // interrupted
 			this.readingSyllable = null;
 			SyllabaryDisplay.hidePoem().then(() => {
 				self.setRandomAnimateDirection();
@@ -504,6 +510,20 @@ export default class RunController {
 
 		});
 
+	}
+
+	/**
+	 * Navigating away while a poem is being read: stop the audio, fade out the poem
+	 * and forget the read, leaving the app as it is after any other navigation.
+	 */
+	interruptRead() {
+		if (!this.isReading()) { return; }
+		Logger.debug("Interrupting Read");
+		this.readToken++;
+		const syllable = this.readingSyllable;
+		this.readingSyllable = null;
+		if (syllable) { syllable.cancel(); }
+		SyllabaryDisplay.hidePoem();
 	}
 
 	/**
@@ -664,7 +684,8 @@ export default class RunController {
 	setReading() {
     if (this.isPaused()) { return false; }
 		Logger.debug("Starting Read");
-		this.removeEventListeners();
+		// Input stays on, so that navigating away interrupts the read.
+		this.addEventListeners();
 		NavQueue.add(Grid.getCalculatedX(), Grid.getCalculatedY(), Grid.getCalculatedZ());
 		this.runState = RUN_STATES.READ;
 	}
@@ -682,6 +703,7 @@ export default class RunController {
 	 */
 	setDragging() {
     if (this.isPaused()) { return false; }
+		this.interruptRead();
 		Logger.debug("Starting Drag");
 		this.removeControlEventListeners();
     this.addTouchEventListeners();
@@ -752,6 +774,7 @@ export default class RunController {
 
 	setControlling() {
 	  if (this.isPaused()) { return false; }
+		this.interruptRead();
 		Logger.debug("Starting Control");
 		this.removeTouchEventListeners();
     this.addControlEventListeners();
