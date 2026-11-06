@@ -55,17 +55,27 @@ export default class ControlWheel {
       PHONEMES.finalConsonants
     );
 
+    // Drawn as a pause symbol (two bars). The transparent square behind them
+    // keeps the gap between the bars pressable.
     this.stopButton = createSvgElement(
-      "rect",
+      "g",
       {
         class: "wheel-button",
-        width: 32,
-        height: 32,
-        x: -16,
-        y: -16,
         visibility: "visible"
       }
     );
+    this.stopButton.appendChild(createSvgElement(
+      "rect",
+      { width: 32, height: 32, x: -16, y: -16, fill: "transparent" }
+    ));
+    this.stopButton.appendChild(createSvgElement(
+      "rect",
+      { width: 11, height: 32, x: -13, y: -16 }
+    ));
+    this.stopButton.appendChild(createSvgElement(
+      "rect",
+      { width: 11, height: 32, x: 2, y: -16 }
+    ));
 
     this.playButton = createSvgElement("polygon", {
       class: "wheel-button",

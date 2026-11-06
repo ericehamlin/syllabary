@@ -182,6 +182,8 @@ var WebAudioAPISound = function (url, options) {
  */
 WebAudioAPISound.prototype = {
   paused: false,
+  // Paused on purpose, whether or not the sound has started.
+  held: false,
 
 	play: function (fromPoll = false) {
 		let that = this;
@@ -222,7 +224,7 @@ WebAudioAPISound.prototype = {
 				this.manager.playingSounds[this.url] = [];
 			this.manager.playingSounds[this.url].push(source);
       // There is no runController yet while the app is starting, so it can't be paused.
-      var paused = () => Syllabary.runController && Syllabary.runController.isPaused();
+      var paused = () => this.held || (Syllabary.runController && Syllabary.runController.isPaused());
       if (!paused()) {
         this.manager.resumeIfNeeded();
         source.start();
@@ -275,16 +277,22 @@ WebAudioAPISound.prototype = {
 		this.active = [];
 		this.startTime = null;
 		this.pausedElapsedTime = 0;
+		// Don't leave the context suspended for whatever plays next.
+		if (this.held && this.manager.paused) { this.manager.resume(); }
+		this.held = false;
 	},
 
 	pause: function() {
 	  this.pausedElapsedTime = this.getElapsedTime();
+	  // Also stops a sound that hasn't started yet (still loading) from starting.
+	  this.held = true;
     if (this.pausedElapsedTime > 0) {
       this.manager.pause();
     }
 	},
 
 	resume: function() {
+    this.held = false;
     if (this.pausedElapsedTime > 0) {
       this.startTime = new Date((new Date()).getTime() - (this.pausedElapsedTime * 1000));
       this.manager.resume();
@@ -321,6 +329,9 @@ WebAudioAPISound.prototype = {
 
 	getElapsedTime() {
 		if (!this.startTime) { return 0; }
+		// Time stands still while paused, so whatever follows the audio, such as the
+		// scrolling of the poem, stops with it.
+		if (this.held) { return this.pausedElapsedTime; }
 		let elapsedTime = ((new Date()).getTime() - this.startTime.getTime()) / 1000;
 		return elapsedTime;
 	},

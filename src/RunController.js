@@ -69,12 +69,14 @@ export default class RunController {
           break;
         case RUN_STATES.MAGNETIZE:
           this.setMagnetizing();
+          break;
         case RUN_STATES.READ:
           this.setReading();
           break;
       }
       this.pausedRunState = null;
-      if (this.readingSyllable) {
+      // A poem the user paused with the pause button stays paused.
+      if (this.readingSyllable && this.autoplay) {
         this.readingSyllable.resume();
       }
     };
@@ -659,6 +661,10 @@ export default class RunController {
    */
   stopAutoplay() {
     this.autoplay = false;
+    // A poem being read pauses too, and its scrolling with it.
+    if (this.readingSyllable) {
+      this.readingSyllable.pause();
+    }
     // this.setDrifting();
   }
 
@@ -667,6 +673,10 @@ export default class RunController {
    */
   startAutoplay() {
     this.autoplay = true;
+    // Unless the info sheet is open, which resumes it when it closes.
+    if (this.readingSyllable && !this.isPaused()) {
+      this.readingSyllable.resume();
+    }
     // this.setAnimating();
   }
 
