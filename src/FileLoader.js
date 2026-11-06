@@ -4,7 +4,7 @@ export default class FileLoader {
 	static load(filename) {
 		return new Promise(function(resolve, reject) {
 			const xhttp = new XMLHttpRequest();
-			xhttp.overrideMimeType('text/xml; charset=CP1252'); // Windows Latin-1 Charset
+			xhttp.overrideMimeType('text/xml; charset=UTF-8'); // the poem files are UTF-8
 			xhttp.onreadystatechange = function () {
 				if (this.readyState == 4) { // 4 = DONE
 					if (this.status == 200) {
