@@ -2,6 +2,7 @@
 
 import FileLoader from './FileLoader.js';
 import Logger from './Logger.js';
+import { toDisplayable } from './Utils.js';
 import SyllabaryDisplay from './SyllabaryDisplay.js';
 
 export default class Poem {
@@ -75,8 +76,8 @@ export default class Poem {
 			}
 
 
-			this.title = getElementText("title");
-			this.text = `<pre>${getElementText("text")}</pre>`;
+			this.title = toDisplayable(getElementText("title"));
+			this.text = `<pre>${toDisplayable(getElementText("text"))}</pre>`;
 			this.isLoaded = true;
 		})
 		.catch((e) => {

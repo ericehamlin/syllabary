@@ -87,3 +87,17 @@ export function createSvgElement(tag, attributes={}) {
     attributes
   );
 }
+
+// The poem font has no outline for these characters, so they would show as blank
+// space. Swap them for characters it does draw.
+const FONT_SUBSTITUTIONS = {
+  '–': '-',   // en dash
+  '…': '...', // ellipsis
+};
+
+export function toDisplayable(text) {
+  if (typeof text !== 'string') {
+    return text;
+  }
+  return text.replace(/[–…]/g, (char) => FONT_SUBSTITUTIONS[char]);
+}
